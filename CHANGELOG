@@ -1,0 +1,10 @@
+## v0.1.0 (2022-04-28)
+### Feature
+* Incorporated few types of policy optimization
+* Added tools for visualization of agent policy in non-stationary environment
+
+### Fix
+* Refactored the code
+
+### Documentation
+* **api-docs:** Adding sphinx based documentation, automatically deployed to GitLab pages.

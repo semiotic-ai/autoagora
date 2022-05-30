@@ -1,0 +1,86 @@
+image: python:3.8-slim
+
+# Change pip's cache directory to be inside the project directory since we can
+# only cache local items.
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  POETRY_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pypoetry"
+
+cache:
+  paths:
+    - .cache/pip
+    - .cache/pypoetry
+
+stages:
+  - Tests
+  - Docs
+
+.poetry-prescript:
+  before_script: 
+    - pip install poetry==1.1.13
+    - poetry config -n virtualenvs.create false
+    - poetry install -n
+
+black+isort:
+  stage: Tests
+  extends: .poetry-prescript
+  allow_failure: false
+  script:
+    - black --check --diff --color .
+    - isort --check --diff --profile black .
+
+pylint:
+  stage: Tests
+  extends: .poetry-prescript
+  variables:
+    PYLINT_PATHS: "./bandit_scripts ./autoagora ./price_multiplier_bandit ./tests"
+  script:
+    - mkdir -p pylint/badges pylint/lint
+    - echo undefined > pylint/badges/$CI_JOB_NAME.score
+    - pylint $PYLINT_PATHS -j0 --exit-zero --output-format=text | tee /tmp/pylint.txt
+    - sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' /tmp/pylint.txt > pylint/badges/$CI_JOB_NAME.score
+    - pylint $PYLINT_PATHS -j0 --exit-zero --output-format=pylint_gitlab.GitlabCodeClimateReporter > codeclimate.json
+    - pylint $PYLINT_PATHS -j0 --exit-zero --output-format=pylint_gitlab.GitlabPagesHtmlReporter > pylint/lint/index.html
+  after_script:
+    - anybadge --overwrite --label $CI_JOB_NAME --value=$(cat pylint/badges/$CI_JOB_NAME.score) --file=pylint/badges/$CI_JOB_NAME.svg 4=red 6=orange 8=yellow 10=green
+    - |
+      echo "Your score is: $(cat pylint/badges/$CI_JOB_NAME.score)"
+  artifacts:
+    paths:
+      - pylint
+    reports:
+      codequality: codeclimate.json
+    when: always
+
+pytest:
+  stage: Tests
+  extends: .poetry-prescript
+  script:
+    - pytest --junitxml=report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+
+pyright:
+  stage: Tests
+  extends: .poetry-prescript
+  allow_failure: False
+  script:
+    - pyright .
+
+pages:
+  stage: Docs
+  extends: .poetry-prescript
+  script:
+  - apt-get update
+  - apt-get install -y make
+  - cd docs
+  - pwd
+  - make html
+  - mv build/html/ ../public/
+  artifacts:
+    paths:
+    - public
+  only:
+    - master

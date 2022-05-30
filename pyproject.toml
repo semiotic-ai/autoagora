@@ -1,0 +1,74 @@
+[tool.poetry]
+name = "autoagora"
+version = "0.1.0"
+authors = [
+    "Alexis Asseman <alexis@semiotic.ai>",
+    "Matt Deible <matt@semiotic.ai>",
+    "Tomasz Kornuta <tomasz@semiotic.ai>"
+]
+description = ""
+license = ""
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: Apache Software License"
+]
+packages = [
+    { include = "autoagora" },
+    { include = "price_multiplier_bandit" },
+]
+
+[tool.poetry.scripts]
+autoagora = "autoagora.main:main"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+ConfigArgParse = "^1.5.3"
+graphql-core = "^3.2.0"
+more-itertools = "^8.12.0"
+base58 = "^2.1.1"
+aiohttp = "^3.8.1"
+gql = {extras = ["aiohttp"], version = "^3.2.0"}
+asyncpg = "^0.25.0"
+torch = [
+    {url="https://download.pytorch.org/whl/cpu/torch-1.11.0%2Bcpu-cp38-cp38-linux_x86_64.whl", platform="linux"},
+    {url="https://download.pytorch.org/whl/cpu/torch-1.11.0-cp38-none-macosx_11_0_arm64.whl", platform="darwin"}
+]
+anyio = "^3.5.0"
+numpy = "^1.22.3"
+scipy = "^1.8.0"
+prometheus-async = {extras = ["aiohttp"], version = "^22.1.0"}
+
+[tool.poetry.dev-dependencies]
+black = "^22.1.0"
+isort = "^5.10.1"
+matplotlib = "^3.5.1"
+tensorboard = "^2.8.0"
+pytest = "^7.1.2"
+sphinx = "^4.5.0"
+sphinx-rtd-theme = "^1.0.0"
+pyright = "^1.1.244"
+pylint-gitlab = "^1.0.0"
+sphinxcontrib-napoleon = "^0.7"
+myst-parser = "^0.17.2"
+
+[build-system]
+requires = ["poetry_core>=1.1.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers --durations=5 -vv"
+markers = [
+    "unit: marks tests as unit tests",
+]
+
+[tool.pylint.typecheck]
+# List of members which are set dynamically and missed by pylint inference system, and
+# so shouldn't trigger E1101 when accessed. Python regular expressions are accepted.
+generated-members = ["numpy.*" ,"torch.*"]
+
+[tool.pyright]
+useLibraryCodeForTypes = true
