@@ -10,3 +10,8 @@ Graph indexers:
   (Off by default).
 - Continously tunes a per-subgraph absolute price multiplier, using continuous
   online reinforcement learning.
+
+## AutoAgora sub-components repos
+
+- [AutoAgora Sidecar](https://gitlab.com/semiotic-ai/the-graph/autoagora-sidecar)
+- [AutoAgora Processor](https://gitlab.com/semiotic-ai/the-graph/autoagora-processor)
