@@ -432,7 +432,7 @@ class SafeRollingMemContinuousBandit(RollingMemContinuousBandit):
     def __init__(
         self,
         learning_rate: float,
-        fallback_price_multiplier: float=1e-6,
+        fallback_price_multiplier: float = 1e-6,
         initial_mean: float = 2,
         initial_logstddev: float = 0.4,
         buffer_max_size: int = 10,
@@ -484,7 +484,7 @@ class SafeRollingMemContinuousBandit(RollingMemContinuousBandit):
                 self.reset()
             else:
                 return
-        
+
         # Validate buffer.
         self.validate_experience_buffer()
 

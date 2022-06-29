@@ -63,7 +63,9 @@ class TestContinuousActionBandit:
 
     @pytest.mark.unit
     def test_reward_buffer_zero_true(self):
-        bandit = SafeRollingMemContinuousBandit(learning_rate=1e-3, fallback_price_multiplier=1e-6)
+        bandit = SafeRollingMemContinuousBandit(
+            learning_rate=1e-3, fallback_price_multiplier=1e-6
+        )
 
         rewards = [0.0 for _ in range(50)]
         losses = []
@@ -77,7 +79,9 @@ class TestContinuousActionBandit:
 
     @pytest.mark.unit
     def test_reward_buffer_zero_false(self):
-        bandit = SafeRollingMemContinuousBandit(learning_rate=1e-3, fallback_price_multiplier=1e-6)
+        bandit = SafeRollingMemContinuousBandit(
+            learning_rate=1e-3, fallback_price_multiplier=1e-6
+        )
 
         rewards = numpy.random.random(50)
         losses = []
@@ -91,7 +95,9 @@ class TestContinuousActionBandit:
 
     @pytest.mark.unit
     def test_reward_buffer_never_zero_false(self):
-        bandit = SafeRollingMemContinuousBandit(learning_rate=1e-3, fallback_price_multiplier=1e-6)
+        bandit = SafeRollingMemContinuousBandit(
+            learning_rate=1e-3, fallback_price_multiplier=1e-6
+        )
 
         rewards = numpy.random.random(50) + 0.1
         rewards[42] = 0.0
@@ -105,7 +111,9 @@ class TestContinuousActionBandit:
 
     @pytest.mark.unit
     def test_reward_buffer_never_zero_true(self):
-        bandit = SafeRollingMemContinuousBandit(learning_rate=1e-3, fallback_price_multiplier=1e-6)
+        bandit = SafeRollingMemContinuousBandit(
+            learning_rate=1e-3, fallback_price_multiplier=1e-6
+        )
 
         rewards = numpy.random.random(50) + 0.1
 
