@@ -1,8 +1,7 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-from statistics import mean
-from typing import Type, Union
+from typing import Sequence, Type, Union
 
 import numpy
 import pytest
@@ -12,6 +11,7 @@ from price_multiplier_bandit.price_bandit import (
     ContinuousActionBandit,
     ProximalPolicyOptimizationBandit,
     RollingMemContinuousBandit,
+    SafeRollingMemContinuousBandit,
     VanillaPolicyGradientBandit,
 )
 
@@ -60,3 +60,58 @@ class TestContinuousActionBandit:
             bids += bandit.get_bids()
         mean_bids = bids / 1000
         assert (mean_bids >= gauss_min) and (mean_bids <= gauss_max)
+
+    @pytest.mark.unit
+    def test_reward_buffer_zero_true(self):
+        bandit = SafeRollingMemContinuousBandit(learning_rate=1e-3, fallback_price_multiplier=1e-6)
+
+        rewards = [0.0 for _ in range(50)]
+        losses = []
+
+        for i, reward in enumerate(rewards):
+            bandit.get_action()
+            bandit.add_reward(reward)
+            losses += [bandit.update_policy()]
+
+        assert all(map(lambda v: v is None, losses))
+
+    @pytest.mark.unit
+    def test_reward_buffer_zero_false(self):
+        bandit = SafeRollingMemContinuousBandit(learning_rate=1e-3, fallback_price_multiplier=1e-6)
+
+        rewards = numpy.random.random(50)
+        losses = []
+
+        for i, reward in enumerate(rewards):
+            bandit.get_action()
+            bandit.add_reward(reward)
+            losses += [bandit.update_policy()]
+
+        assert not all(map(lambda v: v is None, losses))
+
+    @pytest.mark.unit
+    def test_reward_buffer_never_zero_false(self):
+        bandit = SafeRollingMemContinuousBandit(learning_rate=1e-3, fallback_price_multiplier=1e-6)
+
+        rewards = numpy.random.random(50) + 0.1
+        rewards[42] = 0.0
+
+        for reward in rewards:
+            bandit.get_action()
+            bandit.add_reward(reward)
+            bandit.update_policy()
+
+        assert not bandit.is_reward_buffer_never_zero()
+
+    @pytest.mark.unit
+    def test_reward_buffer_never_zero_true(self):
+        bandit = SafeRollingMemContinuousBandit(learning_rate=1e-3, fallback_price_multiplier=1e-6)
+
+        rewards = numpy.random.random(50) + 0.1
+
+        for reward in rewards:
+            bandit.get_action()
+            bandit.add_reward(reward)
+            bandit.update_policy()
+
+        assert bandit.is_reward_buffer_never_zero()

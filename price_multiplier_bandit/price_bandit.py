@@ -30,6 +30,9 @@ class ContinuousActionBandit(Agent):
         initial_logstddev: float = 0.4,
         buffer_max_size: int = 30,
     ):
+        self.initial_mean = initial_mean
+        self.initial_logstddev = initial_logstddev
+
         # Store policy params.
         self.mean = nn.parameter.Parameter(torch.Tensor([initial_mean]))
         self.logstddev = nn.parameter.Parameter(torch.Tensor([initial_logstddev]))
@@ -42,6 +45,13 @@ class ContinuousActionBandit(Agent):
         # Initialize optimizer.
         self.optimizer = torch.optim.Adam([self.mean, self.logstddev], lr=learning_rate)
         self.learning_rate = learning_rate
+
+    def reset(self):
+        self.mean = nn.parameter.Parameter(torch.Tensor([self.initial_mean]))
+        self.logstddev = nn.parameter.Parameter(torch.Tensor([self.initial_logstddev]))
+        self.action_buffer = []
+        self.reward_buffer = []
+        self.optimizer = torch.optim.Adam([self.mean, self.logstddev], lr=learning_rate)
 
     def __str__(self):
         """
@@ -346,6 +356,10 @@ class RollingMemContinuousBandit(ProximalPolicyOptimizationBandit):
         # New buffer for action log probs.
         self.orig_log_prob_buffer = []
 
+    def reset(self):
+        super().reset()
+        self.orig_log_prob_buffer = []
+
     def get_bids(self):
         """Samples action from the action space, add it to action buffer and returns it.
 
@@ -412,3 +426,87 @@ class RollingMemContinuousBandit(ProximalPolicyOptimizationBandit):
 
         # Return loss.
         return loss
+
+
+class SafeRollingMemContinuousBandit(RollingMemContinuousBandit):
+    def __init__(
+        self,
+        learning_rate: float,
+        fallback_price_multiplier: float=1e-6,
+        initial_mean: float = 2,
+        initial_logstddev: float = 0.4,
+        buffer_max_size: int = 10,
+        eps_clip: float = 0.1,
+        ppo_iterations: int = 10,
+        entropy_coeff: float = 0.1,
+    ):
+        super().__init__(
+            learning_rate,
+            initial_mean,
+            initial_logstddev,
+            buffer_max_size,
+            eps_clip,
+            ppo_iterations,
+            entropy_coeff,
+        )
+
+        self.fallback_mode = False
+        self.fallback_price_multiplier = fallback_price_multiplier
+
+    def reset(self):
+        super().reset()
+        self.fallback_mode = False
+
+    def is_reward_buffer_zeros(self) -> bool:
+        """Wether the reward buffer is full of zeros.
+
+        Returns:
+            bool: True if the reward buffer is full of zeros.
+        """
+
+        return all(map(lambda x: x == 0.0, self.reward_buffer))
+
+    def is_reward_buffer_never_zero(self) -> bool:
+        """Wether the reward buffer values are always greater than zero.
+
+        Returns:
+            bool: True if the reward buffer does not contain zero.
+        """
+
+        return not any(map(lambda x: x == 0, self.reward_buffer))
+
+    def update_policy(self):
+        """Updates agent policy using PPO with rolling buffer (i.e. without clearing the buffer after optimization)."""
+
+        if self.fallback_mode:
+            if self.is_reward_buffer_never_zero():
+                # Restart the bandit
+                self.reset()
+            else:
+                return
+        
+        # Validate buffer.
+        self.validate_experience_buffer()
+
+        # Truncate if needed.
+        self.truncate_experience_buffer()
+
+        # Train only if the buffer is full and not full of zeros.
+        if not self.is_experience_buffer_full():
+            return
+
+        if self.is_reward_buffer_zeros():
+            self.fallback_mode = True
+            return
+
+        # Update the policy using PPO.
+        loss = self.ppo_update(self.orig_log_prob_buffer)
+
+        # Return loss.
+        return loss
+
+    def get_bids(self):
+        if self.fallback_mode:
+            return self.fallback_price_multiplier
+
+        return super().get_bids()
