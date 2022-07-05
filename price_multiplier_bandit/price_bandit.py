@@ -51,7 +51,9 @@ class ContinuousActionBandit(Agent):
         self.logstddev = nn.parameter.Parameter(torch.Tensor([self.initial_logstddev]))
         self.action_buffer = []
         self.reward_buffer = []
-        self.optimizer = torch.optim.Adam([self.mean, self.logstddev], lr=self.learning_rate)
+        self.optimizer = torch.optim.Adam(
+            [self.mean, self.logstddev], lr=self.learning_rate
+        )
 
     def __str__(self):
         """
