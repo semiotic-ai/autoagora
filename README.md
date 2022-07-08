@@ -8,10 +8,13 @@ Graph indexers:
 
 - Automates the creation of relative prices for commonly seen query skeletons.
   (Off by default).
-- Continously tunes a per-subgraph absolute price multiplier, using continuous
+- Continuously tunes a per-subgraph absolute price multiplier, using continuous
   online reinforcement learning.
 
 ## AutoAgora sub-components repos
 
+For AutoAgora to function correctly, you will also need to set up:
+
+- [AutoAgora indexer-service](https://gitlab.com/semiotic-ai/the-graph/autoagora-indexer-service)
 - [AutoAgora Sidecar](https://gitlab.com/semiotic-ai/the-graph/autoagora-sidecar)
 - [AutoAgora Processor](https://gitlab.com/semiotic-ai/the-graph/autoagora-processor)
