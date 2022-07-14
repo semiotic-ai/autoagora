@@ -5,6 +5,7 @@ from price_multiplier_bandit.simulated_subgraph import (
     NoisyCyclicQueriesSubgraph,
     NoisyQueriesSubgraph,
 )
+import argparse
 
 _ENVIRONMENT_TYPES = {
     "NoisyQueriesSubgraph": NoisyQueriesSubgraph,
@@ -23,3 +24,13 @@ class EnvironmentFactory(object):
     """
     def __new__( cls, environment_type: str, *args, **kwargs):
         return _ENVIRONMENT_TYPES[environment_type](*args, **kwargs)
+
+
+def add_environment_argparse(parser: argparse):
+    """Adds argparse arguments related to environment to parser."""
+    parser.add_argument(
+        "-e", "--environment", default="noisy_cyclic", help="Sets the environment type (DEFAULT: noisy_cyclic)"
+    )
+    parser.add_argument(
+        "-n", "--no-noise", action='store_false', help="Turns the noise on/off (DEFAULT: noise on)"
+    )

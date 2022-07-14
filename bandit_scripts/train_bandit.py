@@ -7,19 +7,17 @@ import sys
 import numpy as np
 from anyio import run
 from torch.utils.tensorboard.writer import SummaryWriter
+import argparse
 
-from price_multiplier_bandit.price_bandit import (
-    ProximalPolicyOptimizationBandit,
-    RollingMemContinuousBandit,
-    VanillaPolicyGradientBandit,
-)
-from price_multiplier_bandit.simulated_subgraph import (
-    NoisyCyclicQueriesSubgraph,
-    NoisyQueriesSubgraph,
-)
+from price_multiplier_bandit.agent_factory import AgentFactory, add_agent_argparse
+from price_multiplier_bandit.environment_factory import EnvironmentFactory, add_environment_argparse
 
-ITERATIONS = 3500
-BATCH_SIZE = 10
+
+def add_experiment_argparse(parser: argparse):
+    """Adds argparse arguments related to experiment to parser."""
+    parser.add_argument(
+        "-i", "--iterations", default=3500, type=int, help="Sets the length of the experiment / number of args.iterations (DEFAULT: 3000)"
+    )
 
 try:
     import socket
@@ -38,21 +36,30 @@ except:
 async def main_loop():
     vars = {"GLOBAL_COST_MULTIPLIER": 0.000001, "DEFAULT_COST": 50}
 
-    # Instantiate environment.
-    environment = NoisyCyclicQueriesSubgraph()
+    # Init argparse.
+    parser = argparse.ArgumentParser(
+        usage="%(prog)s [-a ...] [-e ...] [-n ...]",
+        description="Trains an agent on a given environment."
+    )
+    add_experiment_argparse(parser=parser)
+    add_agent_argparse(parser=parser)
+    add_environment_argparse(parser=parser)
+    # Parse arguments
+    args = parser.parse_args()
 
-    # agora_model = await model_builder(SUBGRAPH)
-    # await set_cost_model(SUBGRAPH, agora_model)
-
-    bandit = RollingMemContinuousBandit(
-        learning_rate=0.01,
-        buffer_max_size=BATCH_SIZE,
+    # Instantiate the agent.
+    bandit = AgentFactory(
+        agent_type=args.agent, 
+        learning_rate=args.learning_rate,
+        buffer_max_size=args.buffer_size,
     )
 
-    total_money = 0
+    # Instantiate the environment.
+    environment = EnvironmentFactory(environment_type=args.environment, noise=(args.no_noise))
 
-    print("Training agent. Please wait...")
-    for i in range(ITERATIONS):
+    total_money = 0
+    print(f"Training {bandit} on {environment}. Please wait...")
+    for i in range(args.iterations):
         writer.add_scalar("Distribution mean", bandit.mean, i)
         writer.add_scalar("Distribution stddev", bandit.logstddev.exp(), i)
 
