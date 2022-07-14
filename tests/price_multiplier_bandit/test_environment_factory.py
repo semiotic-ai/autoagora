@@ -3,27 +3,29 @@
 
 import pytest
 
+from price_multiplier_bandit.environment_factory import EnvironmentFactory
 from price_multiplier_bandit.simulated_subgraph import (
     Environment,
     NoisyCyclicQueriesSubgraph,
     NoisyQueriesSubgraph,
 )
-from price_multiplier_bandit.environment_factory import EnvironmentFactory
 
 
 class TestEnvironmentFactory:
     @pytest.mark.unit
-    @pytest.mark.parametrize( "env_type,env_class", [
+    @pytest.mark.parametrize(
+        "env_type,env_class",
+        [
             ("NoisyQueriesSubgraph", NoisyQueriesSubgraph),
             ("noisy_static", NoisyQueriesSubgraph),
             ("NoisyCyclicQueriesSubgraph", NoisyCyclicQueriesSubgraph),
             ("noisy_cyclic", NoisyCyclicQueriesSubgraph),
-        ])
+        ],
+    )
     def test_env_proper_types(self, env_type: str, env_class: Environment):
         """Test whether the factory returns proper types."""
         env = EnvironmentFactory(env_type)
         assert type(env) == env_class
-
 
     @pytest.mark.unit
     def test_env_proper_types(self):
@@ -31,14 +33,16 @@ class TestEnvironmentFactory:
         with pytest.raises(KeyError):
             _ = EnvironmentFactory("invalid")
 
-
     @pytest.mark.unit
-    @pytest.mark.parametrize( "env_type,env_class,noise", [
+    @pytest.mark.parametrize(
+        "env_type,env_class,noise",
+        [
             ("noisy_static", NoisyQueriesSubgraph, True),
             ("static", NoisyQueriesSubgraph, False),
             ("noisy_cyclic", NoisyCyclicQueriesSubgraph, True),
             ("cyclic", NoisyQueriesSubgraph, False),
-        ])
+        ],
+    )
     def test_env_noise(self, env_type: str, env_class: Environment, noise: bool):
         """Test whether the factory properly handles environment noise."""
         env = EnvironmentFactory(env_type)

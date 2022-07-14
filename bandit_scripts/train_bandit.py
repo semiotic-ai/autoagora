@@ -1,23 +1,31 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
+import argparse
 import os
 import sys
 
 import numpy as np
 from anyio import run
 from torch.utils.tensorboard.writer import SummaryWriter
-import argparse
 
 from price_multiplier_bandit.agent_factory import AgentFactory, add_agent_argparse
-from price_multiplier_bandit.environment_factory import EnvironmentFactory, add_environment_argparse
+from price_multiplier_bandit.environment_factory import (
+    EnvironmentFactory,
+    add_environment_argparse,
+)
 
 
 def add_experiment_argparse(parser: argparse):
     """Adds argparse arguments related to experiment to parser."""
     parser.add_argument(
-        "-i", "--iterations", default=3500, type=int, help="Sets the length of the experiment / number of args.iterations (DEFAULT: 3000)"
+        "-i",
+        "--iterations",
+        default=3500,
+        type=int,
+        help="Sets the length of the experiment / number of args.iterations (DEFAULT: 3000)",
     )
+
 
 try:
     import socket
@@ -39,7 +47,7 @@ async def main_loop():
     # Init argparse.
     parser = argparse.ArgumentParser(
         usage="%(prog)s [-a ...] [-e ...] [-n ...]",
-        description="Trains an agent on a given environment."
+        description="Trains an agent on a given environment.",
     )
     add_experiment_argparse(parser=parser)
     add_agent_argparse(parser=parser)
@@ -49,7 +57,7 @@ async def main_loop():
 
     # Instantiate the agent.
     bandit = AgentFactory(
-        agent_type=args.agent, 
+        agent_type=args.agent,
         learning_rate=args.learning_rate,
         buffer_max_size=args.buffer_size,
     )

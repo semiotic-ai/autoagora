@@ -1,32 +1,49 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
+import argparse
 from pydoc import describe
+
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numpy as np
 from anyio import run
-import argparse
 
-from price_multiplier_bandit.environment_factory import EnvironmentFactory, add_environment_argparse
+from price_multiplier_bandit.environment_factory import (
+    EnvironmentFactory,
+    add_environment_argparse,
+)
+
 
 def add_experiment_argparse(parser: argparse):
     """Adds argparse arguments related to experiment to parser."""
     parser.add_argument(
-        "-i", "--iterations", default=3000, type=int, help="Sets the length of the experiment / number of args.iterations (DEFAULT: 3000)"
+        "-i",
+        "--iterations",
+        default=3000,
+        type=int,
+        help="Sets the length of the experiment / number of args.iterations (DEFAULT: 3000)",
     )
     parser.add_argument(
-        "-f", "--fast-forward-factor", default=50, type=int, help="Sets the fast forward factor (DEFAULT: 50)"
+        "-f",
+        "--fast-forward-factor",
+        default=50,
+        type=int,
+        help="Sets the fast forward factor (DEFAULT: 50)",
     )
-    parser.add_argument('--show', action='store_true', help="If set, shows the animation")
-    parser.add_argument('--save', action='store_true', help="If set, saves the animation to a file")
+    parser.add_argument(
+        "--show", action="store_true", help="If set, shows the animation"
+    )
+    parser.add_argument(
+        "--save", action="store_true", help="If set, saves the animation to a file"
+    )
 
 
 async def main():
     # Init argparse.
     parser = argparse.ArgumentParser(
         usage="%(prog)s [-e ...] [-n ...] [--show] [--save]",
-        description="Runs subgraph simulation and (optionally) shows it and/or saves it to a file."
+        description="Runs subgraph simulation and (optionally) shows it and/or saves it to a file.",
     )
     add_experiment_argparse(parser=parser)
     add_environment_argparse(parser=parser)
