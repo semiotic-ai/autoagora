@@ -2,8 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import argparse
+from typing import Union
 
 from price_multiplier_bandit.simulated_subgraph import (
+    Environment,
     NoisyCyclicQueriesSubgraph,
     NoisyQueriesSubgraph,
 )
@@ -27,7 +29,9 @@ class EnvironmentFactory(object):
         kwargs: Dict of keyword arguments passed to agent constructor.
     """
 
-    def __new__(cls, environment_type: str, *args, **kwargs):
+    def __new__(
+        cls, environment_type: str, *args, **kwargs
+    ) -> Union[NoisyQueriesSubgraph, NoisyQueriesSubgraph]:
         # If argument is set - do nothing.
         if "noise" not in kwargs.keys():
             # If not, try to extract "noise" value from the name.
@@ -39,7 +43,7 @@ class EnvironmentFactory(object):
         return _ENVIRONMENT_TYPES[environment_type](*args, **kwargs)
 
 
-def add_environment_argparse(parser: argparse):
+def add_environment_argparse(parser: argparse.ArgumentParser):
     """Adds argparse arguments related to environment to parser."""
     parser.add_argument(
         "-e",

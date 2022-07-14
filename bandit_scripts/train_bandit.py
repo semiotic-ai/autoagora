@@ -16,7 +16,7 @@ from price_multiplier_bandit.environment_factory import (
 )
 
 
-def add_experiment_argparse(parser: argparse):
+def add_experiment_argparse(parser: argparse.ArgumentParser):
     """Adds argparse arguments related to experiment to parser."""
     parser.add_argument(
         "-i",

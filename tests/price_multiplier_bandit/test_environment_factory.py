@@ -28,7 +28,7 @@ class TestEnvironmentFactory:
         assert type(env) == env_class
 
     @pytest.mark.unit
-    def test_env_proper_types(self):
+    def test_env_invalid_types(self):
         """Test whether the factory raises error with improper type."""
         with pytest.raises(KeyError):
             _ = EnvironmentFactory("invalid")

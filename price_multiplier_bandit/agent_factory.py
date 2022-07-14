@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import argparse
+from typing import Union
 
 from price_multiplier_bandit.price_bandit import (
     ProximalPolicyOptimizationBandit,
@@ -28,11 +29,17 @@ class AgentFactory(object):
         kwargs: Dict of keyword arguments passed to agent constructor.
     """
 
-    def __new__(cls, agent_type: str, *args, **kwargs):
+    def __new__(
+        cls, agent_type: str, *args, **kwargs
+    ) -> Union[
+        ProximalPolicyOptimizationBandit,
+        RollingMemContinuousBandit,
+        VanillaPolicyGradientBandit,
+    ]:
         return _AGENT_TYPES[agent_type](*args, **kwargs)
 
 
-def add_agent_argparse(parser: argparse):
+def add_agent_argparse(parser: argparse.ArgumentParser):
     """Adds argparse arguments related to agent to parser."""
     parser.add_argument(
         "-a",

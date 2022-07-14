@@ -16,7 +16,7 @@ from price_multiplier_bandit.environment_factory import (
 )
 
 
-def add_experiment_argparse(parser: argparse):
+def add_experiment_argparse(parser: argparse.ArgumentParser):
     """Adds argparse arguments related to experiment to parser."""
     parser.add_argument(
         "-i",
@@ -143,10 +143,10 @@ if __name__ == "__main__":
         Writer = animation.writers["ffmpeg"]
         writer = Writer(fps=15, metadata=dict(artist="Me"), bitrate=1800)
 
-    if args.show:
-        plt.show()
+        if args.show:
+            plt.show()
 
-    if args.save:
-        print(f"Saving movie, please wait...")
-        ani.save(FILENAME, writer=writer)
-        print(f"Movie saved to '{FILENAME}'")
+        if args.save:
+            print(f"Saving movie, please wait...")
+            ani.save(FILENAME, writer=writer)
+            print(f"Movie saved to '{FILENAME}'")
