@@ -55,7 +55,7 @@ async def main_loop():
     )
 
     # Instantiate the environment.
-    environment = EnvironmentFactory(environment_type=args.environment, noise=(args.no_noise))
+    environment = EnvironmentFactory(environment_type=args.environment)
 
     total_money = 0
     print(f"Training {bandit} on {environment}. Please wait...")

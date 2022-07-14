@@ -35,7 +35,7 @@ async def main():
     args = parser.parse_args()
 
     # Instantiate environment.
-    environment = EnvironmentFactory(environment_type=args.environment, noise=(args.no_noise))
+    environment = EnvironmentFactory(environment_type=args.environment)
     FILENAME = f"{environment}.mp4"
 
     fig, ax = plt.subplots()

@@ -45,7 +45,7 @@ if __name__ == "__main__":
     )
 
     # Instantiate the environment.
-    environment = EnvironmentFactory(environment_type=args.environment, noise=(args.no_noise))
+    environment = EnvironmentFactory(environment_type=args.environment)
 
     # Generate the filename.
     FILENAME = f"{bandit}_{environment}.mp4"

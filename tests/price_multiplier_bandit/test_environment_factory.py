@@ -30,3 +30,16 @@ class TestEnvironmentFactory:
         """Test whether the factory raises error with improper type."""
         with pytest.raises(KeyError):
             _ = EnvironmentFactory("invalid")
+
+
+    @pytest.mark.unit
+    @pytest.mark.parametrize( "env_type,env_class,noise", [
+            ("noisy_static", NoisyQueriesSubgraph, True),
+            ("static", NoisyQueriesSubgraph, False),
+            ("noisy_cyclic", NoisyCyclicQueriesSubgraph, True),
+            ("cyclic", NoisyQueriesSubgraph, False),
+        ])
+    def test_env_noise(self, env_type: str, env_class: Environment, noise: bool):
+        """Test whether the factory properly handles environment noise."""
+        env = EnvironmentFactory(env_type)
+        assert env._noise == noise
