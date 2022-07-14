@@ -27,3 +27,8 @@ class TestAgentFactory:
         agent = AgentFactory(agent_type, learning_rate=0.01, buffer_max_size=10 )
         assert type(agent) == agent_class
 
+    @pytest.mark.unit
+    def test_agent_proper_types(self):
+        """Test whether the factory raises error with improper type."""
+        with pytest.raises(KeyError):
+            _ = AgentFactory("invalid")

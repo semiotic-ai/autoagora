@@ -26,6 +26,3 @@ class AgentFactory(object):
     """
     def __new__( cls, agent_type: str, *args, **kwargs):
         return _AGENT_TYPES[agent_type](*args, **kwargs)
-
-if __name__ == "__main__":
-    agent = AgentFactory("vpg", learning_rate=0.01, buffer_max_size=10 )
