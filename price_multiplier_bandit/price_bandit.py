@@ -30,6 +30,10 @@ class ContinuousActionBandit(Agent):
         initial_logstddev: float = 0.4,
         buffer_max_size: int = 30,
     ):
+        # Store init params.
+        self._initial_mean = torch.Tensor([initial_mean])
+        self._initial_logstddev = torch.Tensor([initial_logstddev])
+
         # Store policy params.
         self.mean = nn.parameter.Parameter(torch.Tensor([initial_mean]))
         self.logstddev = nn.parameter.Parameter(torch.Tensor([initial_logstddev]))
@@ -68,6 +72,13 @@ class ContinuousActionBandit(Agent):
 
     def get_action(self):
         """Calls get_bids() and scale() to return scaled value."""
+        print("self.reward_buffer = ", self.reward_buffer)
+        print(
+            "self.mean = ",
+            self.mean.detach(),
+            " self.logstddev = ",
+            self.logstddev.detach(),
+        )
         bid = self.get_bids()
         scaled_bid = self.scale(bid)
         return scaled_bid
@@ -86,7 +97,12 @@ class ContinuousActionBandit(Agent):
     def scale(x: Union[float, torch.Tensor]) -> Union[float, torch.Tensor]:
         """Scales the value."""
         if isinstance(x, float):
-            return exp(x) * 1e-6
+            try:
+                print(f"x = {x}  => exp(x) * 1e-6 = {exp(x) * 1e-6}")
+                return exp(x) * 1e-6
+            except OverflowError:
+                print(f"!! OverflowError in exp(x) * 1e-6 for x = {x}!!")
+                exit(-1)
         elif isinstance(x, torch.Tensor):
             return x.exp() * 1e-6
         else:
@@ -173,8 +189,10 @@ class VanillaPolicyGradientBandit(ContinuousActionBandit):
         if not self.is_experience_buffer_full():
             return
 
-        # Standardize if using batches of data.
+        # Turn rewards into tensor.
         rewards = torch.Tensor(self.reward_buffer)
+
+        # Calculate advantage.
         if len(self.reward_buffer) > 1:
             advantage = torch.Tensor(
                 (rewards - rewards.mean()) / (rewards.std() + 1e-10)
@@ -247,8 +265,10 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
 
     def ppo_update(self, orig_log_prob=None):
         """Implements proximal policy update."""
-        # Standardize if using batches of data.
+        # Turn rewards into tensor.
         rewards = torch.Tensor(self.reward_buffer)
+
+        # Calculate advantage.
         if len(self.reward_buffer) > 1:
             advantage = torch.Tensor(
                 (rewards - rewards.mean()) / (rewards.std() + 1e-10)
@@ -264,7 +284,8 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
         else:
             orig_log_prob = torch.Tensor(orig_log_prob)
 
-        for i in range(self.ppo_iterations):
+        for _ in range(self.ppo_iterations):
+            # Get log prob of bids coming from normal distribution
             dist = distributions.Normal(self.mean, self.logstddev.exp())
 
             new_log_prob = dist.log_prob(torch.Tensor(self.action_buffer))
@@ -277,10 +298,20 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
             )
             entropy_loss = -dist.entropy()
 
+            # Calculate L1 losses.
+            l1_loss_logstd = (
+                torch.nn.L1Loss()(self.logstddev, self._initial_logstddev) * 1e-1
+            )
+            l1_loss_mean = torch.nn.L1Loss()(self.mean, self._initial_mean) * 1e-3
+
+            # Calculate the final loss.
             loss = ppo_loss + self.entropy_coeff * entropy_loss
 
+            # Optimize the model parameters.
             self.optimizer.zero_grad()
             loss.mean().backward()
+            l1_loss_logstd.mean().backward()
+            l1_loss_mean.mean().backward()
             self.optimizer.step()
 
         return loss.mean().item()  # type: ignore
@@ -325,8 +356,8 @@ class RollingMemContinuousBandit(ProximalPolicyOptimizationBandit):
     def __init__(
         self,
         learning_rate,
-        initial_mean: float = 2.0,
-        initial_logstddev: float = 0.4,
+        initial_mean: float = 0,
+        initial_logstddev: float = -2,
         buffer_max_size: int = 10,
         eps_clip: float = 0.1,
         ppo_iterations: int = 10,
