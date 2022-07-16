@@ -70,11 +70,11 @@ if __name__ == "__main__":
 
     # Environment x.
     min_x = 1e-10
-    max_x = 3e-6
+    max_x = 5e-6
     env_x = np.linspace(min_x, max_x, 100)
 
     # Agent x.
-    agent_x = np.linspace(-1.4, 1.3, 100)
+    agent_x = np.linspace(-1.4, 1.6, 100)
     agent_x_scaled = [bandit.scale(x) for x in agent_x]
 
     print(f"Training {bandit} on {environment}. Please wait...")
