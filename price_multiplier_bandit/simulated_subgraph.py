@@ -236,13 +236,12 @@ class NoisyDynamicQueriesSubgraph(SimulatedSubgraph):
         # Set initial queries per second.
         self.base_shift = self._sample_shift()
 
-
     def _sample_shift(self):
-        """ Sets the base q/s depending on the step.
-        
+        """Sets the base q/s depending on the step.
+
         Returns:
             Base q/s.
-        """        
+        """
         # Sample multiplier.
         return np.random.ranf() * 5.0
 
@@ -258,9 +257,9 @@ class NoisyDynamicQueriesSubgraph(SimulatedSubgraph):
 
         # 20% chance for no queries in a given cycle.
         if self.base_shift < 1.0:
-            return 0 
+            return 0
 
-        else:                 
+        else:
             shift = 1e8
             compress = 1e7
             # Calculate basic q/s.
@@ -271,10 +270,9 @@ class NoisyDynamicQueriesSubgraph(SimulatedSubgraph):
         # Add noise level - at each step.
         if self._noise:
             noise = np.random.normal() / 20
-            queries_per_second *= (1 + noise)
+            queries_per_second *= 1 + noise
 
         return queries_per_second
-
 
     def step(self, number_of_steps: int = 1):
         """Executes step of the environment.
@@ -286,4 +284,3 @@ class NoisyDynamicQueriesSubgraph(SimulatedSubgraph):
         # Dynamic environment, changes every cycle.
         if (self._step % self._cycle) == 0:
             self.base_shift = self._sample_shift()
-

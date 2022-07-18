@@ -73,7 +73,12 @@ class ContinuousActionBandit(Agent):
     def get_action(self):
         """Calls get_bids() and scale() to return scaled value."""
         print("self.reward_buffer = ", self.reward_buffer)
-        print("self.mean = ", self.mean.detach(), " self.logstddev = ", self.logstddev.detach())
+        print(
+            "self.mean = ",
+            self.mean.detach(),
+            " self.logstddev = ",
+            self.logstddev.detach(),
+        )
         bid = self.get_bids()
         scaled_bid = self.scale(bid)
         return scaled_bid
@@ -186,7 +191,7 @@ class VanillaPolicyGradientBandit(ContinuousActionBandit):
 
         # Turn rewards into tensor.
         rewards = torch.Tensor(self.reward_buffer)
-        
+
         # Calculate advantage.
         if len(self.reward_buffer) > 1:
             advantage = torch.Tensor(
@@ -262,7 +267,7 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
         """Implements proximal policy update."""
         # Turn rewards into tensor.
         rewards = torch.Tensor(self.reward_buffer)
-        
+
         # Calculate advantage.
         if len(self.reward_buffer) > 1:
             advantage = torch.Tensor(
@@ -271,15 +276,18 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
         else:
             advantage = rewards
 
+        # Get log prob of bids coming from normal distribution
+        dist = distributions.Normal(self.mean, self.logstddev.exp())
+
         if orig_log_prob is None:
             orig_log_prob = dist.log_prob(torch.Tensor(self.action_buffer)).detach()
         else:
             orig_log_prob = torch.Tensor(orig_log_prob)
 
+        # KL loss used for mean and logstddev.
         kl_loss_fn = torch.nn.KLDivLoss()
-        init_dist = distributions.Normal(self._initial_mean, self._initial_logstddev.exp())
 
-        for i in range(self.ppo_iterations):
+        for _ in range(self.ppo_iterations):
             # Get log prob of bids coming from normal distribution
             dist = distributions.Normal(self.mean, self.logstddev.exp())
 
@@ -293,11 +301,21 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
             )
             entropy_loss = -dist.entropy()
 
-            kl_loss_logstd = - min(abs(kl_loss_fn(self.logstddev, self._initial_logstddev)), 1e-1)
-            kl_loss_mean = - min(abs(kl_loss_fn(self.mean, self._initial_mean)), 1e-3)
+            # Calculate KL losses.
+            kl_loss_logstd = -min(
+                abs(kl_loss_fn(self.logstddev, self._initial_logstddev)), 1e-1
+            )
+            kl_loss_mean = -min(abs(kl_loss_fn(self.mean, self._initial_mean)), 1e-3)
 
-            loss = ppo_loss + self.entropy_coeff * entropy_loss + kl_loss_mean + kl_loss_logstd
+            # Calculate the final loss.
+            loss = (
+                ppo_loss
+                + self.entropy_coeff * entropy_loss
+                + kl_loss_mean
+                + kl_loss_logstd
+            )
 
+            # Optimize the model parameters.
             self.optimizer.zero_grad()
             loss.mean().backward()
             self.optimizer.step()
