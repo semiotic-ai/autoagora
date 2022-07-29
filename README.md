@@ -52,5 +52,4 @@ More details on arguments can be accessed in help (`--h`).
 For AutoAgora to function correctly, you will also need to set up:
 
 - [AutoAgora indexer-service](https://gitlab.com/semiotic-ai/the-graph/autoagora-indexer-service)
-- [AutoAgora Sidecar](https://gitlab.com/semiotic-ai/the-graph/autoagora-sidecar)
 - [AutoAgora Processor](https://gitlab.com/semiotic-ai/the-graph/autoagora-processor)
