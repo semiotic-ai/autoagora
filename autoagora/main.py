@@ -19,6 +19,8 @@ argsparser.add_argument(
     "--experimental-model-builder",
     env_var="EXPERIMENTAL_MODEL_BUILDER",
     action="store_true",
+    help="Activates the relative query cost discovery. Otherwise only builds a default "
+    "query pricing model with automated market price discovery."
 )
 parsed_args, remaining_args = argsparser.parse_known_args()
 experimental_model_builder = parsed_args.experimental_model_builder
