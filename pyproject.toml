@@ -32,7 +32,8 @@ gql = {extras = ["aiohttp"], version = "^3.2.0"}
 asyncpg = "^0.25.0"
 torch = [
     {url="https://download.pytorch.org/whl/cpu/torch-1.11.0%2Bcpu-cp38-cp38-linux_x86_64.whl", platform="linux"},
-    {url="https://download.pytorch.org/whl/cpu/torch-1.11.0-cp38-none-macosx_11_0_arm64.whl", platform="darwin"}
+    {url="https://download.pytorch.org/whl/cpu/torch-1.10.0-cp38-none-macosx_10_9_x86_64.whl", platform="darwin", markers = "platform_machine == 'x86_64'"},
+    {url="https://download.pytorch.org/whl/cpu/torch-1.11.0-cp38-none-macosx_11_0_arm64.whl", platform="darwin", markers = "platform_machine == 'arm64'"}
 ]
 anyio = "^3.5.0"
 numpy = "^1.22.3"
