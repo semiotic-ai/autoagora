@@ -6,7 +6,6 @@ from asyncio import run
 
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
-import numpy as np
 import scipy.stats as stats
 
 from price_multiplier_bandit.agent_factory import AgentFactory, add_agent_argparse
@@ -23,7 +22,7 @@ def add_experiment_argparse(parser: argparse.ArgumentParser):
         "--iterations",
         default=3500,
         type=int,
-        help="Sets the length of the experiment / number of args.iterations (DEFAULT: 3000)",
+        help="Sets the length of the experiment / number of iterations (DEFAULT: 3500)",
     )
     parser.add_argument(
         "-f",
@@ -71,23 +70,14 @@ if __name__ == "__main__":
     # Environment x.
     min_x = 1e-10
     max_x = 5e-6
-    env_x = np.linspace(min_x, max_x, 100)
-
-    # Agent x.
-    agent_x = np.linspace(-1.4, 1.6, 100)
-    agent_x_scaled = [bandit.scale(x) for x in agent_x]
 
     print(f"Training {bandit} on {environment}. Please wait...")
     for i in range(args.iterations):
         # X. Collect the values for visualization of non-stationary environment: subgraph queries/price plot.
         if i % args.fast_forward_factor == 0:
-            y = []
-            for val in env_x:
-                # Set cost multiplier.
-                run(environment.set_cost_multiplier(val))
-                # Get observations, i.e. queries per second.
-                y.append(run(environment.queries_per_second()))
-            (im_env,) = plt.plot(env_x, y, color="r")
+            # Plot environment.
+            env_x, env_y = run(environment.generate_plot_data(min_x, max_x))
+            (im_env,) = plt.plot(env_x, env_y, color="r")
 
         # 1. Get bid from the agent (action)
         scaled_bid = bandit.get_action()
@@ -108,13 +98,9 @@ if __name__ == "__main__":
 
         # X. Collect the values for visualization of agent's gaussian policy.
         if i % args.fast_forward_factor == 0:
-            policy_mean = bandit.mean.detach().numpy()
-            policy_stddev = bandit.logstddev.exp().detach().numpy()
-            (img_agent,) = plt.plot(
-                agent_x_scaled,
-                stats.norm.pdf(agent_x, policy_mean, policy_stddev) * policy_stddev,
-                color="b",
-            )
+            agent_x, agent_y, init_agent_y = run(bandit.generate_plot_data(min_x, max_x))
+            (img_agent,) = plt.plot(agent_x, agent_y, color="b")
+            (img_init_agent,) = plt.plot(agent_x, init_agent_y, color="g")
 
             # Put both "images" with labels & title into a container.
             ax.set_xlabel("price multiplier")
@@ -127,7 +113,7 @@ if __name__ == "__main__":
                 ha="center",
                 transform=ax.transAxes,
             )
-            legend = ax.legend([im_env, img_agent], ["Queries/s", "Policy PDF"])  # type: ignore
+            legend = ax.legend([im_env, img_agent, img_init_agent], ["Queries/s", "Policy PDF", "Init Policy PDF"])  # type: ignore
             container.append([im_env, img_agent, title])  # type: ignore
 
         # 5. Make a step.
