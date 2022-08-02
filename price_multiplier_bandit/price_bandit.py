@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from math import exp, log
-from multiprocessing.sharedctypes import Value
 from typing import Union, overload
 
 import torch
@@ -54,6 +53,9 @@ class ContinuousActionBandit(Agent):
         """
         return f"{self.__class__.__name__}(buffer_size={self.buffer_max_size}.learning_rate={self.learning_rate})"
 
+    def distribution(self) -> torch.distributions.Normal:
+        return distributions.Normal(self.mean, self.logstddev.clamp_max(5).exp())
+
     def get_bids(self):
         """Samples action from the action space, add it to action buffer and returns it.
 
@@ -61,8 +63,8 @@ class ContinuousActionBandit(Agent):
             Action sampled from the action space.
         """
         # Sample action from distribution.
-        dist = distributions.Normal(self.mean.detach(), self.logstddev.detach().exp())
-        action = dist.rsample().item()
+        dist = self.distribution()
+        action = dist.rsample().detach().item()
         assert isinstance(action, float)
 
         # Add action to buffer.
@@ -201,7 +203,7 @@ class VanillaPolicyGradientBandit(ContinuousActionBandit):
             advantage = rewards
 
         # Get log prob of bids coming from normal distribution
-        dist = distributions.Normal(self.mean, self.logstddev.exp())
+        dist = self.distribution()
         log_prob = dist.log_prob(torch.Tensor(self.action_buffer))
 
         # Calcualte loss.
@@ -277,7 +279,7 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
             advantage = rewards
 
         # Get log prob of bids coming from normal distribution
-        dist = distributions.Normal(self.mean, self.logstddev.exp())
+        dist = self.distribution()
 
         if orig_log_prob is None:
             orig_log_prob = dist.log_prob(torch.Tensor(self.action_buffer)).detach()
@@ -286,7 +288,7 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
 
         for _ in range(self.ppo_iterations):
             # Get log prob of bids coming from normal distribution
-            dist = distributions.Normal(self.mean, self.logstddev.exp())
+            dist = self.distribution()
 
             new_log_prob = dist.log_prob(torch.Tensor(self.action_buffer))
 
@@ -387,7 +389,7 @@ class RollingMemContinuousBandit(ProximalPolicyOptimizationBandit):
         action = super().get_bids()
 
         # Sample log_prob from distribution.
-        dist = distributions.Normal(self.mean.detach(), self.logstddev.detach().exp())
+        dist = self.distribution()
         orig_log_prob = dist.log_prob(torch.Tensor([action])).detach().item()
 
         # Add to buffer.
