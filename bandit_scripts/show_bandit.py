@@ -98,7 +98,9 @@ if __name__ == "__main__":
 
         # X. Collect the values for visualization of agent's gaussian policy.
         if i % args.fast_forward_factor == 0:
-            agent_x, agent_y, init_agent_y = run(bandit.generate_plot_data(min_x, max_x))
+            agent_x, agent_y, init_agent_y = run(
+                bandit.generate_plot_data(min_x, max_x)
+            )
             (img_agent,) = plt.plot(agent_x, agent_y, color="b")
             (img_init_agent,) = plt.plot(agent_x, init_agent_y, color="g")
 
