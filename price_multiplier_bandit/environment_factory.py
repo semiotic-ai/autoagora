@@ -5,11 +5,10 @@ import argparse
 from typing import Union
 
 from price_multiplier_bandit.simulated_subgraph import (
-    Environment,
     NoisyCyclicQueriesSubgraph,
-    NoisyQueriesSubgraph,
     NoisyCyclicZeroQueriesSubgraph,
     NoisyDynamicQueriesSubgraph,
+    NoisyQueriesSubgraph,
 )
 
 _ENVIRONMENT_TYPES = {
