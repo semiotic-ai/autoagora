@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from abc import abstractmethod
-from math import exp
 from asyncio import run
+from math import exp
 
 import numpy as np
 
@@ -11,8 +11,7 @@ from price_multiplier_bandit.environment import Environment
 
 
 class SimulatedSubgraph(Environment):
-    """A simple abstract environment for simulating subgraph behavior.
-    """
+    """A simple abstract environment for simulating subgraph behavior."""
 
     def __init__(self, cost_multiplier: float = 1e-6) -> None:
         # Set initial cost muptiplier - for default (0th) agent.
@@ -35,7 +34,7 @@ class SimulatedSubgraph(Environment):
 
     def get_cost_multiplier(self, agent_id: int = 0):
         """Gets the cost multiplier.
-        
+
         Args:
             agent_id (int, DEFAULT: 0): Id of the agent (indexer).
         """
@@ -43,7 +42,7 @@ class SimulatedSubgraph(Environment):
 
     async def set_cost_multiplier(self, cost_multiplier: float, agent_id: int = 0):
         """Sets the cost multiplier - async version.
-        
+
         Args:
             agent_id (int, DEFAULT: 0): Id of the agent (indexer).
         """
@@ -61,7 +60,7 @@ class SimulatedSubgraph(Environment):
 
     async def observation(self, agent_id: int = 0):
         """Returns observation which in this case is number of queries per second.
-        
+
         Args:
             agent_id (int, DEFAULT: 0): Id of the agent (indexer).
         """
@@ -70,7 +69,7 @@ class SimulatedSubgraph(Environment):
     @abstractmethod
     async def queries_per_second(self, agent_id: int = 0):
         """Abstract method returning number of queries depending on the environment step.
-        
+
         Args:
             agent_id (int, DEFAULT: 0): Id of the agent (indexer).
         """
@@ -83,8 +82,9 @@ class SimulatedSubgraph(Environment):
         """
         return f"{self.__class__.__name__}(base_cost_multiplier={self.cost_multiplier})"
 
-
-    async def generate_plot_data(self, min_x: float, max_x: float, num_points: int =100):
+    async def generate_plot_data(
+        self, min_x: float, max_x: float, num_points: int = 100
+    ):
         """Generates q/s for a given cost multiplier range.
 
         Args:
@@ -153,7 +153,7 @@ class NoisyQueriesSubgraph(SimulatedSubgraph):
         # Add noise level.
         if self._noise:
             noise = np.random.normal() / 20
-            queries_per_second *= (1 + noise)
+            queries_per_second *= 1 + noise
 
         return queries_per_second
 
@@ -207,7 +207,7 @@ class NoisyCyclicQueriesSubgraph(SimulatedSubgraph):
         # Add noise level.
         if self._noise:
             noise = np.random.normal() / 20
-            queries_per_second *= (1 + noise)
+            queries_per_second *= 1 + noise
 
         return queries_per_second
 
@@ -241,7 +241,7 @@ class NoisyCyclicZeroQueriesSubgraph(SimulatedSubgraph):
 
     async def queries_per_second(self, agent_id: int = 0):
         """Returns noisy number of queries depending on the environment step.
-        
+
         Args:
             agent_id (int, DEFAULT: 0): Id of the agent (indexer).
         """
@@ -261,7 +261,7 @@ class NoisyCyclicZeroQueriesSubgraph(SimulatedSubgraph):
             # Add noise level.
             if self._noise:
                 noise = np.random.normal() / 20
-                queries_per_second *= (1 + noise)
+                queries_per_second *= 1 + noise
 
         return queries_per_second
 
@@ -320,13 +320,14 @@ class NoisyDynamicQueriesSubgraph(SimulatedSubgraph):
             compress = 1e7
             # Calculate basic q/s.
             queries_per_second = 1 - self.sigmoid(
-                self._cost_multipliers[agent_id] * compress - self.base_shift * shift / compress
+                self._cost_multipliers[agent_id] * compress
+                - self.base_shift * shift / compress
             )
 
         # Add noise level - at each step.
         if self._noise:
             noise = np.random.normal() / 20
-            queries_per_second *= (1 + noise)
+            queries_per_second *= 1 + noise
 
         return queries_per_second
 

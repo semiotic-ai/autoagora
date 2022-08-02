@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from math import exp, log
-import numpy as np
-import scipy.stats as stats
 from typing import Union, overload
 
+import numpy as np
+import scipy.stats as stats
 import torch
 from torch import distributions, nn
 
@@ -76,13 +76,13 @@ class ContinuousActionBandit(Agent):
 
     def get_action(self):
         """Calls get_bids() and scale() to return scaled value."""
-        #print("self.reward_buffer = ", self.reward_buffer)
-        #print(
+        # print("self.reward_buffer = ", self.reward_buffer)
+        # print(
         #    "self.mean = ",
         #    self.mean.detach(),
         #    " self.logstddev = ",
         #    self.logstddev.detach(),
-        #)
+        # )
         bid = self.get_bids()
         scaled_bid = self.scale(bid)
         return scaled_bid
@@ -102,10 +102,10 @@ class ContinuousActionBandit(Agent):
         """Scales the value."""
         if isinstance(x, float):
             try:
-                #print(f"x = {x}  => exp(x) * 1e-6 = {exp(x) * 1e-6}")
+                # print(f"x = {x}  => exp(x) * 1e-6 = {exp(x) * 1e-6}")
                 return exp(x) * 1e-6
             except OverflowError:
-                #print(f"!! OverflowError in exp(x) * 1e-6 for x = {x}!!")
+                # print(f"!! OverflowError in exp(x) * 1e-6 for x = {x}!!")
                 exit(-1)
         elif isinstance(x, torch.Tensor):
             return x.exp() * 1e-6
@@ -177,7 +177,9 @@ class ContinuousActionBandit(Agent):
         self.action_buffer = []
         self.reward_buffer = []
 
-    async def generate_plot_data(self, min_x: float, max_x: float, num_points: int = 200):
+    async def generate_plot_data(
+        self, min_x: float, max_x: float, num_points: int = 200
+    ):
         """Generates action distribution for a given cost multiplier range.
 
         Args:
@@ -190,12 +192,12 @@ class ContinuousActionBandit(Agent):
         """
 
         # Rescale x.
-        #agent_min_x = self.inv_scale(min_x)
-        #agent_max_x = self.inv_scale(max_x)
-        
+        # agent_min_x = self.inv_scale(min_x)
+        # agent_max_x = self.inv_scale(max_x)
+
         # Prepare "scaled" and "unscaled" x.
-        #agent_x = np.linspace(agent_min_x, agent_max_x, 200)
-        #agent_x_scaled = [self.scale(x) for x in agent_x]
+        # agent_x = np.linspace(agent_min_x, agent_max_x, 200)
+        # agent_x_scaled = [self.scale(x) for x in agent_x]
 
         agent_x_scaled = np.linspace(min_x, max_x, 200)
         agent_x = [self.inv_scale(x) for x in agent_x_scaled]

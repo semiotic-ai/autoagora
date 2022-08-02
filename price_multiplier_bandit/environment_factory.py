@@ -9,8 +9,6 @@ from price_multiplier_bandit.simulated_subgraph import (
     NoisyCyclicZeroQueriesSubgraph,
     NoisyDynamicQueriesSubgraph,
     NoisyQueriesSubgraph,
-    NoisyCyclicZeroQueriesSubgraph,
-    NoisyDynamicQueriesSubgraph,
 )
 
 _ENVIRONMENT_TYPES = {
