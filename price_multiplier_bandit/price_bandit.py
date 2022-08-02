@@ -74,13 +74,13 @@ class ContinuousActionBandit(Agent):
 
     def get_action(self):
         """Calls get_bids() and scale() to return scaled value."""
-        print("self.reward_buffer = ", self.reward_buffer)
-        print(
-            "self.mean = ",
-            self.mean.detach(),
-            " self.logstddev = ",
-            self.logstddev.detach(),
-        )
+        #print("self.reward_buffer = ", self.reward_buffer)
+        #print(
+        #    "self.mean = ",
+        #    self.mean.detach(),
+        #    " self.logstddev = ",
+        #    self.logstddev.detach(),
+        #)
         bid = self.get_bids()
         scaled_bid = self.scale(bid)
         return scaled_bid
@@ -100,10 +100,10 @@ class ContinuousActionBandit(Agent):
         """Scales the value."""
         if isinstance(x, float):
             try:
-                print(f"x = {x}  => exp(x) * 1e-6 = {exp(x) * 1e-6}")
+                #print(f"x = {x}  => exp(x) * 1e-6 = {exp(x) * 1e-6}")
                 return exp(x) * 1e-6
             except OverflowError:
-                print(f"!! OverflowError in exp(x) * 1e-6 for x = {x}!!")
+                #print(f"!! OverflowError in exp(x) * 1e-6 for x = {x}!!")
                 exit(-1)
         elif isinstance(x, torch.Tensor):
             return x.exp() * 1e-6
