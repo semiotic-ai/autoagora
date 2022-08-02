@@ -286,9 +286,6 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
         else:
             orig_log_prob = torch.Tensor(orig_log_prob)
 
-        # KL loss used for mean and logstddev.
-        kl_loss_fn = torch.nn.KLDivLoss()
-
         for _ in range(self.ppo_iterations):
             # Get log prob of bids coming from normal distribution
             dist = self.distribution()
@@ -303,23 +300,20 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
             )
             entropy_loss = -dist.entropy()
 
-            # Calculate KL losses.
-            kl_loss_logstd = -min(
-                abs(kl_loss_fn(self.logstddev, self._initial_logstddev)), 1e-1
+            # Calculate L1 losses.
+            l1_loss_logstd = (
+                torch.nn.L1Loss()(self.logstddev, self._initial_logstddev) * 1e-1
             )
-            kl_loss_mean = -min(abs(kl_loss_fn(self.mean, self._initial_mean)), 1e-3)
+            l1_loss_mean = torch.nn.L1Loss()(self.mean, self._initial_mean) * 1e-3
 
             # Calculate the final loss.
-            loss = (
-                ppo_loss
-                + self.entropy_coeff * entropy_loss
-                + kl_loss_mean
-                + kl_loss_logstd
-            )
+            loss = ppo_loss + self.entropy_coeff * entropy_loss
 
             # Optimize the model parameters.
             self.optimizer.zero_grad()
             loss.mean().backward()
+            l1_loss_logstd.mean().backward()
+            l1_loss_mean.mean().backward()
             self.optimizer.step()
 
         return loss.mean().item()  # type: ignore
@@ -364,8 +358,8 @@ class RollingMemContinuousBandit(ProximalPolicyOptimizationBandit):
     def __init__(
         self,
         learning_rate,
-        initial_mean: float = 2.0,
-        initial_logstddev: float = 0.4,
+        initial_mean: float = 0,
+        initial_logstddev: float = -2,
         buffer_max_size: int = 10,
         eps_clip: float = 0.1,
         ppo_iterations: int = 10,
