@@ -22,7 +22,7 @@ def add_experiment_argparse(parser: argparse.ArgumentParser):
         "--iterations",
         default=3000,
         type=int,
-        help="Sets the length of the experiment / number of args.iterations (DEFAULT: 3000)",
+        help="Sets the length of the experiment / number of iterations (DEFAULT: 3000)",
     )
     parser.add_argument(
         "-f",
@@ -61,18 +61,12 @@ async def main():
     # X axis.
     min_x = 1e-10
     max_x = 1e-5
-    x = np.linspace(min_x, max_x, 100)
 
     print(f"Generating {environment}. Please wait...")
     for i in range(args.iterations // args.fast_forward_factor):
-        y = []
-        for val in x:
-            # Set cost multiplier.
-            await environment.set_cost_multiplier(val)
-            # Get observations, i.e. queries per second.
-            y.append(await environment.queries_per_second())
 
-        # Plot both.
+        # Plot environment.
+        x, y = await environment.generate_plot_data(min_x, max_x)
         (im,) = plt.plot(x, y, color="r")
 
         ax.set_xlabel("price multiplier")

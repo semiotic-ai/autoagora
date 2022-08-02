@@ -110,7 +110,7 @@ class SimulatedSubgraph(Environment):
         # "Delete" the "fake indexer".
         self._cost_multipliers.pop()
 
-        # Return 
+        # Return x and y.
         return x, y
 
 
