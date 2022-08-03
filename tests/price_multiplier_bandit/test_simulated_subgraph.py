@@ -46,7 +46,7 @@ class TestSimulatedSubgraph:
 
         # Set cost multiplier.
         run(env.set_cost_multiplier(cost_multiplier))
-        assert env.cost_multiplier == cost_multiplier
+        assert env.get_cost_multiplier() == cost_multiplier
 
 
 class TestNoisyQueriesSubgraph:
@@ -78,6 +78,9 @@ class TestNoisyQueriesSubgraph:
         """Tests if noise is working."""
         # Instantiate env.
         env = NoisyQueriesSubgraph()
+
+        # Set cost multiplier.
+        run(env.set_cost_multiplier(1e-6))
 
         qps1 = run(env.queries_per_second())
         qps2 = run(env.queries_per_second())
@@ -114,6 +117,9 @@ class TestNoisyCyclicQueriesSubgraph:
         """Tests if noise is working."""
         # Instantiate env.
         env = NoisyCyclicQueriesSubgraph()
+
+        # Set cost multiplier.
+        run(env.set_cost_multiplier(1e-6))
 
         qps1 = run(env.queries_per_second())
         qps2 = run(env.queries_per_second())
