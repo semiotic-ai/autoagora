@@ -2,9 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from math import exp, log
-from multiprocessing.sharedctypes import Value
-from typing import Union, overload
+from typing import Optional, Union, overload
 
+import numpy as np
+import scipy.stats as stats
 import torch
 from torch import distributions, nn
 
@@ -30,6 +31,10 @@ class ContinuousActionBandit(Agent):
         initial_logstddev: float = 0.4,
         buffer_max_size: int = 30,
     ):
+        # Store init params.
+        self._initial_mean = torch.Tensor([initial_mean])
+        self._initial_logstddev = torch.Tensor([initial_logstddev])
+
         # Store policy params.
         self.mean = nn.parameter.Parameter(torch.Tensor([initial_mean]))
         self.logstddev = nn.parameter.Parameter(torch.Tensor([initial_logstddev]))
@@ -50,6 +55,9 @@ class ContinuousActionBandit(Agent):
         """
         return f"{self.__class__.__name__}(buffer_size={self.buffer_max_size}.learning_rate={self.learning_rate})"
 
+    def distribution(self) -> torch.distributions.Normal:
+        return distributions.Normal(self.mean, self.logstddev.clamp_max(5).exp())
+
     def get_bids(self):
         """Samples action from the action space, add it to action buffer and returns it.
 
@@ -57,8 +65,8 @@ class ContinuousActionBandit(Agent):
             Action sampled from the action space.
         """
         # Sample action from distribution.
-        dist = distributions.Normal(self.mean.detach(), self.logstddev.detach().exp())
-        action = dist.rsample().item()
+        dist = self.distribution()
+        action = dist.rsample().detach().item()
         assert isinstance(action, float)
 
         # Add action to buffer.
@@ -86,7 +94,12 @@ class ContinuousActionBandit(Agent):
     def scale(x: Union[float, torch.Tensor]) -> Union[float, torch.Tensor]:
         """Scales the value."""
         if isinstance(x, float):
-            return exp(x) * 1e-6
+            try:
+                # print(f"x = {x}  => exp(x) * 1e-6 = {exp(x) * 1e-6}")
+                return exp(x) * 1e-6
+            except OverflowError:
+                # print(f"!! OverflowError in exp(x) * 1e-6 for x = {x}!!")
+                exit(-1)
         elif isinstance(x, torch.Tensor):
             return x.exp() * 1e-6
         else:
@@ -157,6 +170,44 @@ class ContinuousActionBandit(Agent):
         self.action_buffer = []
         self.reward_buffer = []
 
+    async def generate_plot_data(
+        self, min_x: float, max_x: float, num_points: int = 200
+    ):
+        """Generates action distribution for a given cost multiplier range.
+
+        Args:
+            min_x (float): Lower bound cost multiplier.
+            max_x (float): Upper bound cost multiplier.
+            num_points (int, optional): Number of points. Defaults to 200.
+
+        Returns:
+            ([x1, x2, ...], [y1, y2, ...], [iy1, iy2, ...]): Triplet of lists of x, y (current policy PDF) and iy (init policy PDF).
+        """
+
+        # Rescale x.
+        # agent_min_x = self.inv_scale(min_x)
+        # agent_max_x = self.inv_scale(max_x)
+
+        # Prepare "scaled" and "unscaled" x.
+        # agent_x = np.linspace(agent_min_x, agent_max_x, 200)
+        # agent_x_scaled = [self.scale(x) for x in agent_x]
+
+        agent_x_scaled = np.linspace(min_x, max_x, 200)
+        agent_x = [self.inv_scale(x) for x in agent_x_scaled]
+
+        # Get agent's PDF for "unscaled" x.
+        policy_mean = self.mean.detach().numpy()
+        policy_stddev = self.logstddev.exp().detach().numpy()
+        policy_y = stats.norm.pdf(agent_x, policy_mean, policy_stddev) * policy_stddev
+
+        # Get agent's init PDF for "unscaled" x.
+        init_mean = self._initial_mean.detach().numpy()
+        init_stddev = self._initial_logstddev.exp().detach().numpy()
+        init_y = stats.norm.pdf(agent_x, init_mean, init_stddev) * init_stddev
+
+        # Return x, y and iy.
+        return agent_x_scaled, policy_y, init_y
+
 
 class VanillaPolicyGradientBandit(ContinuousActionBandit):
     """Bandit with continuous action space using vanilla policy gradients to optimize its policy."""
@@ -173,8 +224,10 @@ class VanillaPolicyGradientBandit(ContinuousActionBandit):
         if not self.is_experience_buffer_full():
             return
 
-        # Standardize if using batches of data.
+        # Turn rewards into tensor.
         rewards = torch.Tensor(self.reward_buffer)
+
+        # Calculate advantage.
         if len(self.reward_buffer) > 1:
             advantage = torch.Tensor(
                 (rewards - rewards.mean()) / (rewards.std() + 1e-10)
@@ -183,7 +236,7 @@ class VanillaPolicyGradientBandit(ContinuousActionBandit):
             advantage = rewards
 
         # Get log prob of bids coming from normal distribution
-        dist = distributions.Normal(self.mean, self.logstddev.exp())
+        dist = self.distribution()
         log_prob = dist.log_prob(torch.Tensor(self.action_buffer))
 
         # Calcualte loss.
@@ -247,8 +300,10 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
 
     def ppo_update(self, orig_log_prob=None):
         """Implements proximal policy update."""
-        # Standardize if using batches of data.
+        # Turn rewards into tensor.
         rewards = torch.Tensor(self.reward_buffer)
+
+        # Calculate advantage.
         if len(self.reward_buffer) > 1:
             advantage = torch.Tensor(
                 (rewards - rewards.mean()) / (rewards.std() + 1e-10)
@@ -257,15 +312,19 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
             advantage = rewards
 
         # Get log prob of bids coming from normal distribution
-        dist = distributions.Normal(self.mean, self.logstddev.exp())
+        dist = self.distribution()
 
         if orig_log_prob is None:
             orig_log_prob = dist.log_prob(torch.Tensor(self.action_buffer)).detach()
         else:
             orig_log_prob = torch.Tensor(orig_log_prob)
 
-        for i in range(self.ppo_iterations):
-            dist = distributions.Normal(self.mean, self.logstddev.exp())
+        # KL loss used for mean and logstddev.
+        kl_loss_fn = torch.nn.KLDivLoss()
+
+        for _ in range(self.ppo_iterations):
+            # Get log prob of bids coming from normal distribution
+            dist = self.distribution()
 
             new_log_prob = dist.log_prob(torch.Tensor(self.action_buffer))
 
@@ -277,8 +336,21 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
             )
             entropy_loss = -dist.entropy()
 
-            loss = ppo_loss + self.entropy_coeff * entropy_loss
+            # Calculate KL losses.
+            # kl_loss_logstd = -min(
+            #    abs(kl_loss_fn(self.logstddev, self._initial_logstddev)), 1e-1
+            # )
+            # kl_loss_mean = -min(abs(kl_loss_fn(self.mean, self._initial_mean)), 1e-3)
 
+            # Calculate the final loss.
+            loss = (
+                ppo_loss
+                + self.entropy_coeff * entropy_loss
+                # + kl_loss_mean
+                # + kl_loss_logstd
+            )
+
+            # Optimize the model parameters.
             self.optimizer.zero_grad()
             loss.mean().backward()
             self.optimizer.step()
@@ -356,7 +428,7 @@ class RollingMemContinuousBandit(ProximalPolicyOptimizationBandit):
         action = super().get_bids()
 
         # Sample log_prob from distribution.
-        dist = distributions.Normal(self.mean.detach(), self.logstddev.detach().exp())
+        dist = self.distribution()
         orig_log_prob = dist.log_prob(torch.Tensor([action])).detach().item()
 
         # Add to buffer.
