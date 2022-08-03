@@ -76,13 +76,6 @@ class ContinuousActionBandit(Agent):
 
     def get_action(self):
         """Calls get_bids() and scale() to return scaled value."""
-        # print("self.reward_buffer = ", self.reward_buffer)
-        # print(
-        #    "self.mean = ",
-        #    self.mean.detach(),
-        #    " self.logstddev = ",
-        #    self.logstddev.detach(),
-        # )
         bid = self.get_bids()
         scaled_bid = self.scale(bid)
         return scaled_bid

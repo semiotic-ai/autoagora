@@ -6,7 +6,6 @@ from asyncio import run
 
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
-import scipy.stats as stats
 
 from price_multiplier_bandit.agent_factory import AgentFactory, add_agent_argparse
 from price_multiplier_bandit.environment_factory import (
@@ -42,7 +41,7 @@ def add_experiment_argparse(parser: argparse.ArgumentParser):
 if __name__ == "__main__":
     # Init argparse.
     parser = argparse.ArgumentParser(
-        usage="%(prog)s [-a ...] [-e ...] [-n ...] [--show] [--save]",
+        usage="%(prog)s [-a ...] [-e ...] [-i ...] [--show] [--save]",
         description="Runs agent simulation and (optionally) shows it and/or saves it to a file.",
     )
     add_experiment_argparse(parser=parser)
@@ -77,7 +76,7 @@ if __name__ == "__main__":
         if i % args.fast_forward_factor == 0:
             # Plot environment.
             env_x, env_y = run(environment.generate_plot_data(min_x, max_x))
-            (im_env,) = plt.plot(env_x, env_y, color="r")
+            (im_env,) = plt.plot(env_x, env_y, color="grey")
 
         # 1. Get bid from the agent (action)
         scaled_bid = bandit.get_action()

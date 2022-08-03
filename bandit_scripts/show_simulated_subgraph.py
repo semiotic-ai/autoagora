@@ -42,7 +42,7 @@ def add_experiment_argparse(parser: argparse.ArgumentParser):
 async def main():
     # Init argparse.
     parser = argparse.ArgumentParser(
-        usage="%(prog)s [-e ...] [-n ...] [--show] [--save]",
+        usage="%(prog)s [-e ...] [-i ...] [--show] [--save]",
         description="Runs subgraph simulation and (optionally) shows it and/or saves it to a file.",
     )
     add_experiment_argparse(parser=parser)
@@ -66,8 +66,8 @@ async def main():
     for i in range(args.iterations // args.fast_forward_factor):
 
         # Plot environment.
-        x, y = await environment.generate_plot_data(min_x, max_x)
-        (im,) = plt.plot(x, y, color="r")
+        x, y = environment.generate_plot_data(min_x, max_x)
+        (im,) = plt.plot(x, y, color="grey")
 
         ax.set_xlabel("price multiplier")
         ax.set_ylabel("queries/second")
