@@ -66,7 +66,7 @@ async def main():
     for i in range(args.iterations // args.fast_forward_factor):
 
         # Plot environment.
-        x, y = environment.generate_plot_data(min_x, max_x)
+        x, y = await environment.generate_plot_data(min_x, max_x)
         (im,) = plt.plot(x, y, color="grey")
 
         ax.set_xlabel("Price multiplier")
