@@ -103,11 +103,11 @@ if __name__ == "__main__":
 
             # 4. Update the policy.
             if agent_id == 0:
-                print("Agent {agent_id} reward_buffer = ", bandits[agent_id].reward_buffer)
+                print(f"Agent {agent_id} reward_buffer = ", bandits[agent_id].reward_buffer)
                 print(
-                    "Agent {agent_id} mean = ",
+                    f"Agent {agent_id} mean = ",
                     bandits[agent_id].mean.detach(),
-                    "Agent {agent_id} logstddev = ",
+                    f"Agent {agent_id} logstddev = ",
                     bandits[agent_id].logstddev.detach(),
                     )
 
