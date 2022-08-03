@@ -11,6 +11,7 @@ from price_multiplier_bandit.simulated_subgraph import (
     NoisyDynamicQueriesSubgraph,
     NoisyQueriesSubgraph,
 )
+from price_multiplier_bandit.shared_subgraph import NoisySharedSubgraph
 
 _ENVIRONMENT_TYPES = {
     "NoisyQueriesSubgraph": NoisyQueriesSubgraph,
@@ -25,6 +26,9 @@ _ENVIRONMENT_TYPES = {
     "NoisyDynamicQueriesSubgraph": NoisyDynamicQueriesSubgraph,
     "dynamic": NoisyDynamicQueriesSubgraph,
     "noisy_dynamic": NoisyDynamicQueriesSubgraph,
+    "NoisySharedSubgraph": NoisySharedSubgraph,
+    "noisy_shared": NoisySharedSubgraph,
+    "shared": NoisySharedSubgraph,
 }
 
 
