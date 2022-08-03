@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from math import exp, log
-from typing import Union, overload
+from typing import Union, overload, Optional
 
 import numpy as np
 import scipy.stats as stats
