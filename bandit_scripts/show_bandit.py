@@ -104,7 +104,7 @@ if __name__ == "__main__":
             (img_init_agent,) = plt.plot(agent_x, init_agent_y, color="g")
 
             # Put both "images" with labels & title into a container.
-            ax.set_xlabel("price multiplier")
+            ax.set_xlabel("Price multiplier")
             # ax.set_ylabel('queries/s ')
             title = ax.text(
                 0.5,

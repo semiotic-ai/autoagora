@@ -69,8 +69,8 @@ async def main():
         x, y = environment.generate_plot_data(min_x, max_x)
         (im,) = plt.plot(x, y, color="grey")
 
-        ax.set_xlabel("price multiplier")
-        ax.set_ylabel("queries/second")
+        ax.set_xlabel("Price multiplier")
+        ax.set_ylabel("Queries/second")
         title = ax.text(
             0.5,
             1.05,
