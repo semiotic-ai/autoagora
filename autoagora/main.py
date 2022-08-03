@@ -49,39 +49,46 @@ async def allocated_subgraph_watcher():
     update_loops: Dict[str, SubgraphUpdateLoops] = dict()
 
     while True:
-        allocated_subgraphs = await get_allocated_subgraphs()
-
-        # Look for new subgraphs being allocated to
-        for new_subgraph in allocated_subgraphs - update_loops.keys():
-            # We have to manually create the entry to be sure we're keeping track of
-            # the subgraph.
-            update_loops[new_subgraph] = SubgraphUpdateLoops()
-
-            # Set the default model and variables first
-            await set_cost_model(
-                new_subgraph,
-                model="default => $DEFAULT_COST * $GLOBAL_COST_MULTIPLIER;",
-                variables=DEFAULT_AGORA_VARIABLES,
+        try:
+            allocated_subgraphs = await get_allocated_subgraphs()
+        except:
+            logging.exception(
+                "Exception occurred while getting the currently allocated subgraphs."
             )
+        else:
+            # Look for new subgraphs being allocated to
+            for new_subgraph in allocated_subgraphs - update_loops.keys():
+                # We have to manually create the entry to be sure we're keeping track of
+                # the subgraph.
+                update_loops[new_subgraph] = SubgraphUpdateLoops()
 
-            if experimental_model_builder:
-                # Launch the model update loop for the new subgraph
-                update_loops[new_subgraph].model = aio.ensure_future(
-                    model_update_loop(new_subgraph)
+                # Set the default model and variables first
+                await set_cost_model(
+                    new_subgraph,
+                    model="default => $DEFAULT_COST * $GLOBAL_COST_MULTIPLIER;",
+                    variables=DEFAULT_AGORA_VARIABLES,
                 )
-                logging.info("Added model update loop for subgraph %s", new_subgraph)
 
-            # Launch the price multiplier update loop for the new subgraph
-            update_loops[new_subgraph].bandit = aio.ensure_future(
-                price_bandit_loop(new_subgraph)
-            )
-            logging.info(
-                "Added price multiplier update loop for subgraph %s", new_subgraph
-            )
+                if experimental_model_builder:
+                    # Launch the model update loop for the new subgraph
+                    update_loops[new_subgraph].model = aio.ensure_future(
+                        model_update_loop(new_subgraph)
+                    )
+                    logging.info(
+                        "Added model update loop for subgraph %s", new_subgraph
+                    )
 
-        # Look for subgraph not being allocated to anymore
-        for removed_subgraph in update_loops.keys() - allocated_subgraphs:
-            del update_loops[removed_subgraph]
+                # Launch the price multiplier update loop for the new subgraph
+                update_loops[new_subgraph].bandit = aio.ensure_future(
+                    price_bandit_loop(new_subgraph)
+                )
+                logging.info(
+                    "Added price multiplier update loop for subgraph %s", new_subgraph
+                )
+
+            # Look for subgraph not being allocated to anymore
+            for removed_subgraph in update_loops.keys() - allocated_subgraphs:
+                del update_loops[removed_subgraph]
 
         await aio.sleep(30)
 
