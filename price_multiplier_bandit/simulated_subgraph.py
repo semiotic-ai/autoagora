@@ -13,9 +13,9 @@ from price_multiplier_bandit.environment import Environment
 class SimulatedSubgraph(Environment):
     """A simple abstract environment for simulating subgraph behavior."""
 
-    def __init__(self, cost_multiplier: float = 1e-6) -> None:
+    def __init__(self) -> None:
         # Set initial cost muptiplier - for default (0th) agent.
-        self._cost_multipliers = [cost_multiplier]
+        self._cost_multipliers = []
 
         # Reset step counter.
         self._step = 0
@@ -80,7 +80,7 @@ class SimulatedSubgraph(Environment):
         Return:
             String describing the class and some of its main params.
         """
-        return f"{self.__class__.__name__}(base_cost_multiplier={self.cost_multiplier})"
+        return f"{self.__class__.__name__}"
 
     async def generate_plot_data(
         self, min_x: float, max_x: float, num_points: int = 100
@@ -118,13 +118,12 @@ class NoisyQueriesSubgraph(SimulatedSubgraph):
     """A simple environment simulating subgraph with noisy target queries per second.
 
     Args:
-        cost_multiplier: (DEFAULT: 1e-6) Initial cost multiplier.
         noise: (DEFAULT: True) If set, injects noise.
     """
 
-    def __init__(self, cost_multiplier: float = 1e-6, noise: bool = True) -> None:
+    def __init__(self, noise: bool = True) -> None:
         # Call parent class constructor.
-        super().__init__(cost_multiplier)
+        super().__init__()
 
         # Set noise flag.
         self._noise = noise
@@ -162,16 +161,15 @@ class NoisyCyclicQueriesSubgraph(SimulatedSubgraph):
     """A simple environment simulating subgraph with noisy non-stationary target queries per second.
 
     Args:
-        cost_multiplier: (DEFAULT: 1e-6) Initial cost multiplier.
         cycle: (DEFAULT: 1000) Indicates how long a given cycle last.
         noise: (DEFAULT: True) If set, injects noise.
     """
 
     def __init__(
-        self, cost_multiplier: float = 1e-6, cycle: int = 1000, noise: bool = True
+        self,cycle: int = 1000, noise: bool = True
     ) -> None:
         # Call parent class constructor.
-        super().__init__(cost_multiplier)
+        super().__init__()
 
         # Set noise flag.
         self._noise = noise
@@ -216,16 +214,15 @@ class NoisyCyclicZeroQueriesSubgraph(SimulatedSubgraph):
     """A simple environment simulating subgraph with that for part of the cycle is not serving queries (queries per second = 0).
 
     Args:
-        cost_multiplier: (DEFAULT: 1e-6) Initial cost multiplier.
         cycle: (DEFAULT: 1000) Indicates how long a given cycle last.
         noise: (DEFAULT: True) If set, injects noise (when queries > 0).
     """
 
     def __init__(
-        self, cost_multiplier: float = 1e-6, cycle: int = 1000, noise: bool = True
+        self, cycle: int = 1000, noise: bool = True
     ) -> None:
         # Call parent class constructor.
-        super().__init__(cost_multiplier)
+        super().__init__()
 
         # Set noise flag.
         self._noise = noise
@@ -270,16 +267,15 @@ class NoisyDynamicQueriesSubgraph(SimulatedSubgraph):
     """Environment simulating subgraph with variable number of queries changing at every cycle, with cycles where queries are not served at all (queries per second = 0).
 
     Args:
-        cost_multiplier: (DEFAULT: 1e-6) Initial cost multiplier.
         noise: (DEFAULT: True) If set, injects noise (when queries > 0).
         cycle: (DEFAULT: 1000) Indicates how long a given cycle last.
     """
 
     def __init__(
-        self, cost_multiplier: float = 1e-6, cycle: int = 1000, noise: bool = True
+        self, cycle: int = 1000, noise: bool = True
     ) -> None:
         # Call parent class constructor.
-        super().__init__(cost_multiplier)
+        super().__init__()
 
         # Set noise flag.
         self._noise = noise
