@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
             # Add new list to image container.
             image_container.append([im_env])
-            legend_container.append(["Environment Queries/s"])
+            legend_container.append(["Environment: total q/s"])
 
         # Execute actions for all agents.
         scaled_bids = []
@@ -91,12 +91,13 @@ if __name__ == "__main__":
             run(environment.set_cost_multiplier(scaled_bids[agent_id], agent_id=agent_id))
 
         # Get observations for all agents.
+        queries_per_second = []
         for agent_id in range(args.number):
             # 3. Get the rewards.
             # Get queries per second for a given .
-            queries_per_second = run(environment.queries_per_second(agent_id=agent_id))
+            queries_per_second.append(run(environment.queries_per_second(agent_id=agent_id)))
             # Turn it into "monies".
-            monies_per_second = queries_per_second * scaled_bids[agent_id]
+            monies_per_second = queries_per_second[agent_id] * scaled_bids[agent_id]
             # Add reward.
             bandits[agent_id].add_reward(monies_per_second)
 
@@ -110,7 +111,7 @@ if __name__ == "__main__":
                     bandits[agent_id].logstddev.detach(),
                     )
 
-                print(f"Agent {agent_id} observation: ", queries_per_second)
+                print(f"Agent {agent_id} observation: ", queries_per_second[agent_id])
             loss = bandits[agent_id].update_policy()
 
 
@@ -120,16 +121,23 @@ if __name__ == "__main__":
                 agent_x, agent_y, init_agent_y = run(
                     bandits[agent_id].generate_plot_data(min_x, max_x)
                 )
-                (img_agent,) = plt.plot(agent_x, agent_y, color=agent_colors[agent_id % len(agent_colors)])
+                agent_color = agent_colors[agent_id % len(agent_colors)]
+                (img_agent,) = plt.plot(agent_x, agent_y, color=agent_color)
                 #(img_init_agent,) = plt.plot(agent_x, init_agent_y, color="g")
 
                 # Add image to last list in container.
                 image_container[-1].append(img_agent)
-                legend_container[-1].append(f"Agent {agent_id} Policy (PDF)")
+                legend_container[-1].append(f"Agent {agent_id}: policy (PDF)")
+                
+                # Agent q/s.
+                agent_qps_x = min(max_x, max(min_x, scaled_bids[agent_id]))
+                img_agent_qps = plt.scatter([agent_qps_x], [queries_per_second[agent_id]], marker="o", color=agent_color)
+                image_container[-1].append(img_agent_qps)
+                legend_container[-1].append(f"Agent {agent_id}: action => q/s")
 
 
             # Generate labels & title.
-            ax.set_xlabel("price multiplier")
+            ax.set_xlabel("Price multiplier")
             # ax.set_ylabel('queries/s ')
             title = ax.text(
                 0.5,
