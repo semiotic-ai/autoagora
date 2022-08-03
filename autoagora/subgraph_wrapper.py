@@ -10,7 +10,7 @@ from autoagora.query_metrics import subgraph_query_count
 
 
 class SubgraphWrapper:
-    GATEWAY_DELAY = 30
+    GATEWAY_DELAY = 60
 
     def __init__(self, subgraph) -> None:
         self.subgraph = subgraph
