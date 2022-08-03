@@ -55,18 +55,29 @@ class NoisySharedSubgraph(SimulatedSubgraph):
         Args:
             agent_id (int, DEFAULT: 0): Id of the agent (indexer).
         """
-        # Assign query number inversely proportional to cost multipliers. 
-        inv_cost_multipliers = [1/cm if cm > 0 else 0 for cm in self._cost_multipliers]
-        
+        # Assign query number inversely proportional to cost multipliers.
+        inv_cost_multipliers = [
+            1 / cm if cm > 0 else 0 for cm in self._cost_multipliers
+        ]
+
         # Only agents that set multiplier below the threshold will receive any queries.
-        under_threshold = [1 if cm < self._cost_multiplier_threshold else 0 for cm in self._cost_multipliers]
+        under_threshold = [
+            1 if cm < self._cost_multiplier_threshold else 0
+            for cm in self._cost_multipliers
+        ]
 
         # Calculate the proportion for all agents.
-        volume_proportion = self.softmax([i * t for i, t in zip(inv_cost_multipliers, under_threshold)])
+        volume_proportion = self.softmax(
+            [i * t for i, t in zip(inv_cost_multipliers, under_threshold)]
+        )
 
         # Calculate qps for a given agent - and once again consider threshold.
-        queries_per_second = volume_proportion[agent_id] * under_threshold[agent_id] * self._total_query_volume 
-        
+        queries_per_second = (
+            volume_proportion[agent_id]
+            * under_threshold[agent_id]
+            * self._total_query_volume
+        )
+
         return queries_per_second
 
     def step(self, number_of_steps: int = 1):
@@ -76,11 +87,10 @@ class NoisySharedSubgraph(SimulatedSubgraph):
             step_size: (DEFAULT: 1) Number of steps to perform.
         """
         self._step += number_of_steps
-        
+
         # Different noise => total query volume at every step.
         if self._noise:
             self._total_query_volume = 1 + np.random.normal() / 20
-
 
     async def generate_plot_data(
         self, min_x: float, max_x: float, num_points: int = 100
@@ -96,7 +106,7 @@ class NoisySharedSubgraph(SimulatedSubgraph):
             ([x1, x2, ...], [y1, y2, ...]): Tuple of lists of x and y.
         """
         # Calculate point somewhere in the center - but transformed to agent's scale! :]
-        med_x = exp( (min_x + max_x) / 2 ) * 1e-6
+        med_x = exp((min_x + max_x) / 2) * 1e-6
         x = [min_x, med_x, med_x, max_x]
         y = [self._total_query_volume, self._total_query_volume, 0, 0]
 

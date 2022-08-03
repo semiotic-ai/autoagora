@@ -165,9 +165,7 @@ class NoisyCyclicQueriesSubgraph(SimulatedSubgraph):
         noise: (DEFAULT: True) If set, injects noise.
     """
 
-    def __init__(
-        self,cycle: int = 1000, noise: bool = True
-    ) -> None:
+    def __init__(self, cycle: int = 1000, noise: bool = True) -> None:
         # Call parent class constructor.
         super().__init__()
 
@@ -218,9 +216,7 @@ class NoisyCyclicZeroQueriesSubgraph(SimulatedSubgraph):
         noise: (DEFAULT: True) If set, injects noise (when queries > 0).
     """
 
-    def __init__(
-        self, cycle: int = 1000, noise: bool = True
-    ) -> None:
+    def __init__(self, cycle: int = 1000, noise: bool = True) -> None:
         # Call parent class constructor.
         super().__init__()
 
@@ -271,9 +267,7 @@ class NoisyDynamicQueriesSubgraph(SimulatedSubgraph):
         cycle: (DEFAULT: 1000) Indicates how long a given cycle last.
     """
 
-    def __init__(
-        self, cycle: int = 1000, noise: bool = True
-    ) -> None:
+    def __init__(self, cycle: int = 1000, noise: bool = True) -> None:
         # Call parent class constructor.
         super().__init__()
 
