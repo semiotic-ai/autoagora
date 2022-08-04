@@ -116,6 +116,7 @@ class NoisyCyclicQueriesSubgraph(SimulatedSubgraph):
 
     Args:
         cost_multiplier: (DEFAULT: 1e-6) Initial cost multiplier.
+        cycle: (DEFAULT: 1000) Indicates how long a given cycle last.
         noise: (DEFAULT: True) If set, injects noise.
     """
 
@@ -159,3 +160,127 @@ class NoisyCyclicQueriesSubgraph(SimulatedSubgraph):
             queries_per_second *= 1 + noise
 
         return queries_per_second
+
+
+class NoisyCyclicZeroQueriesSubgraph(SimulatedSubgraph):
+    """A simple environment simulating subgraph with that for part of the cycle is not serving queries (queries per second = 0).
+
+    Args:
+        cost_multiplier: (DEFAULT: 1e-6) Initial cost multiplier.
+        cycle: (DEFAULT: 1000) Indicates how long a given cycle last.
+        noise: (DEFAULT: True) If set, injects noise (when queries > 0).
+    """
+
+    def __init__(
+        self, cost_multiplier: float = 1e-6, cycle: int = 1000, noise: bool = True
+    ) -> None:
+        # Set initial cost muptiplier.
+        self._cost_multiplier = cost_multiplier
+        # Reset step counter.
+        self._step = 0
+        # Set noise flag.
+        self._noise = noise
+        # Remember cycle.
+        self._cycle = cycle
+
+    def __str__(self):
+        """
+        Return:
+            String describing the class and highlighting of its main params.
+        """
+        return f"{self.__class__.__name__}(noise={self._noise}.cycle={self._cycle})"
+
+    async def queries_per_second(self):
+        """Returns noisy number of queries depending on the environment step."""
+        compress = 1e7
+
+        # Non-stationary, cyclic environment.
+        if (self._step // self._cycle) % 2 == 1:
+            queries_per_second = 0
+        else:
+            shift = 3e8
+
+            # Calculate basic value.
+            queries_per_second = 1 - self.sigmoid(
+                self._cost_multiplier * compress - shift / compress
+            )
+
+            # Add noise level.
+            if self._noise:
+                noise = np.random.normal() / 20
+                queries_per_second *= 1 + noise
+
+        return queries_per_second
+
+
+class NoisyDynamicQueriesSubgraph(SimulatedSubgraph):
+    """Environment simulating subgraph with variable number of queries changing at every cycle, with cycles where queries are not served at all (queries per second = 0).
+
+    Args:
+        cost_multiplier: (DEFAULT: 1e-6) Initial cost multiplier.
+        noise: (DEFAULT: True) If set, injects noise (when queries > 0).
+        cycle: (DEFAULT: 1000) Indicates how long a given cycle last.
+    """
+
+    def __init__(
+        self, cost_multiplier: float = 1e-6, cycle: int = 1000, noise: bool = True
+    ) -> None:
+        # Set initial cost muptiplier.
+        self._cost_multiplier = cost_multiplier
+        # Reset step counter.
+        self._step = 0
+        # Set noise flag.
+        self._noise = noise
+        # Remember cycle.
+        self._cycle = cycle
+        # Set initial queries per second.
+        self.base_shift = self._sample_shift()
+
+    def _sample_shift(self):
+        """Sets the base q/s depending on the step.
+
+        Returns:
+            Base q/s.
+        """
+        # Sample multiplier.
+        return np.random.ranf() * 5.0
+
+    def __str__(self):
+        """
+        Return:
+            String describing the class and highlighting of its main params.
+        """
+        return f"{self.__class__.__name__}(noise={self._noise}.cycle={self._cycle})"
+
+    async def queries_per_second(self):
+        """Returns noisy number of queries."""
+
+        # 20% chance for no queries in a given cycle.
+        if self.base_shift < 1.0:
+            return 0
+
+        else:
+            shift = 1e8
+            compress = 1e7
+            # Calculate basic q/s.
+            queries_per_second = 1 - self.sigmoid(
+                self._cost_multiplier * compress - self.base_shift * shift / compress
+            )
+
+        # Add noise level - at each step.
+        if self._noise:
+            noise = np.random.normal() / 20
+            queries_per_second *= 1 + noise
+
+        return queries_per_second
+
+    def step(self, number_of_steps: int = 1):
+        """Executes step of the environment.
+
+        Args:
+            step_size: (DEFAULT: 1) Number of steps to perform.
+        """
+        self._step += number_of_steps
+        # Dynamic environment, changes every cycle.
+        if (self._step % self._cycle) == 0:
+            self.base_shift = self._sample_shift()
