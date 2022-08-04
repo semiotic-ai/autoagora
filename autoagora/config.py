@@ -16,7 +16,7 @@ class _Args(configargparse.Namespace):
 args = _Args()
 
 
-def init_config(argv=Optional[Sequence[str]]):
+def init_config(argv: Optional[Sequence[str]] = None):
     """Parses the arguments from the global argument parser and sets logging config.
 
     To add arguments, simply add them to the global argument parser from any module, as
