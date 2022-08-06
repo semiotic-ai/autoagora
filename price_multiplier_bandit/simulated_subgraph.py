@@ -244,7 +244,7 @@ class NoisyCyclicZeroQueriesSubgraph(SimulatedSubgraph):
         if (self._step // self._cycle) % 2 == 1:
             queries_per_second = 0
         else:
-            shift = 1e8
+            shift = 3e8
 
             # Calculate basic value.
             queries_per_second = 1 - self.sigmoid(
