@@ -48,3 +48,27 @@ class TestSharedSubgraph:
 
             # Check that the agent's cumulative QPS is equal to the environment's total
             assert np.isclose(queries_sum, total_query_volume)
+
+    @pytest.mark.unit
+    @pytest.mark.parametrize("cost_multiplier_threshold", [1.234e-7, 1e-6, 4.126e-5])
+    @pytest.mark.parametrize("agent_cost_multiplier", [2.345e-8, 1e-6, 6.234e-5])
+    def test_no_queries_above_threshold(
+        self, cost_multiplier_threshold: float, agent_cost_multiplier: float
+    ):
+        env = NoisySharedSubgraph(cost_multiplier_threshold=cost_multiplier_threshold)
+
+        for _ in range(2):
+            # Set the agent's cost multiplier
+            run(env.set_cost_multiplier(agent_cost_multiplier))
+
+            # Step the environment
+            env.step()
+
+            # Check that the agent's QPS is 0 is above the theshold, or the
+            # environment's total query volume if under the threshold.
+            agent_qps = run(env.queries_per_second())
+            env_qps = env._total_query_volume
+            if agent_cost_multiplier < cost_multiplier_threshold:
+                assert np.isclose(agent_qps, env_qps)
+            else:
+                assert np.isclose(agent_qps, 0)
