@@ -22,7 +22,7 @@ def add_experiment_argparse(parser: argparse.ArgumentParser):
         "--iterations",
         default=3000,
         type=int,
-        help="Sets the length of the experiment / number of args.iterations (DEFAULT: 3000)",
+        help="Sets the length of the experiment / number of iterations (DEFAULT: 3000)",
     )
     parser.add_argument(
         "-f",
@@ -42,7 +42,7 @@ def add_experiment_argparse(parser: argparse.ArgumentParser):
 async def main():
     # Init argparse.
     parser = argparse.ArgumentParser(
-        usage="%(prog)s [-e ...] [-n ...] [--show] [--save]",
+        usage="%(prog)s [-e ...] [-i ...] [--show] [--save]",
         description="Runs subgraph simulation and (optionally) shows it and/or saves it to a file.",
     )
     add_experiment_argparse(parser=parser)
@@ -61,22 +61,16 @@ async def main():
     # X axis.
     min_x = 1e-10
     max_x = 1e-5
-    x = np.linspace(min_x, max_x, 100)
 
     print(f"Generating {environment}. Please wait...")
     for i in range(args.iterations // args.fast_forward_factor):
-        y = []
-        for val in x:
-            # Set cost multiplier.
-            await environment.set_cost_multiplier(val)
-            # Get observations, i.e. queries per second.
-            y.append(await environment.queries_per_second())
 
-        # Plot both.
-        (im,) = plt.plot(x, y, color="r")
+        # Plot environment.
+        x, y = await environment.generate_plot_data(min_x, max_x)
+        (im,) = plt.plot(x, y, color="grey")
 
-        ax.set_xlabel("price multiplier")
-        ax.set_ylabel("queries/second")
+        ax.set_xlabel("Price multiplier")
+        ax.set_ylabel("Queries/second")
         title = ax.text(
             0.5,
             1.05,

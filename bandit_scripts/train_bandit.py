@@ -23,7 +23,7 @@ def add_experiment_argparse(parser: argparse.ArgumentParser):
         "--iterations",
         default=3500,
         type=int,
-        help="Sets the length of the experiment / number of args.iterations (DEFAULT: 3000)",
+        help="Sets the length of the experiment / number of iterations (DEFAULT: 3500)",
     )
 
 
