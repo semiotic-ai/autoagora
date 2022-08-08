@@ -4,6 +4,7 @@
 import argparse
 from typing import Union
 
+from price_multiplier_bandit.shared_subgraph import NoisySharedSubgraph
 from price_multiplier_bandit.simulated_subgraph import (
     NoisyCyclicQueriesSubgraph,
     NoisyCyclicZeroQueriesSubgraph,
@@ -24,6 +25,9 @@ _ENVIRONMENT_TYPES = {
     "NoisyDynamicQueriesSubgraph": NoisyDynamicQueriesSubgraph,
     "dynamic": NoisyDynamicQueriesSubgraph,
     "noisy_dynamic": NoisyDynamicQueriesSubgraph,
+    "NoisySharedSubgraph": NoisySharedSubgraph,
+    "noisy_shared": NoisySharedSubgraph,
+    "shared": NoisySharedSubgraph,
 }
 
 

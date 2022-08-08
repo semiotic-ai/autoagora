@@ -2,8 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from math import exp, log
-from typing import Union, overload
+from typing import Optional, Union, overload
 
+import numpy as np
+import scipy.stats as stats
 import torch
 from torch import distributions, nn
 
@@ -74,13 +76,6 @@ class ContinuousActionBandit(Agent):
 
     def get_action(self):
         """Calls get_bids() and scale() to return scaled value."""
-        print("self.reward_buffer = ", self.reward_buffer)
-        print(
-            "self.mean = ",
-            self.mean.detach(),
-            " self.logstddev = ",
-            self.logstddev.detach(),
-        )
         bid = self.get_bids()
         scaled_bid = self.scale(bid)
         return scaled_bid
@@ -100,10 +95,10 @@ class ContinuousActionBandit(Agent):
         """Scales the value."""
         if isinstance(x, float):
             try:
-                print(f"x = {x}  => exp(x) * 1e-6 = {exp(x) * 1e-6}")
+                # print(f"x = {x}  => exp(x) * 1e-6 = {exp(x) * 1e-6}")
                 return exp(x) * 1e-6
             except OverflowError:
-                print(f"!! OverflowError in exp(x) * 1e-6 for x = {x}!!")
+                # print(f"!! OverflowError in exp(x) * 1e-6 for x = {x}!!")
                 exit(-1)
         elif isinstance(x, torch.Tensor):
             return x.exp() * 1e-6
@@ -174,6 +169,44 @@ class ContinuousActionBandit(Agent):
         """Clears the experience buffer."""
         self.action_buffer = []
         self.reward_buffer = []
+
+    async def generate_plot_data(
+        self, min_x: float, max_x: float, num_points: int = 200
+    ):
+        """Generates action distribution for a given cost multiplier range.
+
+        Args:
+            min_x (float): Lower bound cost multiplier.
+            max_x (float): Upper bound cost multiplier.
+            num_points (int, optional): Number of points. Defaults to 200.
+
+        Returns:
+            ([x1, x2, ...], [y1, y2, ...], [iy1, iy2, ...]): Triplet of lists of x, y (current policy PDF) and iy (init policy PDF).
+        """
+
+        # Rescale x.
+        # agent_min_x = self.inv_scale(min_x)
+        # agent_max_x = self.inv_scale(max_x)
+
+        # Prepare "scaled" and "unscaled" x.
+        # agent_x = np.linspace(agent_min_x, agent_max_x, 200)
+        # agent_x_scaled = [self.scale(x) for x in agent_x]
+
+        agent_x_scaled = np.linspace(min_x, max_x, 200)
+        agent_x = [self.inv_scale(x) for x in agent_x_scaled]
+
+        # Get agent's PDF for "unscaled" x.
+        policy_mean = self.mean.detach().numpy()
+        policy_stddev = self.logstddev.exp().detach().numpy()
+        policy_y = stats.norm.pdf(agent_x, policy_mean, policy_stddev) * policy_stddev
+
+        # Get agent's init PDF for "unscaled" x.
+        init_mean = self._initial_mean.detach().numpy()
+        init_stddev = self._initial_logstddev.exp().detach().numpy()
+        init_y = stats.norm.pdf(agent_x, init_mean, init_stddev) * init_stddev
+
+        # Return x, y and iy.
+        return agent_x_scaled, policy_y, init_y
 
 
 class VanillaPolicyGradientBandit(ContinuousActionBandit):
