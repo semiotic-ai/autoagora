@@ -19,7 +19,7 @@ class NoisySharedSubgraph(SimulatedSubgraph):
     """
 
     def __init__(
-        self, cost_multiplier_threshold: float = 1e-6, noise: bool = True
+        self, cost_multiplier_threshold: float = 2e-6, noise: bool = True
     ) -> None:
         # Call parent class constructor.
         super().__init__()
@@ -105,9 +105,7 @@ class NoisySharedSubgraph(SimulatedSubgraph):
         Returns:
             ([x1, x2, ...], [y1, y2, ...]): Tuple of lists of x and y.
         """
-        # Calculate point somewhere in the center - but transformed to agent's scale! :]
-        med_x = exp((min_x + max_x) / 2) * 1e-6
-        x = [min_x, med_x, med_x, max_x]
+        x = [min_x, self._cost_multiplier_threshold, self._cost_multiplier_threshold, max_x]
         y = [self._total_query_volume, self._total_query_volume, 0, 0]
 
         # Return x and y.
