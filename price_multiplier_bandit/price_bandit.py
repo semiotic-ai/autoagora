@@ -317,7 +317,7 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
         if orig_log_prob is None:
             orig_log_prob = dist.log_prob(torch.Tensor(self.action_buffer)).detach()
         else:
-            orig_log_prob = torch.Tensor(orig_log_prob)
+            orig_log_prob = torch.Tensor(orig_log_prob).detach()
 
         for _ in range(self.ppo_iterations):
             # Get log prob of bids coming from normal distribution
@@ -340,13 +340,16 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
             l1_loss_mean = torch.nn.L1Loss()(self.mean, self._initial_mean) * 1e-3
 
             # Calculate the final loss.
-            loss = ppo_loss + self.entropy_coeff * entropy_loss
+            loss = (
+                ppo_loss
+                + self.entropy_coeff * entropy_loss
+                + l1_loss_mean
+                + l1_loss_logstd
+            )
 
             # Optimize the model parameters.
             self.optimizer.zero_grad()
             loss.mean().backward()
-            l1_loss_logstd.mean().backward()
-            l1_loss_mean.mean().backward()
             self.optimizer.step()
 
         return loss.mean().item()  # type: ignore
