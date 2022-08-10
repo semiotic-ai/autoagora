@@ -105,7 +105,12 @@ class NoisySharedSubgraph(SimulatedSubgraph):
         Returns:
             ([x1, x2, ...], [y1, y2, ...]): Tuple of lists of x and y.
         """
-        x = [min_x, self._cost_multiplier_threshold, self._cost_multiplier_threshold, max_x]
+        x = [
+            min_x,
+            self._cost_multiplier_threshold,
+            self._cost_multiplier_threshold,
+            max_x,
+        ]
         y = [self._total_query_volume, self._total_query_volume, 0, 0]
 
         # Return x and y.
