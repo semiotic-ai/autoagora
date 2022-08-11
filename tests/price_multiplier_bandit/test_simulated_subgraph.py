@@ -6,7 +6,7 @@ from typing import Type
 
 import pytest
 
-from price_multiplier_bandit.simulated_subgraph import (
+from environments.simulated_subgraph import (
     NoisyCyclicQueriesSubgraph,
     NoisyQueriesSubgraph,
     SimulatedSubgraph,

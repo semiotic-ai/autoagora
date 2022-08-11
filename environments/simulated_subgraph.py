@@ -7,7 +7,7 @@ from math import exp
 
 import numpy as np
 
-from price_multiplier_bandit.environment import Environment
+from environments.environment import Environment
 
 
 class SimulatedSubgraph(Environment):

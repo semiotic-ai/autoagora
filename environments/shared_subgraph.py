@@ -7,7 +7,7 @@ from math import exp
 
 import numpy as np
 
-from price_multiplier_bandit.simulated_subgraph import SimulatedSubgraph
+from environments.simulated_subgraph import SimulatedSubgraph
 
 
 class NoisySharedSubgraph(SimulatedSubgraph):

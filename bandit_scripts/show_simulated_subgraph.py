@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from anyio import run
 
-from price_multiplier_bandit.environment_factory import (
+from environments.environment_factory import (
     EnvironmentFactory,
     add_environment_argparse,
 )

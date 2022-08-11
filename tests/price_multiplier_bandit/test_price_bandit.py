@@ -8,8 +8,8 @@ import numpy
 import pytest
 import torch
 
-from price_multiplier_bandit.price_bandit import (
-    ContinuousActionBandit,
+from agents.continuous_action_bandit import ContinuousActionBandit
+from agents.reinforcement_learning_bandit import (
     ProximalPolicyOptimizationBandit,
     RollingMemContinuousBandit,
     VanillaPolicyGradientBandit,

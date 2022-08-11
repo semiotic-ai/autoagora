@@ -4,7 +4,7 @@ Environments API (Python)
 
 Environment
 -----------
-.. autoclass:: price_multiplier_bandit.environment.Environment
+.. autoclass:: environments.environment.Environment
    :members:
    :undoc-members:
    :show-inheritance:
@@ -13,7 +13,7 @@ Environment
 
 SimulatedSubgraph
 -----------------
-.. autoclass:: price_multiplier_bandit.simulated_subgraph.SimulatedSubgraph
+.. autoclass:: environments.simulated_subgraph.SimulatedSubgraph
    :members:
    :undoc-members:
    :show-inheritance:
@@ -21,7 +21,7 @@ SimulatedSubgraph
 
 NoisyQueriesSubgraph
 --------------------
-.. autoclass:: price_multiplier_bandit.simulated_subgraph.NoisyQueriesSubgraph
+.. autoclass:: environments.simulated_subgraph.NoisyQueriesSubgraph
    :members:
    :undoc-members:
    :show-inheritance:
@@ -29,7 +29,15 @@ NoisyQueriesSubgraph
 
 NoisyCyclicQueriesSubgraph
 --------------------------
-.. autoclass:: price_multiplier_bandit.simulated_subgraph.NoisyCyclicQueriesSubgraph
+.. autoclass:: environments.simulated_subgraph.NoisyCyclicQueriesSubgraph
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+NoisySharedSubgraph
+--------------------------
+.. autoclass:: environments.shared_subgraph.NoisySharedSubgraph
    :members:
    :undoc-members:
    :show-inheritance:
