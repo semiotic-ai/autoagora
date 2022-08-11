@@ -2,21 +2,24 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import argparse
-from pydoc import describe
 
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
-import numpy as np
 from anyio import run
 
-from environments.environment_factory import (
-    EnvironmentFactory,
-    add_environment_argparse,
-)
+from environments.environment_factory import add_environment_argparse
+from simulation.controller import init_simulation
 
 
 def add_experiment_argparse(parser: argparse.ArgumentParser):
     """Adds argparse arguments related to experiment to parser."""
+    parser.add_argument(
+        "-c",
+        "--config",
+        default="simulation/configs/3different_agents_noisy_cyclic.json",
+        type=str,
+        help="Sets the config file (DEFAULT: simulation/configs/3different_agents_noisy_cyclic.json)",
+    )
     parser.add_argument(
         "-i",
         "--iterations",
@@ -42,17 +45,16 @@ def add_experiment_argparse(parser: argparse.ArgumentParser):
 async def main():
     # Init argparse.
     parser = argparse.ArgumentParser(
-        usage="%(prog)s [-e ...] [-i ...] [--show] [--save]",
+        usage="%(prog)s [-c ...] [-e ...] [-i ...] [--show] [--save]",
         description="Runs subgraph simulation and (optionally) shows it and/or saves it to a file.",
     )
     add_experiment_argparse(parser=parser)
     add_environment_argparse(parser=parser)
 
-    # Parse arguments
-    args = parser.parse_args()
+    # Initialize the simulation.
+    args, environment, _ = init_simulation(parser=parser)
 
-    # Instantiate environment.
-    environment = EnvironmentFactory(environment_type=args.environment)
+    # Generate the filename.
     FILENAME = f"{environment}.mp4"
 
     fig, ax = plt.subplots()

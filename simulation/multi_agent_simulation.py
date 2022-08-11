@@ -9,55 +9,34 @@ import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 from matplotlib import colors
 
-from agents.agent_factory import AgentFactory, add_agent_argparse
-from bandit_scripts.show_bandit import (
+from agents.agent_factory import add_agent_argparse
+from environments.environment_factory import add_environment_argparse
+from simulation.controller import init_simulation
+from simulation.show_bandit import (
     add_experiment_argparse as single_agent_add_experiment_parse,
-)
-from environments.environment_factory import (
-    EnvironmentFactory,
-    add_environment_argparse,
 )
 
 
 def add_experiment_argparse(parser: argparse.ArgumentParser):
     """Adds argparse arguments related to experiment to parser."""
     single_agent_add_experiment_parse(parser=parser)
-    parser.add_argument(
-        "-n",
-        "--number",
-        default=5,
-        type=int,
-        help="Sets the number of agents (DEFAULT: 5)",
-    )
 
 
 if __name__ == "__main__":
     # Init argparse.
     parser = argparse.ArgumentParser(
-        usage="%(prog)s [-a ...] [-e ...] [-i ...] [--show] [--save]",
-        description="Runs agent simulation and (optionally) shows it and/or saves it to a file.",
+        usage="%(prog)s [-c ...] [-e ...] [-i ...] [--show] [--save]",
+        description="Runs multi-agent simulation and (optionally) shows it and/or saves it to a file.",
     )
     add_experiment_argparse(parser=parser)
     add_agent_argparse(parser=parser)
     add_environment_argparse(parser=parser)
-    # Parse arguments
-    args = parser.parse_args()
 
-    # Instantiate the agent.
-    bandits = [
-        AgentFactory(
-            agent_type=args.agent,
-            learning_rate=args.learning_rate,
-            buffer_max_size=args.buffer_size,
-        )
-        for _ in range(args.number)
-    ]
-
-    # Instantiate the environment.
-    environment = EnvironmentFactory(environment_type=args.environment)
+    # Initialize the simulation.
+    args, environment, agents = init_simulation(parser=parser)
 
     # Generate the filename.
-    FILENAME = f"{args.number}x{bandits[0]}_{environment}.mp4"
+    FILENAME = f"{args.config}.mp4"
 
     fig, ax = plt.subplots()
 
@@ -72,7 +51,7 @@ if __name__ == "__main__":
         colors.to_rgba(c) for c in plt.rcParams["axes.prop_cycle"].by_key()["color"]
     ]
 
-    print(f"Training {args.number} x {bandits[0]} on {environment}. Please wait...")
+    print(f"Training {len(agents)} x agents on {environment}. Please wait...")
     for i in range(args.iterations):
         print("=" * 20, f" step {i} ", "=" * 20)
 
@@ -88,9 +67,9 @@ if __name__ == "__main__":
 
         # Execute actions for all agents.
         scaled_bids = []
-        for agent_id in range(args.number):
+        for agent_id, (agent_name, agent) in enumerate(agents.items()):
             # 1. Get bid from the agent (action)
-            scaled_bids.append(bandits[agent_id].get_action())
+            scaled_bids.append(agent.get_action())
             if agent_id == 0:
                 print(f"Agent {agent_id} action: ", scaled_bids[agent_id])
 
@@ -103,7 +82,7 @@ if __name__ == "__main__":
 
         # Get observations for all agents.
         queries_per_second = []
-        for agent_id in range(args.number):
+        for agent_id, (agent_name, agent) in enumerate(agents.items()):
             # 3. Get the rewards.
             # Get queries per second for a given .
             queries_per_second.append(
@@ -112,29 +91,29 @@ if __name__ == "__main__":
             # Turn it into "monies".
             monies_per_second = queries_per_second[agent_id] * scaled_bids[agent_id]
             # Add reward.
-            bandits[agent_id].add_reward(monies_per_second)
+            agent.add_reward(monies_per_second)
 
             # 4. Update the policy.
             if agent_id == 0:
                 print(
                     f"Agent {agent_id} reward_buffer = ",
-                    bandits[agent_id].reward_buffer,
+                    agent.reward_buffer,
                 )
                 print(
                     f"Agent {agent_id} mean = ",
-                    bandits[agent_id].mean.detach(),
+                    agent.mean.detach(),
                     f"Agent {agent_id} logstddev = ",
-                    bandits[agent_id].logstddev.detach(),
+                    agent.logstddev.detach(),
                 )
 
                 print(f"Agent {agent_id} observation: ", queries_per_second[agent_id])
-            loss = bandits[agent_id].update_policy()
+            loss = agent.update_policy()
 
         # X. Collect the values for visualization of agent's gaussian policy.
         if i % args.fast_forward_factor == 0:
-            for agent_id in range(args.number):
+            for agent_id, (agent_name, agent) in enumerate(agents.items()):
                 agent_x, agent_y, init_agent_y = run(
-                    bandits[agent_id].generate_plot_data(min_x, max_x)
+                    agent.generate_plot_data(min_x, max_x)
                 )
                 agent_color = agent_colors[agent_id % len(agent_colors)]
                 (img_agent,) = plt.plot(agent_x, agent_y, color=agent_color)
@@ -142,7 +121,7 @@ if __name__ == "__main__":
 
                 # Add image to last list in container.
                 image_container[-1].append(img_agent)
-                legend_container[-1].append(f"Agent {agent_id}: policy (PDF)")
+                legend_container[-1].append(f"Agent {agent_name}: policy (PDF)")
 
                 # Agent q/s.
                 agent_qps_x = min(max_x, max(min_x, scaled_bids[agent_id]))
@@ -153,7 +132,7 @@ if __name__ == "__main__":
                     color=agent_color,
                 )
                 image_container[-1].append(img_agent_qps)
-                legend_container[-1].append(f"Agent {agent_id}: action => q/s")
+                legend_container[-1].append(f"Agent {agent_name}: action => q/s")
 
             # Generate labels & title.
             ax.set_xlabel("Price multiplier")
