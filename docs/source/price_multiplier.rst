@@ -8,4 +8,4 @@ Price Multiplier
 
    environments
 
-   bandit_scripts.rst
+   bandit_scripts

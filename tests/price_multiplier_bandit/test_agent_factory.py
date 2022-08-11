@@ -3,8 +3,8 @@
 
 import pytest
 
-from price_multiplier_bandit.agent_factory import AgentFactory
-from price_multiplier_bandit.price_bandit import (
+from agents.agent_factory import AgentFactory
+from agents.reinforcement_learning_bandit import (
     ContinuousActionBandit,
     ProximalPolicyOptimizationBandit,
     RollingMemContinuousBandit,

@@ -5,8 +5,8 @@ import logging
 
 from prometheus_client import Gauge
 
+from agents.reinforcement_learning_bandit import RollingMemContinuousBandit
 from autoagora.subgraph_wrapper import SubgraphWrapper
-from price_multiplier_bandit.price_bandit import RollingMemContinuousBandit
 
 reward_gauge = Gauge(
     "bandit_reward",

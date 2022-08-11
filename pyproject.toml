@@ -15,7 +15,8 @@ classifiers = [
 ]
 packages = [
     { include = "autoagora" },
-    { include = "price_multiplier_bandit" },
+    { include = "agents" },
+    { include = "environments" },
 ]
 
 [tool.poetry.scripts]

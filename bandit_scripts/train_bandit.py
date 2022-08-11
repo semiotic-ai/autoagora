@@ -9,8 +9,8 @@ import numpy as np
 from anyio import run
 from torch.utils.tensorboard.writer import SummaryWriter
 
-from price_multiplier_bandit.agent_factory import AgentFactory, add_agent_argparse
-from price_multiplier_bandit.environment_factory import (
+from agents.agent_factory import AgentFactory, add_agent_argparse
+from environments.environment_factory import (
     EnvironmentFactory,
     add_environment_argparse,
 )

@@ -3,7 +3,7 @@ Agents API (Python)
 
 Agent
 -----
-.. autoclass:: price_multiplier_bandit.agent.Agent
+.. autoclass:: agents.agent.Agent
    :members:
    :undoc-members:
    :show-inheritance:
@@ -11,7 +11,7 @@ Agent
 
 ContinuousActionBandit
 ----------------------
-.. autoclass:: price_multiplier_bandit.price_bandit.ContinuousActionBandit
+.. autoclass:: agents.continuous_action_bandit.ContinuousActionBandit
    :members:
    :undoc-members:
    :show-inheritance:
@@ -19,7 +19,7 @@ ContinuousActionBandit
 
 VanillaPolicyGradientBandit
 ---------------------------
-.. autoclass:: price_multiplier_bandit.price_bandit.VanillaPolicyGradientBandit
+.. autoclass:: agents.reinforcement_learning_bandit.VanillaPolicyGradientBandit
    :members:
    :undoc-members:
    :show-inheritance:
@@ -27,7 +27,7 @@ VanillaPolicyGradientBandit
 
 ProximalPolicyOptimizationBandit
 --------------------------------
-.. autoclass:: price_multiplier_bandit.price_bandit.ProximalPolicyOptimizationBandit
+.. autoclass:: agents.reinforcement_learning_bandit.ProximalPolicyOptimizationBandit
    :members:
    :undoc-members:
    :show-inheritance:
@@ -35,7 +35,7 @@ ProximalPolicyOptimizationBandit
 
 RollingMemContinuousBandit
 --------------------------
-.. autoclass:: price_multiplier_bandit.price_bandit.RollingMemContinuousBandit
+.. autoclass:: agents.reinforcement_learning_bandit.RollingMemContinuousBandit
    :members:
    :undoc-members:
    :show-inheritance:
