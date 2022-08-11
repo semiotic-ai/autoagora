@@ -9,11 +9,11 @@ import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 from matplotlib import colors
 
+from agents.agent_factory import AgentFactory, add_agent_argparse
 from bandit_scripts.show_bandit import (
     add_experiment_argparse as single_agent_add_experiment_parse,
 )
-from price_multiplier_bandit.agent_factory import AgentFactory, add_agent_argparse
-from price_multiplier_bandit.environment_factory import (
+from environments.environment_factory import (
     EnvironmentFactory,
     add_environment_argparse,
 )

@@ -9,7 +9,8 @@ import scipy.stats as stats
 import torch
 from torch import distributions, nn
 
-from price_multiplier_bandit.agent import Agent
+from agents.agent import Agent
+
 
 class ContinuousActionBandit(Agent):
     """Abstract bandit class with continuous action space represented as a gausian.

@@ -3,8 +3,8 @@
 
 import pytest
 
-from price_multiplier_bandit.environment_factory import EnvironmentFactory
-from price_multiplier_bandit.simulated_subgraph import (
+from environments.environment_factory import EnvironmentFactory
+from environments.simulated_subgraph import (
     Environment,
     NoisyCyclicQueriesSubgraph,
     NoisyQueriesSubgraph,

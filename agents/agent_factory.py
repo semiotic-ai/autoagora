@@ -4,7 +4,7 @@
 import argparse
 from typing import Union
 
-from price_multiplier_bandit.price_bandit import (
+from agents.reinforcement_learning_bandit import (
     ProximalPolicyOptimizationBandit,
     RollingMemContinuousBandit,
     VanillaPolicyGradientBandit,

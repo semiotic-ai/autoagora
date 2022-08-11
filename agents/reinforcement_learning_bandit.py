@@ -3,7 +3,8 @@
 
 import torch
 
-from price_multiplier_bandit.continuous_action_bandit import ContinuousActionBandit
+from agents.continuous_action_bandit import ContinuousActionBandit
+
 
 class VanillaPolicyGradientBandit(ContinuousActionBandit):
     """Bandit with continuous action space using vanilla policy gradients to optimize its policy."""

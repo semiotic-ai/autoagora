@@ -7,7 +7,7 @@ from typing import Sequence
 import numpy as np
 import pytest
 
-from price_multiplier_bandit.shared_subgraph import NoisySharedSubgraph
+from environments.shared_subgraph import NoisySharedSubgraph
 
 
 class TestSharedSubgraph:
