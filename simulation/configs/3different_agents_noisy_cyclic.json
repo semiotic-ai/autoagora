@@ -1,0 +1,34 @@
+{
+    "agents": {
+        "vpg1": {
+            "VanillaPolicyGradientBandit": {
+                "learning_rate": 0.01,
+                "initial_mean": 0.0,
+                "initial_logstddev": 0.4,
+                "buffer_max_size": 10
+            }
+        },
+        "ppo1": {
+            "ProximalPolicyOptimizationBandit": {
+                "learning_rate": 0.01,
+                "initial_mean": 0.0,
+                "initial_logstddev": 0.4,
+                "buffer_max_size": 10
+            }
+        },
+        "rollmem1": {
+            "RollingMemContinuousBandit": {
+                "learning_rate": 0.01,
+                "initial_mean": 0.0,
+                "initial_logstddev": 0.4,
+                "buffer_max_size": 10
+            }
+        }
+    },
+    "environment": {
+        "NoisyCyclicQueriesSubgraph": {
+            "cycle": 1000,
+            "noise": true
+        }
+    }
+}

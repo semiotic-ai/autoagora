@@ -7,15 +7,20 @@ from asyncio import run
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 
-from agents.agent_factory import AgentFactory, add_agent_argparse
-from environments.environment_factory import (
-    EnvironmentFactory,
-    add_environment_argparse,
-)
+from agents.agent_factory import add_agent_argparse
+from environments.environment_factory import add_environment_argparse
+from simulation.controller import init_simulation
 
 
 def add_experiment_argparse(parser: argparse.ArgumentParser):
     """Adds argparse arguments related to experiment to parser."""
+    parser.add_argument(
+        "-c",
+        "--config",
+        default="simulation/configs/3different_agents_noisy_cyclic.json",
+        type=str,
+        help="Sets the config file (DEFAULT: simulation/configs/3different_agents_noisy_cyclic.json)",
+    )
     parser.add_argument(
         "-i",
         "--iterations",
@@ -41,27 +46,19 @@ def add_experiment_argparse(parser: argparse.ArgumentParser):
 if __name__ == "__main__":
     # Init argparse.
     parser = argparse.ArgumentParser(
-        usage="%(prog)s [-a ...] [-e ...] [-i ...] [--show] [--save]",
+        usage="%(prog)s [-c ...] [-e ...] [-i ...] [--show] [--save]",
         description="Runs agent simulation and (optionally) shows it and/or saves it to a file.",
     )
     add_experiment_argparse(parser=parser)
     add_agent_argparse(parser=parser)
     add_environment_argparse(parser=parser)
-    # Parse arguments
-    args = parser.parse_args()
 
-    # Instantiate the agent.
-    bandit = AgentFactory(
-        agent_type=args.agent,
-        learning_rate=args.learning_rate,
-        buffer_max_size=args.buffer_size,
-    )
-
-    # Instantiate the environment.
-    environment = EnvironmentFactory(environment_type=args.environment)
+    # Initialize the simulation.
+    args, environment, agents = init_simulation(parser=parser)
+    bandit = next(iter(agents.values()))
 
     # Generate the filename.
-    FILENAME = f"{bandit}_{environment}.mp4"
+    FILENAME = f"{args.config}.mp4"
 
     fig, ax = plt.subplots()
     container = []
