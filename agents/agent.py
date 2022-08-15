@@ -4,7 +4,7 @@
 from abc import ABC, abstractmethod
 
 
-class Agent:
+class Agent(ABC):
     """Abstract agent class defining agent's elementary interface"""
 
     @abstractmethod
@@ -25,3 +25,10 @@ class Agent:
             reward: reward to be adde.
         """
         pass
+
+    def __str__(self):
+        """
+        Return:
+            String describing the class and highlighting of its main params.
+        """
+        return f"{self.__class__.__name__}"

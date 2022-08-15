@@ -22,13 +22,27 @@ def init_simulation(parser: argparse.ArgumentParser):
     agents = {}
     for agent_name, agent_spec in config["agents"].items():
         # Make sure there is only one agent specified per section.
-        assert len(agent_spec.items()) == 1
+        if len(agent_spec.items()) == 1:
 
-        # Get agent specification.
-        agent_type, properties = next(iter(agent_spec.items()))
+            # Get agent specification.
+            agent_type, properties = next(iter(agent_spec.items()))
 
-        # Instantiate the agent.
-        agents[agent_name] = AgentFactory(agent_type=agent_type, **properties)
+            # Instantiate the agent.
+            agents[agent_name] = AgentFactory(agent_type=agent_type, **properties)
+
+        elif len(agent_spec.items()) == 2:  
+            # ... or there is only agent spec + number of instances.
+
+            num_instances = agent_spec.pop("num_instances")
+            # Get agent specification.
+            agent_type, properties = next(iter(agent_spec.items()))
+
+            # Instatiate n instances.
+            for i in range(num_instances):
+                agents[f"{agent_name}{i}"] = AgentFactory(agent_type=agent_type, **properties)
+
+        else:
+            raise ValueError(f"Section {agent_name} is invalid!")
 
     # Make sure there is only one environment specified.
     assert len(config["environment"].items()) == 1

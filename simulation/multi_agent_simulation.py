@@ -95,16 +95,18 @@ if __name__ == "__main__":
 
             # 4. Update the policy.
             if agent_id == 0:
-                print(
-                    f"Agent {agent_id} reward_buffer = ",
-                    agent.reward_buffer,
-                )
-                print(
-                    f"Agent {agent_id} mean = ",
-                    agent.mean.detach(),
-                    f"Agent {agent_id} logstddev = ",
-                    agent.logstddev.detach(),
-                )
+                if hasattr(agent, "reward_buffer"):
+                    print(
+                        f"Agent {agent_id} reward_buffer = ",
+                        agent.reward_buffer,
+                    )
+                if hasattr(agent, "mean"):
+                    print(
+                        f"Agent {agent_id} mean = ",
+                        agent.mean,
+                        f"Agent {agent_id} logstddev = ",
+                        agent.logstddev,
+                    )
 
                 print(f"Agent {agent_id} observation: ", queries_per_second[agent_id])
             loss = agent.update_policy()
@@ -121,10 +123,9 @@ if __name__ == "__main__":
 
                 # Add image to last list in container.
                 image_container[-1].append(img_agent)
-                legend_container[-1].append(f"Agent {agent_name}: policy (PDF)")
 
                 # Agent q/s.
-                agent_qps_x = min(max_x, max(min_x, scaled_bids[agent_id]))
+                agent_qps_x = min(max_x, max(min_x, agent.inv_scale(scaled_bids[agent_id])))
                 img_agent_qps = plt.scatter(
                     [agent_qps_x],
                     [queries_per_second[agent_id]],

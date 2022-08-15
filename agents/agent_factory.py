@@ -9,6 +9,7 @@ from agents.reinforcement_learning_bandit import (
     RollingMemContinuousBandit,
     VanillaPolicyGradientBandit,
 )
+from agents.heuristic_agents import RandomAgent, RandomScaledAgent
 
 _AGENT_TYPES = {
     "VanillaPolicyGradientBandit": VanillaPolicyGradientBandit,
@@ -17,6 +18,10 @@ _AGENT_TYPES = {
     "ppo": ProximalPolicyOptimizationBandit,
     "RollingMemContinuousBandit": RollingMemContinuousBandit,
     "rolling_ppo": RollingMemContinuousBandit,
+    "RandomScaledAgent": RandomScaledAgent,
+    "random_scaled": RandomScaledAgent,
+    "RandomAgent": RandomAgent,
+    "random": RandomAgent,
 }
 
 
@@ -41,12 +46,6 @@ class AgentFactory(object):
 
 def add_agent_argparse(parser: argparse.ArgumentParser):
     """Adds argparse arguments related to agent to parser."""
-    parser.add_argument(
-        "-a",
-        "--agent",
-        default="rolling_ppo",
-        help="Sets the agent type (DEFAULT: rolling_ppo)",
-    )
     parser.add_argument(
         "-b",
         "--buffer-size",
