@@ -2,12 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from abc import ABC, abstractmethod
+from math import exp, log
+from typing import Optional, Union, overload
+
 import numpy as np
 import scipy.stats as stats
-
-from math import exp, log
-from typing import Union, overload, Optional
-
 import torch
 from torch import distributions, nn
 
@@ -40,13 +39,17 @@ class ScaledActionMixin(ActionMixin):
         self._initial_logstddev = torch.Tensor([self.inverse_bid_scale(initial_stddev)])
 
         # Store policy params - after projecting them to the internal "log" space.
-        self._mean = nn.parameter.Parameter(torch.Tensor([self.inverse_bid_scale(initial_mean)]))
+        self._mean = nn.parameter.Parameter(
+            torch.Tensor([self.inverse_bid_scale(initial_mean)])
+        )
         # TODO: think: currently this maps only to internal log space, not the desired log(log) space of stddev.
-        self._logstddev = nn.parameter.Parameter(torch.Tensor([self.inverse_bid_scale(initial_stddev)]))
+        self._logstddev = nn.parameter.Parameter(
+            torch.Tensor([self.inverse_bid_scale(initial_stddev)])
+        )
 
     def mean(self, initial: bool = False):
         """Returns:
-            Mean in the internal action (bid) space.
+        Mean in the internal action (bid) space.
         """
         if initial:
             return self._initial_mean.clamp_max(self.inverse_bid_scale(1e-1))
@@ -55,7 +58,7 @@ class ScaledActionMixin(ActionMixin):
 
     def stddev(self, initial: bool = False):
         """Returns:
-            Std dev in the internal action (bid) space.
+        Std dev in the internal action (bid) space.
         """
         # TODO: rething the order here -> clamp self.stddev?
         if initial:
@@ -66,13 +69,13 @@ class ScaledActionMixin(ActionMixin):
     @property
     def params(self):
         """Returns:
-            List of trainable parameters.
+        List of trainable parameters.
         """
         return [self._mean, self._logstddev]
 
     def distribution(self) -> torch.distributions.Normal:
         """Returns:
-            Distribution in the internal space.
+        Distribution in the internal space.
         """
         return distributions.Normal(self.mean(), self.stddev())
 
@@ -129,7 +132,9 @@ class ScaledActionMixin(ActionMixin):
     def inverse_bid_scale(self, x: torch.Tensor) -> torch.Tensor:
         ...
 
-    def inverse_bid_scale(self, x: Union[float, torch.Tensor]) -> Union[float, torch.Tensor]:
+    def inverse_bid_scale(
+        self, x: Union[float, torch.Tensor]
+    ) -> Union[float, torch.Tensor]:
         """Inverse operation to action (bid) scaling."""
         if isinstance(x, float):
             return log(x * 1e6)
@@ -151,7 +156,6 @@ class ScaledActionMixin(ActionMixin):
         Returns:
             ([x1, x2, ...], [y1, y2, ...], [iy1, iy2, ...]): Triplet of lists of x, y (current policy PDF) and iy (init policy PDF).
         """
-
 
         # Prepare points in the "unscaled" x.
         agent_x = np.linspace(min_x, max_x, num_points)
@@ -178,7 +182,6 @@ class ScaledActionMixin(ActionMixin):
             "policy": policy_y,
             "init policy": init_y,
         }
-        
 
 
 class ActionMixin(ActionMixin):
@@ -206,10 +209,9 @@ class ActionMixin(ActionMixin):
         # TODO: think: currently this maps only to internal log space, not the desired log(log) space of stddev.
         self._logstddev = nn.parameter.Parameter(torch.Tensor([log(initial_stddev)]))
 
-
     def mean(self, initial: bool = False):
         """Returns:
-            Mean in the internal action (bid) space.
+        Mean in the internal action (bid) space.
         """
         if initial:
             return self._initial_mean.clamp_max(1e-1)
@@ -218,7 +220,7 @@ class ActionMixin(ActionMixin):
 
     def stddev(self, initial: bool = False):
         """Returns:
-            Std dev in the internal action (bid) space.
+        Std dev in the internal action (bid) space.
         """
         # TODO: rething the order here -> clamp self.stddev?
         if initial:
@@ -229,13 +231,13 @@ class ActionMixin(ActionMixin):
     @property
     def params(self):
         """Returns:
-            List of trainable parameters.
+        List of trainable parameters.
         """
         return [self._mean, self._logstddev]
 
     def distribution(self) -> torch.distributions.Normal:
         """Returns:
-            Distribution in the internal space.
+        Distribution in the internal space.
         """
         # TODO: rething the order here -> clamp self.stddev?
         return distributions.Normal(self.mean(), self.stddev())
@@ -261,7 +263,7 @@ class ActionMixin(ActionMixin):
         """Calls get_bids() and scale() to return scaled value."""
         bid = self.get_bids()
         # TODO: introduce min_multiplier parameter.
-        #if bid < 1e-20:
+        # if bid < 1e-20:
         #    bid = 1e-20
         return bid
 
@@ -269,7 +271,9 @@ class ActionMixin(ActionMixin):
         """Scales the value - empty, left for now only for compatibility."""
         return x
 
-    def inverse_bid_scale(self, x: Union[float, torch.Tensor]) -> Union[float, torch.Tensor]:
+    def inverse_bid_scale(
+        self, x: Union[float, torch.Tensor]
+    ) -> Union[float, torch.Tensor]:
         """Inverse operation to action (bid) scaling - empty, left for now only for compatibility."""
         return x
 

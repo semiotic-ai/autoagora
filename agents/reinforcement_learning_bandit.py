@@ -1,8 +1,8 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-from attr import has
 import torch
+from attr import has
 
 from agents.continuous_action_agent import ContinuousActionBandit
 
@@ -141,7 +141,9 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
 
             # Graceful fallback pull towards init std dev.
             if hasattr(self, "_logstddev") and hasattr(self, "_initial_logstddev"):
-                loss += torch.nn.L1Loss()(self._logstddev, self._initial_logstddev) * 1e-1
+                loss += (
+                    torch.nn.L1Loss()(self._logstddev, self._initial_logstddev) * 1e-1
+                )
 
             # Optimize the model parameters.
             self.optimizer.zero_grad()

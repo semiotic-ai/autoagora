@@ -1,17 +1,17 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-import inspect
 import argparse
+import inspect
 from typing import Union
 
+from agents.action_mixins import ActionMixin, ScaledActionMixin
+from agents.heuristic_agents import RandomAgent
 from agents.reinforcement_learning_bandit import (
     ProximalPolicyOptimizationBandit,
     RollingMemContinuousBandit,
     VanillaPolicyGradientBandit,
 )
-from agents.heuristic_agents import RandomAgent
-from agents.action_mixins import ActionMixin, ScaledActionMixin
 
 _AGENT_TYPES = {
     "VanillaPolicyGradientBandit": VanillaPolicyGradientBandit,
@@ -70,14 +70,16 @@ class AgentFactory(object):
             if len(kwargs) > 0:
                 raise ValueError(f"Invalid arguments {kwargs} for agent x")
 
-            # Call constructors in the right order. 
+            # Call constructors in the right order.
             mixin_class.__init__(self, **ext_kwargs)
             base_agent_class.__init__(self, **base_kwargs)
 
         # Assemble the class.
-        ExtendedAgentClass = type(mixin_class.__name__+base_agent_class.__name__,
-            (base_agent_class, mixin_class), 
-            {"__init__": extended_init})
+        ExtendedAgentClass = type(
+            mixin_class.__name__ + base_agent_class.__name__,
+            (base_agent_class, mixin_class),
+            {"__init__": extended_init},
+        )
 
         # Create agent instance.
         agent = ExtendedAgentClass(*args, **kwargs)

@@ -110,7 +110,9 @@ if __name__ == "__main__":
             frame_legend_container.append(f"Agent {agent_name}: policy")
 
             # Plot init policy and add it to last list in container.
-            (img_init_agent,) = plt.plot(agent_x, init_agent_y, color="b", linestyle='dashed')
+            (img_init_agent,) = plt.plot(
+                agent_x, init_agent_y, color="b", linestyle="dashed"
+            )
             frame_image_container.append(img_init_agent)
             frame_legend_container.append(f"Agent {agent_name}: init policy")
 

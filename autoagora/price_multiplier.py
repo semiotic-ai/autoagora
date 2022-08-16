@@ -34,8 +34,8 @@ async def price_bandit_loop(subgraph: str):
 
     bandit = RollingMemContinuousBandit(
         learning_rate=0.01,
-        initial_mean=5e-8, # ~equal to -3 in the bid space.
-        initial_stddev=1, # ~equal to 1 in the log bid space.
+        initial_mean=5e-8,  # ~equal to -3 in the bid space.
+        initial_stddev=1,  # ~equal to 1 in the log bid space.
         buffer_max_size=10,
     )
 

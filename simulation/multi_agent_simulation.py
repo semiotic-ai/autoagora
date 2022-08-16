@@ -94,7 +94,7 @@ if __name__ == "__main__":
             agent.add_reward(monies_per_second)
 
             # 4. Update the policy.
-            if True: #agent_id == 0:
+            if True:  # agent_id == 0:
                 if hasattr(agent, "reward_buffer"):
                     print(
                         f"Agent {agent_id} reward_buffer = ",
@@ -118,7 +118,7 @@ if __name__ == "__main__":
 
                 print(f"Agent {agent_id} observation: ", queries_per_second[agent_id])
             loss = agent.update_policy()
-            print(f"Agent {agent_id} loss = ",loss)
+            print(f"Agent {agent_id} loss = ", loss)
 
         # X. Collect the values for visualization of agent's gaussian policy.
         if i % args.fast_forward_factor == 0:
@@ -138,7 +138,9 @@ if __name__ == "__main__":
                 legend_container[-1].append(f"Agent {agent_name}: policy")
 
                 # Plot init policy and add it to last list in container.
-                (img_init_agent,) = plt.plot(agent_x, init_agent_y, color=agent_color, linestyle='dashed')
+                (img_init_agent,) = plt.plot(
+                    agent_x, init_agent_y, color=agent_color, linestyle="dashed"
+                )
                 image_container[-1].append(img_init_agent)
                 legend_container[-1].append(f"Agent {agent_name}: init policy")
 

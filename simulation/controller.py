@@ -30,7 +30,7 @@ def init_simulation(parser: argparse.ArgumentParser):
             # Instantiate the agent.
             agents[agent_name] = AgentFactory(agent_type=agent_type, **properties)
 
-        elif len(agent_spec.items()) == 2:  
+        elif len(agent_spec.items()) == 2:
             # ... or there is only agent spec + number of instances.
 
             num_instances = agent_spec.pop("num_instances")
@@ -39,7 +39,9 @@ def init_simulation(parser: argparse.ArgumentParser):
 
             # Instatiate n instances.
             for i in range(num_instances):
-                agents[f"{agent_name}{i}"] = AgentFactory(agent_type=agent_type, **properties)
+                agents[f"{agent_name}{i}"] = AgentFactory(
+                    agent_type=agent_type, **properties
+                )
 
         else:
             raise ValueError(f"Section {agent_name} is invalid!")

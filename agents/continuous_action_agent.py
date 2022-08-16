@@ -5,6 +5,7 @@ import torch
 
 from agents.agent import Agent
 
+
 class ContinuousActionBandit(Agent):
     """Abstract bandit class with continuous action space represented as a gausian.
     The agent internally stores and manages its own experience reply buffer with past actions and rewards.
@@ -42,7 +43,6 @@ class ContinuousActionBandit(Agent):
             String describing the class and highlighting of its main params.
         """
         return f"{self.__class__.__name__}(buffer_size={self.buffer_max_size}.learning_rate={self.learning_rate})"
-
 
     def add_reward(self, reward):
         """Adds reward to the buffer.
