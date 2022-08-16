@@ -1,27 +1,39 @@
 {
     "agents": {
         "vpg1": {
-            "VanillaPolicyGradientBandit": {
-                "learning_rate": 0.01,
+            "policy": "vpg",
+            "action": {
+                "type": "scaled_gaussian",
                 "initial_mean": 1e-6,
-                "initial_stddev": 1e-7,
-                "buffer_max_size": 10
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
             }
         },
         "ppo1": {
-            "ProximalPolicyOptimizationBandit": {
-                "learning_rate": 0.01,
+            "policy": "ppo",
+            "action": {
+                "type": "scaled_gaussian",
                 "initial_mean": 1e-6,
-                "initial_stddev": 1e-7,
-                "buffer_max_size": 10
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
             }
         },
         "rollmem1": {
-            "RollingMemContinuousBandit": {
-                "learning_rate": 0.01,
+            "policy": "rolling_ppo",
+            "action": {
+                "type": "scaled_gaussian",
                 "initial_mean": 1e-6,
-                "initial_stddev": 1e-7,
-                "buffer_max_size": 10
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
             }
         }
     },

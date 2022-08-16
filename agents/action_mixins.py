@@ -18,7 +18,7 @@ class ActionMixin(ABC):
         pass
 
 
-class ScaledActionMixin(ActionMixin):
+class ScaledGaussianActionMixin(ActionMixin):
     """Mixin class for agents with continuous action space represented as a gausian in the scaled space.
     Moreover, the std dev operates in a separate log space.
     Mixin provides methods for moving between external (scaled bid) and internal (bid) space,sampling actions, visualization etc.
@@ -27,7 +27,6 @@ class ScaledActionMixin(ActionMixin):
         initial_mean: (DEFAULT: 1e-6) initial mean in the original action (i.e. scaled bid) space.
         initial_stddev: (DEFAULT: 1e-7) initial standard deviation in the original action (i.e. scaled bid) space.
     """
-
     def __init__(
         self,
         initial_mean: float = 1e-6,
@@ -184,7 +183,7 @@ class ScaledActionMixin(ActionMixin):
         }
 
 
-class ActionMixin(ActionMixin):
+class GaussianActionMixin(ActionMixin):
     """Mixin class for agents with continuous action space represented as a gausian in the regular bid space (NO SCALING!)
     The std dev operates in a separate log space.
     Mixin provides methods for moving for sampling action, visualization etc.
@@ -266,16 +265,6 @@ class ActionMixin(ActionMixin):
         # if bid < 1e-20:
         #    bid = 1e-20
         return bid
-
-    def bid_scale(self, x: Union[float, torch.Tensor]) -> Union[float, torch.Tensor]:
-        """Scales the value - empty, left for now only for compatibility."""
-        return x
-
-    def inverse_bid_scale(
-        self, x: Union[float, torch.Tensor]
-    ) -> Union[float, torch.Tensor]:
-        """Inverse operation to action (bid) scaling - empty, left for now only for compatibility."""
-        return x
 
     async def generate_plot_data(
         self, min_x: float, max_x: float, num_points: int = 200

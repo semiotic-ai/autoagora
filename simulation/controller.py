@@ -18,33 +18,21 @@ def init_simulation(parser: argparse.ArgumentParser):
         # Load the configuration.
         config = json.loads(f.read())
 
-    # Instantiate the agent.
     agents = {}
-    for agent_name, agent_spec in config["agents"].items():
-        # Make sure there is only one agent specified per section.
-        if len(agent_spec.items()) == 1:
+    # Instantiate agents.
+    for agent_name, agent_section in config["agents"].items():
+        
+        # Get number of instances.
+        num_instances = agent_section.pop("num_instances", 1)
 
-            # Get agent specification.
-            agent_type, properties = next(iter(agent_spec.items()))
-
-            # Instantiate the agent.
-            agents[agent_name] = AgentFactory(agent_type=agent_type, **properties)
-
-        elif len(agent_spec.items()) == 2:
-            # ... or there is only agent spec + number of instances.
-
-            num_instances = agent_spec.pop("num_instances")
-            # Get agent specification.
-            agent_type, properties = next(iter(agent_spec.items()))
-
+        # Instantiate a single agent.
+        if num_instances == 1:
+            agents[agent_name] = AgentFactory(agent_name=agent_name, agent_section=agent_section)
+        else:
             # Instatiate n instances.
             for i in range(num_instances):
-                agents[f"{agent_name}{i}"] = AgentFactory(
-                    agent_type=agent_type, **properties
-                )
-
-        else:
-            raise ValueError(f"Section {agent_name} is invalid!")
+                subagent_name = f"{agent_name}{i}"
+                agents[subagent_name] = AgentFactory(agent_name=subagent_name, agent_section=agent_section)
 
     # Make sure there is only one environment specified.
     assert len(config["environment"].items()) == 1

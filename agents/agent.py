@@ -1,29 +1,35 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-from abc import ABC, abstractmethod
+from agents.action_mixins import ActionMixin
+from agents.policy_mixins import PolicyMixin
 
+class Agent(ActionMixin, PolicyMixin):
+    """Abstract agent class defining agent's elementary interface by composing action and policy mixins."""
+    def __init__(self, name: str):
+        self._name = name
+        # No default optimizer.
+        self._optimizer = None
 
-class Agent(ABC):
-    """Abstract agent class defining agent's elementary interface"""
-
-    @abstractmethod
-    def update_policy(self):
-        """Abstract method for updating the agent's policy"""
-        pass
-
-    @abstractmethod
-    def add_reward(self, reward):
-        """Abstract method for adding reward to the buffer.
-
-        Args:
-            reward: reward to be adde.
+    @property
+    def name(self):
+        """Returns:
+            Agent name.
         """
-        pass
+        return self._name
+
+    @property
+    def optimizer(self):
+        """Returns:
+            Agent optimizer.
+        """
+        if self._optimizer is None:
+            raise ValueError("Optimizer not set!")
+        return self._optimizer
 
     def __str__(self):
         """
         Return:
-            String describing the class and highlighting of its main params.
+            String with agent's name and class.
         """
-        return f"{self.__class__.__name__}"
+        return f"{self._name}({self.__class__.__name__})"

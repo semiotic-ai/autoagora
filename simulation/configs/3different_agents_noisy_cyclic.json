@@ -1,50 +1,74 @@
 {
     "agents": {
         "rollmem_no_scaling1": {
-            "RollingMemContinuousBandit": {
-                "learning_rate": 1e-7,
+            "policy": {
+                "type": "rolling_ppo",
+                "buffer_max_size": 10
+            },
+            "action": {
+                "type": "gaussian",
                 "initial_mean": 1e-6,
-                "initial_stddev": 1e-7,
-                "buffer_max_size": 10,
-                "use_scaling": false
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 1e-7
             },
             "num_instances": 1
         },
         "vpg2": {
-            "VanillaPolicyGradientBandit": {
-                "learning_rate": 0.01,
+            "policy": {
+                "type": "vpg",
+                "buffer_max_size": 10
+            },
+            "action": {
+                "type": "scaled_gaussian",
                 "initial_mean": 1e-6,
-                "initial_stddev": 1e-7,
-                "buffer_max_size": 10,
-                "use_scaling": true
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
             },
             "num_instances": 0
         },
         "ppo1": {
-            "ProximalPolicyOptimizationBandit": {
-                "learning_rate": 0.01,
+            "policy": {
+                "type": "ppo",
+                "buffer_max_size": 10
+            },
+            "action": {
+                "type": "scaled_gaussian",
                 "initial_mean": 1e-6,
-                "initial_stddev": 1e-7,
-                "buffer_max_size": 10,
-                "use_scaling": false
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
             },
             "num_instances": 0
         },
         "rollmem1": {
-            "RollingMemContinuousBandit": {
-                "learning_rate": 0.01,
+            "policy": {
+                "type": "rolling_ppo",
+                "buffer_max_size": 10
+            },
+            "action": {
+                "type": "scaled_gaussian",
                 "initial_mean": 1e-6,
-                "initial_stddev": 1e-7,
-                "buffer_max_size": 10,
-                "use_scaling": true
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
             },
             "num_instances": 1
         },
-        "random1": {
-            "RandomAgent": {
+        "gaussian": {
+            "action": {
+                "type": "scaled_gaussian",
                 "initial_mean": 1e-6,
-                "initial_stddev": 1e-7,
-                "use_scaling": true
+                "initial_stddev": 1e-7
             },
             "num_instances": 1
         }

@@ -2,16 +2,15 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import torch
-from attr import has
 
-from agents.continuous_action_agent import ContinuousActionBandit
+from agents.policy_mixins import ExperienceBufferPolicyMixin
 
 
-class VanillaPolicyGradientBandit(ContinuousActionBandit):
-    """Bandit with continuous action space using vanilla policy gradients to optimize its policy."""
+class VanillaPolicyGradientMixin(ExperienceBufferPolicyMixin):
+    """Implements vanilla policy gradients optimization."""
 
     def update_policy(self):
-        """Updates agent policy using vanilla policy gradients."""
+        """Updates policy using vanilla policy gradients."""
         # Validate buffer.
         self.validate_experience_buffer()
 
@@ -41,9 +40,9 @@ class VanillaPolicyGradientBandit(ContinuousActionBandit):
         loss = (-log_prob * advantage).mean() + torch.exp(-self._logstddev - 5)
 
         # Optimize model params.
+        self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
-        self.optimizer.zero_grad()
 
         # We have "used" the samples for training - clear the buffer.
         self.clear_experience_buffer()
@@ -52,14 +51,10 @@ class VanillaPolicyGradientBandit(ContinuousActionBandit):
         return loss.item()
 
 
-class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
-    """Bandit with continuous action space using proximal policy optimization.
-    The agent internally stores and manages its own experience reply buffer with past actions and rewards.
+class ProximalPolicyOptimizationMixin(ExperienceBufferPolicyMixin):
+    """Proximal policy optimization.
 
     Args:
-        learning_rate: learning rate.
-        initial_mean: (DEFAULT: 1e-6) initial mean in the original action (i.e. scaled bid) space.
-        initial_stddev: (DEFAULT: 1e-7) initial standard deviation in the original action (i.e. scaled bid) space.
         buffer_max_size: (DEFAULT: 30) indicates the maximum size of buffer. If buffer_max_size>0, then the buffer will be truncated to this size.
         eps_clip: (DEFAULT: 0.1) epsilon used in PPO clipping.
         ppo_iterations: (DEFAULT: 50) number of optimization steps.
@@ -68,20 +63,14 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
 
     def __init__(
         self,
-        learning_rate: float,
-        initial_mean: float = 1e-6,
-        initial_stddev: float = 1e-7,
         buffer_max_size: int = 30,
         eps_clip: float = 0.1,
         ppo_iterations: int = 10,
         entropy_coeff: float = 1e-1,
     ):
         # Call parent class constructor.
-        ContinuousActionBandit.__init__(
+        ExperienceBufferPolicyMixin.__init__(
             self,
-            learning_rate=learning_rate,
-            initial_mean=initial_mean,
-            initial_stddev=initial_stddev,
             buffer_max_size=buffer_max_size,
         )
 
@@ -95,7 +84,7 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
         Return:
             String describing the class and highlighting of its main params.
         """
-        return f"{self.__class__.__name__}(buffer_size={self.buffer_max_size}.learning_rate={self.learning_rate}.ppo_iterations={self.ppo_iterations})"
+        return f"{self.__class__.__name__}(buffer_size={self.buffer_max_size}.ppo_iterations={self.ppo_iterations})"
 
     def ppo_update(self, orig_log_prob=None):
         """Implements proximal policy update."""
@@ -175,36 +164,26 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
         return loss
 
 
-class RollingMemContinuousBandit(ProximalPolicyOptimizationBandit):
-    """Bandit with continuous action space using proximal policy optimization with a "rolling" experience buffer.
-    The agent internally stores and manages its own experience reply buffer with past actions and rewards.
+class RollingMemoryPPOMixin(ProximalPolicyOptimizationMixin):
+    """Proximal policy optimization with a "rolling" experience buffer.
+    Internally stores and manages its own experience reply buffer with past actions and rewards.
 
     Args:
-        learning_rate: learning rate.
-        initial_mean: (DEFAULT: 1e-6) initial mean in the original action (i.e. scaled bid) space.
-        initial_stddev: (DEFAULT: 1e-7) initial standard deviation in the original action (i.e. scaled bid) space.
         buffer_max_size: (DEFAULT: 30) indicates the maximum size of buffer. If buffer_max_size>0, then the buffer will be truncated to this size.
         eps_clip: (DEFAULT: 0.1) epsilon used in PPO clipping.
         ppo_iterations: (DEFAULT: 50) number of optimization steps.
         entropy_coeff: (DEFAULT: 1e-1) entropy coefficient for the loss calculation.
     """
-
     def __init__(
         self,
-        learning_rate,
-        initial_mean: float = 1e-6,
-        initial_stddev: float = 1e-7,
         buffer_max_size: int = 10,
         eps_clip: float = 0.1,
         ppo_iterations: int = 10,
         entropy_coeff: float = 1e-1,
     ):
         # Call parent class constructor.
-        ProximalPolicyOptimizationBandit.__init__(
+        ProximalPolicyOptimizationMixin.__init__(
             self,
-            learning_rate=learning_rate,
-            initial_mean=initial_mean,
-            initial_stddev=initial_stddev,
             buffer_max_size=buffer_max_size,
             eps_clip=eps_clip,
             ppo_iterations=ppo_iterations,

@@ -1,48 +1,58 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-import torch
+from abc import ABC, abstractmethod
 
-from agents.agent import Agent
+class PolicyMixin(ABC):
+    """Abstract policy class defining its elementary interface"""
+
+    @abstractmethod
+    def update_policy(self):
+        """Abstract method for updating the agent's policy"""
+        pass
+
+    @abstractmethod
+    def add_reward(self, reward):
+        """Abstract method for adding reward to the buffer.
+
+        Args:
+            reward: reward to be adde.
+        """
+        pass
 
 
-class ContinuousActionBandit(Agent):
-    """Abstract bandit class with continuous action space represented as a gausian.
-    The agent internally stores and manages its own experience reply buffer with past actions and rewards.
+class NoUpdatePolicyMixin(PolicyMixin):
+    """Policy without any update."""
+
+    def add_reward(self, reward):
+        """Adds reward (empty function).
+
+        Args:
+            reward: reward to be added.
+        """
+        pass
+
+    def update_policy(self):
+        """Updates agent policy (empty function)."""
+        pass
+
+class ExperienceBufferPolicyMixin(PolicyMixin):
+    """Abstract policy class that stores and manages its own experience reply buffer with past actions and rewards.
 
     Args:
-        learning_rate: learning rate.
-        initial_mean: (DEFAULT: 0.0) initial mean in the original action (i.e. scaled bid) space.
-        initial_stddev: (DEFAULT: 0.4) initial standard deviation in the original action (i.e. scaled bid) space.
         buffer_max_size: (DEFAULT: 10) indicates the maximum size of buffer. If buffer_max_size>0, then the buffer will be truncated to this size.
-
     """
-
     def __init__(
         self,
-        learning_rate: float,
-        initial_mean: float = 1e-6,
-        initial_stddev: float = 1e-7,
         buffer_max_size: int = 10,
     ):
         # Call parent constructors.
-        Agent.__init__(self)
+        PolicyMixin.__init__(self)
 
         # Experience reply buffer.
         self.buffer_max_size = buffer_max_size
         self.action_buffer = []
         self.reward_buffer = []
-
-        # Initialize optimizer.
-        self.optimizer = torch.optim.Adam(params=self.params, lr=learning_rate)
-        self.learning_rate = learning_rate
-
-    def __str__(self):
-        """
-        Return:
-            String describing the class and highlighting of its main params.
-        """
-        return f"{self.__class__.__name__}(buffer_size={self.buffer_max_size}.learning_rate={self.learning_rate})"
 
     def add_reward(self, reward):
         """Adds reward to the buffer.

@@ -3,30 +3,47 @@
 
 import argparse
 import inspect
-from typing import Union
 
-from agents.action_mixins import ActionMixin, ScaledActionMixin
-from agents.heuristic_agents import RandomAgent
-from agents.reinforcement_learning_bandit import (
-    ProximalPolicyOptimizationBandit,
-    RollingMemContinuousBandit,
-    VanillaPolicyGradientBandit,
+import torch.optim as optim
+
+from agents.agent import Agent
+from agents.action_mixins import ScaledGaussianActionMixin, GaussianActionMixin
+from agents.policy_mixins import NoUpdatePolicyMixin, PolicyMixin
+from agents.reinforcement_learning_policy_mixins import (
+    ProximalPolicyOptimizationMixin,
+    RollingMemoryPPOMixin,
+    VanillaPolicyGradientMixin,
+    
 )
 
-_AGENT_TYPES = {
-    "VanillaPolicyGradientBandit": VanillaPolicyGradientBandit,
-    "vpg": VanillaPolicyGradientBandit,
-    "ProximalPolicyOptimizationBandit": ProximalPolicyOptimizationBandit,
-    "ppo": ProximalPolicyOptimizationBandit,
-    "RollingMemContinuousBandit": RollingMemContinuousBandit,
-    "rolling_ppo": RollingMemContinuousBandit,
-    "RandomAgent": RandomAgent,
-    "random": RandomAgent,
+_POLICY_TYPES = {
+    "VanillaPolicyGradientMixin": VanillaPolicyGradientMixin,
+    "vpg": VanillaPolicyGradientMixin,
+    "ProximalPolicyOptimizationMixin": ProximalPolicyOptimizationMixin,
+    "ppo": ProximalPolicyOptimizationMixin,
+    "RollingMemoryPPOMixin": RollingMemoryPPOMixin,
+    "rolling_ppo": RollingMemoryPPOMixin,
+    "NoUpdatePolicyMixin": NoUpdatePolicyMixin,
+    "no_update": NoUpdatePolicyMixin,
+}
+
+_ACTION_TYPES = {
+    "ScaledGaussianActionMixin": ScaledGaussianActionMixin,
+    "scaled_gaussian": ScaledGaussianActionMixin,
+    "GaussianActionMixin": GaussianActionMixin,
+    "gaussian": GaussianActionMixin,
+}
+
+_OPTIMIZER_TYPES = {
+    "Adam": optim.Adam,
+    "adam": optim.Adam,
+    "AdamW": optim.AdamW,
+    "adamw": optim.AdamW,
 }
 
 
 class AgentFactory(object):
-    """Factory creating agents.
+    """Factory creating agents by composing policy, action and optimizer.
 
     Args:
         agent_type: Type of the agent (Options: "vpg", "ppo", "rolling_ppo")
@@ -35,54 +52,53 @@ class AgentFactory(object):
     """
 
     def __new__(
-        cls, agent_type: str, *args, **kwargs
-    ) -> Union[
-        ProximalPolicyOptimizationBandit,
-        RollingMemContinuousBandit,
-        VanillaPolicyGradientBandit,
-    ]:
-        # Get base type.
-        base_agent_class = _AGENT_TYPES[agent_type]
-        # Check action scaling (use scaling by definition => True).
-        use_scaling = kwargs.pop("use_scaling", True)
-        if use_scaling:
-            mixin_class = ScaledActionMixin
-        else:
-            mixin_class = ActionMixin
+        cls, agent_name: str, agent_section) -> Agent:
+        # Get policy section.
+        policy_section = agent_section.pop("policy", {})
+        # Enable "policy: type" construct.
+        if type(policy_section) is str:
+            policy_section = {"type": policy_section}
+        # Use no updte policy by default.
+        policy_class = _POLICY_TYPES[policy_section.pop("type", "NoUpdatePolicyMixin")]
 
-        # Create init method for the extended class.
-        def extended_init(self, **kwargs):
-            # Process extended kwargs - skip "self."
-            exts_init_args = inspect.getfullargspec(mixin_class.__init__).args[1:]
-            ext_kwargs = {}
-            for arg in exts_init_args:
-                if arg in kwargs.keys():
-                    ext_kwargs[arg] = kwargs.pop(arg)
+        # Get action section.
+        action_section = agent_section.pop("action", {})
+        # Enable "action: type" construct.
+        if type(action_section) is str:
+            action_section = {"type": action_section}
+        # Use scaled gaussian action by default.
+        action_class = _ACTION_TYPES[action_section.pop("type", "ScaledGaussianActionMixin")]
 
-            # Process base kwargs - skip "self."
-            base_init_args = inspect.getfullargspec(base_agent_class.__init__).args[1:]
-            base_kwargs = {}
-            for arg in base_init_args:
-                if arg in kwargs.keys():
-                    base_kwargs[arg] = kwargs.pop(arg)
+        # Get optimizer section.
+        optim_section = agent_section.pop("optimizer", {})
+        # Enable "optimizer: type" construct.
+        if type(optim_section) is str:
+            optim_section = {"type": optim_section}
+        # Use Adam by default.
+        optim_class = _OPTIMIZER_TYPES[optim_section.pop("type", "Adam")]
 
-            # Check remaining args.
-            if len(kwargs) > 0:
-                raise ValueError(f"Invalid arguments {kwargs} for agent x")
+        # Create init method for the agent class composed of action and policy.
+        def composed_agent_init(self, action_section, policy_section):
 
             # Call constructors in the right order.
-            mixin_class.__init__(self, **ext_kwargs)
-            base_agent_class.__init__(self, **base_kwargs)
+            action_class.__init__(self, **action_section)
+            policy_class.__init__(self, **policy_section)
+            Agent.__init__(self,name=agent_name)
 
         # Assemble the class.
-        ExtendedAgentClass = type(
-            mixin_class.__name__ + base_agent_class.__name__,
-            (base_agent_class, mixin_class),
-            {"__init__": extended_init},
+        ComposedAgentClass = type(
+            action_class.__name__ + policy_class.__name__,
+            (policy_class, action_class, Agent),
+            {"__init__": composed_agent_init},
         )
 
         # Create agent instance.
-        agent = ExtendedAgentClass(*args, **kwargs)
+        agent = ComposedAgentClass(action_section, policy_section)
+        
+        # Initialize optimizer - if there are any params!
+        if agent.params is not None:
+            agent._optimizer = optim_class(params=agent.params, **optim_section)
+
         return agent
 
 

@@ -1,19 +1,33 @@
 {
     "agents": {
         "rollmem1": {
-            "RollingMemContinuousBandit": {
-                "learning_rate": 0.01,
-                "initial_mean": 2.0e-06,
-                "initial_stddev": 5e-7,
+            "policy": {
+                "type": "rolling_ppo",
                 "buffer_max_size": 10
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 5e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
             }
         },
         "rollmem2": {
-            "RollingMemContinuousBandit": {
-                "learning_rate": 0.01,
-                "initial_mean": 2.0e-06,
-                "initial_stddev": 5e-7,
+            "policy": {
+                "type": "rolling_ppo",
                 "buffer_max_size": 10
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 5e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
             }
         }
     },
