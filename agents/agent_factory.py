@@ -10,7 +10,7 @@ from agents.reinforcement_learning_bandit import (
     RollingMemContinuousBandit,
     VanillaPolicyGradientBandit,
 )
-from agents.heuristic_agents import RandomAgent, RandomScaledAgent
+from agents.heuristic_agents import RandomAgent
 from agents.action_mixins import ActionMixin, ScaledActionMixin
 
 _AGENT_TYPES = {
@@ -20,8 +20,6 @@ _AGENT_TYPES = {
     "ppo": ProximalPolicyOptimizationBandit,
     "RollingMemContinuousBandit": RollingMemContinuousBandit,
     "rolling_ppo": RollingMemContinuousBandit,
-    "RandomScaledAgent": RandomScaledAgent,
-    "random_scaled": RandomScaledAgent,
     "RandomAgent": RandomAgent,
     "random": RandomAgent,
 }

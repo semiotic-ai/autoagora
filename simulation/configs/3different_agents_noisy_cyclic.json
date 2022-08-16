@@ -39,12 +39,20 @@
                 "use_scaling": true
             },
             "num_instances": 1
+        },
+        "random1": {
+            "RandomAgent": {
+                "initial_mean": 1e-6,
+                "initial_stddev": 1e-7,
+                "use_scaling": true
+            },
+            "num_instances": 1
         }
     },
     "environment": {
         "NoisyCyclicZeroQueriesSubgraph": {
             "cycle": 1000,
-            "noise": false
+            "noise": true
         }
     }
 }
