@@ -3,6 +3,7 @@
 
 from abc import ABC, abstractmethod
 
+
 class PolicyMixin(ABC):
     """Abstract policy class defining its elementary interface"""
 
@@ -36,12 +37,14 @@ class NoUpdatePolicyMixin(PolicyMixin):
         """Updates agent policy (empty function)."""
         pass
 
+
 class ExperienceBufferPolicyMixin(PolicyMixin):
     """Abstract policy class that stores and manages its own experience reply buffer with past actions and rewards.
 
     Args:
         buffer_max_size: (DEFAULT: 10) indicates the maximum size of buffer. If buffer_max_size>0, then the buffer will be truncated to this size.
     """
+
     def __init__(
         self,
         buffer_max_size: int = 10,

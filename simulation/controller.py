@@ -21,18 +21,22 @@ def init_simulation(parser: argparse.ArgumentParser):
     agents = {}
     # Instantiate agents.
     for agent_name, agent_section in config["agents"].items():
-        
+
         # Get number of instances.
         num_instances = agent_section.pop("num_instances", 1)
 
         # Instantiate a single agent.
         if num_instances == 1:
-            agents[agent_name] = AgentFactory(agent_name=agent_name, agent_section=agent_section)
+            agents[agent_name] = AgentFactory(
+                agent_name=agent_name, agent_section=agent_section
+            )
         else:
             # Instatiate n instances.
             for i in range(num_instances):
                 subagent_name = f"{agent_name}{i}"
-                agents[subagent_name] = AgentFactory(agent_name=subagent_name, agent_section=agent_section)
+                agents[subagent_name] = AgentFactory(
+                    agent_name=subagent_name, agent_section=agent_section
+                )
 
     # Make sure there is only one environment specified.
     assert len(config["environment"].items()) == 1

@@ -4,8 +4,10 @@
 from agents.action_mixins import ActionMixin
 from agents.policy_mixins import PolicyMixin
 
+
 class Agent(ActionMixin, PolicyMixin):
     """Abstract agent class defining agent's elementary interface by composing action and policy mixins."""
+
     def __init__(self, name: str):
         self._name = name
         # No default optimizer.
@@ -14,14 +16,14 @@ class Agent(ActionMixin, PolicyMixin):
     @property
     def name(self):
         """Returns:
-            Agent name.
+        Agent name.
         """
         return self._name
 
     @property
     def optimizer(self):
         """Returns:
-            Agent optimizer.
+        Agent optimizer.
         """
         if self._optimizer is None:
             raise ValueError("Optimizer not set!")

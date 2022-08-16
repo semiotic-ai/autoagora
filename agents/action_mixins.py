@@ -27,6 +27,7 @@ class ScaledGaussianActionMixin(ActionMixin):
         initial_mean: (DEFAULT: 1e-6) initial mean in the original action (i.e. scaled bid) space.
         initial_stddev: (DEFAULT: 1e-7) initial standard deviation in the original action (i.e. scaled bid) space.
     """
+
     def __init__(
         self,
         initial_mean: float = 1e-6,

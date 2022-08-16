@@ -6,14 +6,13 @@ import inspect
 
 import torch.optim as optim
 
+from agents.action_mixins import GaussianActionMixin, ScaledGaussianActionMixin
 from agents.agent import Agent
-from agents.action_mixins import ScaledGaussianActionMixin, GaussianActionMixin
 from agents.policy_mixins import NoUpdatePolicyMixin, PolicyMixin
 from agents.reinforcement_learning_policy_mixins import (
     ProximalPolicyOptimizationMixin,
     RollingMemoryPPOMixin,
     VanillaPolicyGradientMixin,
-    
 )
 
 _POLICY_TYPES = {
@@ -51,8 +50,7 @@ class AgentFactory(object):
         kwargs: Dict of keyword arguments passed to agent constructor.
     """
 
-    def __new__(
-        cls, agent_name: str, agent_section) -> Agent:
+    def __new__(cls, agent_name: str, agent_section) -> Agent:
         # Get policy section.
         policy_section = agent_section.pop("policy", {})
         # Enable "policy: type" construct.
@@ -67,7 +65,9 @@ class AgentFactory(object):
         if type(action_section) is str:
             action_section = {"type": action_section}
         # Use scaled gaussian action by default.
-        action_class = _ACTION_TYPES[action_section.pop("type", "ScaledGaussianActionMixin")]
+        action_class = _ACTION_TYPES[
+            action_section.pop("type", "ScaledGaussianActionMixin")
+        ]
 
         # Get optimizer section.
         optim_section = agent_section.pop("optimizer", {})
@@ -83,7 +83,7 @@ class AgentFactory(object):
             # Call constructors in the right order.
             action_class.__init__(self, **action_section)
             policy_class.__init__(self, **policy_section)
-            Agent.__init__(self,name=agent_name)
+            Agent.__init__(self, name=agent_name)
 
         # Assemble the class.
         ComposedAgentClass = type(
@@ -94,7 +94,7 @@ class AgentFactory(object):
 
         # Create agent instance.
         agent = ComposedAgentClass(action_section, policy_section)
-        
+
         # Initialize optimizer - if there are any params!
         if agent.params is not None:
             agent._optimizer = optim_class(params=agent.params, **optim_section)

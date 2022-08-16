@@ -174,6 +174,7 @@ class RollingMemoryPPOMixin(ProximalPolicyOptimizationMixin):
         ppo_iterations: (DEFAULT: 50) number of optimization steps.
         entropy_coeff: (DEFAULT: 1e-1) entropy coefficient for the loss calculation.
     """
+
     def __init__(
         self,
         buffer_max_size: int = 10,
