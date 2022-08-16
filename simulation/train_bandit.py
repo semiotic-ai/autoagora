@@ -69,7 +69,7 @@ async def main_loop():
     print(f"Training {bandit} on {environment}. Please wait...")
     for i in range(args.iterations):
         writer.add_scalar("Distribution mean", bandit.mean, i)
-        writer.add_scalar("Distribution stddev", bandit.logstddev.exp(), i)
+        writer.add_scalar("Distribution stddev", bandit.stddev, i)
 
         # 1. Get bid from the agent (action)
         scaled_bid = bandit.get_action()

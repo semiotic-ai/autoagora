@@ -1,6 +1,7 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
+import inspect
 import argparse
 from typing import Union
 
@@ -10,6 +11,7 @@ from agents.reinforcement_learning_bandit import (
     VanillaPolicyGradientBandit,
 )
 from agents.heuristic_agents import RandomAgent, RandomScaledAgent
+from agents.action_mixins import ActionMixin, ScaledActionMixin
 
 _AGENT_TYPES = {
     "VanillaPolicyGradientBandit": VanillaPolicyGradientBandit,
@@ -41,7 +43,47 @@ class AgentFactory(object):
         RollingMemContinuousBandit,
         VanillaPolicyGradientBandit,
     ]:
-        return _AGENT_TYPES[agent_type](*args, **kwargs)
+        # Get base type.
+        base_agent_class = _AGENT_TYPES[agent_type]
+        # Check action scaling (use scaling by definition => True).
+        use_scaling = kwargs.pop("use_scaling", True)
+        if use_scaling:
+            mixin_class = ScaledActionMixin
+        else:
+            mixin_class = ActionMixin
+
+        # Create init method for the extended class.
+        def extended_init(self, **kwargs):
+            # Process extended kwargs - skip "self."
+            exts_init_args = inspect.getfullargspec(mixin_class.__init__).args[1:]
+            ext_kwargs = {}
+            for arg in exts_init_args:
+                if arg in kwargs.keys():
+                    ext_kwargs[arg] = kwargs.pop(arg)
+
+            # Process base kwargs - skip "self."
+            base_init_args = inspect.getfullargspec(base_agent_class.__init__).args[1:]
+            base_kwargs = {}
+            for arg in base_init_args:
+                if arg in kwargs.keys():
+                    base_kwargs[arg] = kwargs.pop(arg)
+
+            # Check remaining args.
+            if len(kwargs) > 0:
+                raise ValueError(f"Invalid arguments {kwargs} for agent x")
+
+            # Call constructors in the right order. 
+            mixin_class.__init__(self, **ext_kwargs)
+            base_agent_class.__init__(self, **base_kwargs)
+
+        # Assemble the class.
+        ExtendedAgentClass = type(mixin_class.__name__+base_agent_class.__name__,
+            (base_agent_class, mixin_class), 
+            {"__init__": extended_init})
+
+        # Create agent instance.
+        agent = ExtendedAgentClass(*args, **kwargs)
+        return agent
 
 
 def add_agent_argparse(parser: argparse.ArgumentParser):

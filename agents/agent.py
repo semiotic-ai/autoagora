@@ -8,11 +8,6 @@ class Agent(ABC):
     """Abstract agent class defining agent's elementary interface"""
 
     @abstractmethod
-    def get_action(self):
-        """Abstract method returning agent's action."""
-        pass
-
-    @abstractmethod
     def update_policy(self):
         """Abstract method for updating the agent's policy"""
         pass

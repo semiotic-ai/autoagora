@@ -94,38 +94,56 @@ if __name__ == "__main__":
             agent.add_reward(monies_per_second)
 
             # 4. Update the policy.
-            if agent_id == 0:
+            if True: #agent_id == 0:
                 if hasattr(agent, "reward_buffer"):
                     print(
                         f"Agent {agent_id} reward_buffer = ",
                         agent.reward_buffer,
                     )
+                    print(
+                        f"Agent {agent_id} action_buffer = ",
+                        agent.action_buffer,
+                    )
                 if hasattr(agent, "mean"):
                     print(
                         f"Agent {agent_id} mean = ",
-                        agent.mean,
-                        f"Agent {agent_id} logstddev = ",
-                        agent.logstddev,
+                        agent.mean(),
+                        f"Agent {agent_id} stddev = ",
+                        agent.stddev(),
+                    )
+                    print(
+                        f"Agent {agent_id} initial_mean = ",
+                        agent.mean(initial=True),
                     )
 
                 print(f"Agent {agent_id} observation: ", queries_per_second[agent_id])
             loss = agent.update_policy()
+            print(f"Agent {agent_id} loss = ",loss)
 
         # X. Collect the values for visualization of agent's gaussian policy.
         if i % args.fast_forward_factor == 0:
             for agent_id, (agent_name, agent) in enumerate(agents.items()):
-                agent_x, agent_y, init_agent_y = run(
-                    agent.generate_plot_data(min_x, max_x)
-                )
-                agent_color = agent_colors[agent_id % len(agent_colors)]
-                (img_agent,) = plt.plot(agent_x, agent_y, color=agent_color)
-                # (img_init_agent,) = plt.plot(agent_x, init_agent_y, color="g")
 
-                # Add image to last list in container.
+                # Get data.
+                data = run(agent.generate_plot_data(min_x, max_x))
+                agent_x = data.pop("x")
+                agent_y = data["policy"]
+                init_agent_y = data["init policy"]
+
+                agent_color = agent_colors[agent_id % len(agent_colors)]
+
+                # Plot policy and add it to last list in container.
+                (img_agent,) = plt.plot(agent_x, agent_y, color=agent_color)
                 image_container[-1].append(img_agent)
+                legend_container[-1].append(f"Agent {agent_name}: policy")
+
+                # Plot init policy and add it to last list in container.
+                (img_init_agent,) = plt.plot(agent_x, init_agent_y, color=agent_color, linestyle='dashed')
+                image_container[-1].append(img_init_agent)
+                legend_container[-1].append(f"Agent {agent_name}: init policy")
 
                 # Agent q/s.
-                agent_qps_x = min(max_x, max(min_x, agent.inv_scale(scaled_bids[agent_id])))
+                agent_qps_x = min(max_x, max(min_x, scaled_bids[agent_id]))
                 img_agent_qps = plt.scatter(
                     [agent_qps_x],
                     [queries_per_second[agent_id]],

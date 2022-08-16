@@ -1,9 +1,10 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
+from attr import has
 import torch
 
-from agents.continuous_action_bandit import ContinuousActionBandit
+from agents.continuous_action_agent import ContinuousActionBandit
 
 
 class VanillaPolicyGradientBandit(ContinuousActionBandit):
@@ -37,7 +38,7 @@ class VanillaPolicyGradientBandit(ContinuousActionBandit):
         log_prob = dist.log_prob(torch.Tensor(self.action_buffer))
 
         # Calcualte loss.
-        loss = (-log_prob * advantage).mean() + torch.exp(-self.logstddev - 5)
+        loss = (-log_prob * advantage).mean() + torch.exp(-self._logstddev - 5)
 
         # Optimize model params.
         loss.backward()
@@ -57,8 +58,8 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
 
     Args:
         learning_rate: learning rate.
-        initial_mean: (DEFAULT: 0.0) initial mean.
-        initial_logstddev: (DEFAULT: 0.4) initial (log) standard deviation.
+        initial_mean: (DEFAULT: 1e-6) initial mean in the original action (i.e. scaled bid) space.
+        initial_stddev: (DEFAULT: 1e-7) initial standard deviation in the original action (i.e. scaled bid) space.
         buffer_max_size: (DEFAULT: 30) indicates the maximum size of buffer. If buffer_max_size>0, then the buffer will be truncated to this size.
         eps_clip: (DEFAULT: 0.1) epsilon used in PPO clipping.
         ppo_iterations: (DEFAULT: 50) number of optimization steps.
@@ -68,18 +69,19 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
     def __init__(
         self,
         learning_rate: float,
-        initial_mean: float = 0.0,
-        initial_logstddev: float = 0.4,
+        initial_mean: float = 1e-6,
+        initial_stddev: float = 1e-7,
         buffer_max_size: int = 30,
         eps_clip: float = 0.1,
         ppo_iterations: int = 10,
         entropy_coeff: float = 1e-1,
     ):
         # Call parent class constructor.
-        super().__init__(
+        ContinuousActionBandit.__init__(
+            self,
             learning_rate=learning_rate,
             initial_mean=initial_mean,
-            initial_logstddev=initial_logstddev,
+            initial_stddev=initial_stddev,
             buffer_max_size=buffer_max_size,
         )
 
@@ -130,19 +132,16 @@ class ProximalPolicyOptimizationBandit(ContinuousActionBandit):
             )
             entropy_loss = -dist.entropy()
 
-            # Calculate L1 losses.
-            l1_loss_logstd = (
-                torch.nn.L1Loss()(self.logstddev, self._initial_logstddev) * 1e-1
-            )
-            l1_loss_mean = torch.nn.L1Loss()(self.mean, self._initial_mean) * 1e-3
+            # Basic PPO loss with entropy.
+            loss = ppo_loss + self.entropy_coeff * entropy_loss
 
-            # Calculate the final loss.
-            loss = (
-                ppo_loss
-                + self.entropy_coeff * entropy_loss
-                + l1_loss_mean
-                + l1_loss_logstd
-            )
+            # Graceful fallback pull towards init mean.
+            if hasattr(self, "_mean") and hasattr(self, "_initial_mean"):
+                loss += torch.nn.L1Loss()(self._mean, self._initial_mean) * 1e-3
+
+            # Graceful fallback pull towards init std dev.
+            if hasattr(self, "_logstddev") and hasattr(self, "_initial_logstddev"):
+                loss += torch.nn.L1Loss()(self._logstddev, self._initial_logstddev) * 1e-1
 
             # Optimize the model parameters.
             self.optimizer.zero_grad()
@@ -180,8 +179,8 @@ class RollingMemContinuousBandit(ProximalPolicyOptimizationBandit):
 
     Args:
         learning_rate: learning rate.
-        initial_mean: (DEFAULT: 0.0) initial mean.
-        initial_logstddev: (DEFAULT: 0.4) initial (log) standard deviation.
+        initial_mean: (DEFAULT: 1e-6) initial mean in the original action (i.e. scaled bid) space.
+        initial_stddev: (DEFAULT: 1e-7) initial standard deviation in the original action (i.e. scaled bid) space.
         buffer_max_size: (DEFAULT: 30) indicates the maximum size of buffer. If buffer_max_size>0, then the buffer will be truncated to this size.
         eps_clip: (DEFAULT: 0.1) epsilon used in PPO clipping.
         ppo_iterations: (DEFAULT: 50) number of optimization steps.
@@ -191,18 +190,19 @@ class RollingMemContinuousBandit(ProximalPolicyOptimizationBandit):
     def __init__(
         self,
         learning_rate,
-        initial_mean: float = 0,
-        initial_logstddev: float = -2,
+        initial_mean: float = 1e-6,
+        initial_stddev: float = 1e-7,
         buffer_max_size: int = 10,
         eps_clip: float = 0.1,
         ppo_iterations: int = 10,
         entropy_coeff: float = 1e-1,
     ):
         # Call parent class constructor.
-        super().__init__(
+        ProximalPolicyOptimizationBandit.__init__(
+            self,
             learning_rate=learning_rate,
             initial_mean=initial_mean,
-            initial_logstddev=initial_logstddev,
+            initial_stddev=initial_stddev,
             buffer_max_size=buffer_max_size,
             eps_clip=eps_clip,
             ppo_iterations=ppo_iterations,

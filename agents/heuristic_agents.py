@@ -18,7 +18,7 @@ class RandomAgent(Agent):
 
     def __init__(
         self,
-        initial_mean: float = 0.0,
+        initial_mean: float = 1e-6,
         initial_stddev: float = 1e-7,
     ):
         # Store init params.
@@ -88,11 +88,11 @@ class RandomAgent(Agent):
         # Scale y to max=0.5.
         policy_y /= max(policy_y) * 2
 
-        # Get agent's init PDF for "unscaled" x.
-        init_y = policy_y
-
-        # Return x, y and iy.
-        return agent_x, policy_y, init_y
+        # Return x, current policy.
+        return {
+            "x": agent_x,
+            "policy": policy_y,
+        }
 
 
 class RandomScaledAgent(Agent):
@@ -100,14 +100,14 @@ class RandomScaledAgent(Agent):
     Action space is scaled.
 
     Args:
-        initial_mean: (DEFAULT: 0.0) initial mean (actually initial SCALED mean)
+        initial_mean: (DEFAULT: 1e-6) initial mean (actually initial SCALED mean)
         initial_stddev: (DEFAULT: 1e-7) initial standard deviation (actually initial SCALED std).
 
     """
 
     def __init__(
         self,
-        initial_mean: float = 0.0,
+        initial_mean: float = 1e-6,
         initial_stddev: float = 1e-7,
     ):
         # Store init params.
@@ -168,24 +168,27 @@ class RandomScaledAgent(Agent):
             ([x1, x2, ...], [y1, y2, ...], [iy1, iy2, ...]): Triplet of lists of x, y (current policy PDF) and iy (init policy PDF).
         """
 
-        agent_x_scaled = np.linspace(min_x, max_x, 300)
+        agent_x = np.linspace(min_x, max_x, num_points)
         #agent_x = [self.inv_scale(x) for x in agent_x_scaled]
 
         # Get agent's PDF for "unscaled" x.
         policy_mean = self.mean
         policy_stddev = self.stddev
-        policy_y = stats.norm.pdf(x=agent_x_scaled, loc=policy_mean, scale=policy_stddev)
+        policy_y = stats.norm.pdf(x=agent_x, loc=policy_mean, scale=policy_stddev)
         policy_y /= max(policy_y) * 2
         #policy_y = stats.norm.pdf(agent_x, policy_mean, policy_stddev) * policy_stddev
 
-        print("policy_mean = ", policy_mean)
-        print("policy_stddev = ", policy_stddev)
+        #print("policy_mean = ", policy_mean)
+        #print("policy_stddev = ", policy_stddev)
         #print("policy_y = ", policy_y)
-        #print("agent_x_scaled = ", agent_x_scaled)
+        #print("agent_x = ", agent_x)
         # Get agent's init PDF for "unscaled" x.
         #init_y = policy_y
 
-        # Return x, y and iy.
-        return agent_x_scaled, policy_y, None #init_y
+        # Return x, current policy.
+        return {
+            "x": agent_x,
+            "policy": policy_y,
+        }
 
 

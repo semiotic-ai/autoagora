@@ -34,8 +34,8 @@ async def price_bandit_loop(subgraph: str):
 
     bandit = RollingMemContinuousBandit(
         learning_rate=0.01,
-        initial_mean=-3,
-        initial_logstddev=1,
+        initial_mean=5e-8, # ~equal to -3 in the bid space.
+        initial_stddev=1, # ~equal to 1 in the log bid space.
         buffer_max_size=10,
     )
 
@@ -51,9 +51,9 @@ async def price_bandit_loop(subgraph: str):
         logging.debug(
             "Price bandit %s - Distribution stddev: %s",
             subgraph,
-            bandit.logstddev.exp().item(),
+            bandit.stddev.item(),
         )
-        stddev_gauge.labels(subgraph=subgraph).set(bandit.logstddev.exp().item())
+        stddev_gauge.labels(subgraph=subgraph).set(bandit.stddev.item())
 
         # 1. Get bid from the agent (action)
         scaled_bid = bandit.get_action()

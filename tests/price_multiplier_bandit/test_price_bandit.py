@@ -8,7 +8,7 @@ import numpy
 import pytest
 import torch
 
-from agents.continuous_action_bandit import ContinuousActionBandit
+from agents.continuous_action_agent import ContinuousActionBandit
 from agents.reinforcement_learning_bandit import (
     ProximalPolicyOptimizationBandit,
     RollingMemContinuousBandit,
@@ -52,7 +52,7 @@ class TestContinuousActionBandit:
         """Tests bid"""
         # Create agent.
         bandit = bandit_class(
-            learning_rate=0.1, initial_mean=gauss_mean, initial_logstddev=0.0
+            learning_rate=0.1, initial_mean=gauss_mean, initial_logstddev=1.0
         )
         # Get number of bids and average.
         bids = 0.0

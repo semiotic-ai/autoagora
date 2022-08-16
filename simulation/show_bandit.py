@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     # Initialize the simulation.
     args, environment, agents = init_simulation(parser=parser)
-    bandit = next(iter(agents.values()))
+    (agent_name, bandit) = next(iter(agents.items()))
 
     # Generate the filename.
     FILENAME = f"{args.config}.mp4"
@@ -94,11 +94,36 @@ if __name__ == "__main__":
 
         # X. Collect the values for visualization of agent's gaussian policy.
         if i % args.fast_forward_factor == 0:
-            agent_x, agent_y, init_agent_y = run(
-                bandit.generate_plot_data(min_x, max_x)
-            )
+            # Containers for frame.
+            frame_image_container = [im_env]
+            frame_legend_container = ["Queries/s"]
+
+            # Get data.
+            data = run(bandit.generate_plot_data(min_x, max_x))
+            agent_x = data.pop("x")
+            agent_y = data["policy"]
+            init_agent_y = data["init policy"]
+
+            # Plot policy and add it to last list in container.
             (img_agent,) = plt.plot(agent_x, agent_y, color="b")
-            (img_init_agent,) = plt.plot(agent_x, init_agent_y, color="g")
+            frame_image_container.append(img_agent)
+            frame_legend_container.append(f"Agent {agent_name}: policy")
+
+            # Plot init policy and add it to last list in container.
+            (img_init_agent,) = plt.plot(agent_x, init_agent_y, color="b", linestyle='dashed')
+            frame_image_container.append(img_init_agent)
+            frame_legend_container.append(f"Agent {agent_name}: init policy")
+
+            # Plot agent q/s.
+            agent_qps_x = min(max_x, max(min_x, scaled_bid))
+            img_agent_qps = plt.scatter(
+                [agent_qps_x],
+                [queries_per_second],
+                marker="o",
+                color="b",
+            )
+            frame_image_container.append(img_agent_qps)
+            frame_legend_container.append(f"Agent {agent_name}: action => q/s")
 
             # Put both "images" with labels & title into a container.
             ax.set_xlabel("Price multiplier")
@@ -111,8 +136,8 @@ if __name__ == "__main__":
                 ha="center",
                 transform=ax.transAxes,
             )
-            legend = ax.legend([im_env, img_agent, img_init_agent], ["Queries/s", "Policy PDF", "Init Policy PDF"])  # type: ignore
-            container.append([im_env, img_agent, title])  # type: ignore
+            legend = ax.legend(frame_image_container, frame_legend_container)  # type: ignore
+            container.append([*frame_image_container, title])  # type: ignore
 
         # 5. Make a step.
         environment.step()

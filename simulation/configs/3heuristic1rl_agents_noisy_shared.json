@@ -1,0 +1,27 @@
+{
+    "agents": {
+        "random_scaled1": {
+            "RandomScaledAgent": {
+                "initial_mean": 1.25e-06,
+                "initial_stddev": 1e-7
+            }
+        },
+        "random_scaled2": {
+            "RandomScaledAgent": {
+                "initial_mean": 2.5e-06,
+                "initial_stddev": 1e-7
+            }
+        },
+        "random_scaled3": {
+            "RandomScaledAgent": {
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 1e-7
+            }
+        }
+    },
+    "environment": {
+        "NoisySharedSubgraph": {
+            "noise": true
+        }
+    }
+}
