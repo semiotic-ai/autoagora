@@ -59,6 +59,7 @@ class ProximalPolicyOptimizationMixin(ExperienceBufferPolicyMixin):
         eps_clip: (DEFAULT: 0.1) epsilon used in PPO clipping.
         ppo_iterations: (DEFAULT: 50) number of optimization steps.
         entropy_coeff: (DEFAULT: 1e-1) entropy coefficient for the loss calculation.
+        graceful_init_pull: (DEFAULT: True) if set, enables graceful pull towards initial distribution.
     """
 
     def __init__(
@@ -67,6 +68,7 @@ class ProximalPolicyOptimizationMixin(ExperienceBufferPolicyMixin):
         eps_clip: float = 0.1,
         ppo_iterations: int = 10,
         entropy_coeff: float = 1e-1,
+        graceful_init_pull: bool = True,
     ):
         # Call parent class constructor.
         ExperienceBufferPolicyMixin.__init__(
@@ -78,6 +80,9 @@ class ProximalPolicyOptimizationMixin(ExperienceBufferPolicyMixin):
         self.eps_clip = eps_clip
         self.ppo_iterations = ppo_iterations
         self.entropy_coeff = entropy_coeff
+
+        # Loss coefficients.
+        self._graceful_init_pull = graceful_init_pull
 
     def __str__(self):
         """
@@ -124,15 +129,17 @@ class ProximalPolicyOptimizationMixin(ExperienceBufferPolicyMixin):
             # Basic PPO loss with entropy.
             loss = ppo_loss + self.entropy_coeff * entropy_loss
 
-            # Graceful fallback pull towards init mean.
-            if hasattr(self, "_mean") and hasattr(self, "_initial_mean"):
-                loss += torch.nn.L1Loss()(self._mean, self._initial_mean) * 1e-3
+            if self._graceful_init_pull:
+                # Graceful fallback pull towards init mean.
+                if hasattr(self, "_mean") and hasattr(self, "_initial_mean"):
+                    loss += torch.nn.L1Loss()(self._mean, self._initial_mean) * 1e-3
 
-            # Graceful fallback pull towards init std dev.
-            if hasattr(self, "_logstddev") and hasattr(self, "_initial_logstddev"):
-                loss += (
-                    torch.nn.L1Loss()(self._logstddev, self._initial_logstddev) * 1e-1
-                )
+                # Graceful fallback pull towards init std dev.
+                if hasattr(self, "_logstddev") and hasattr(self, "_initial_logstddev"):
+                    loss += (
+                        torch.nn.L1Loss()(self._logstddev, self._initial_logstddev)
+                        * 1e-1
+                    )
 
             # Optimize the model parameters.
             self.optimizer.zero_grad()
@@ -181,6 +188,7 @@ class RollingMemoryPPOMixin(ProximalPolicyOptimizationMixin):
         eps_clip: float = 0.1,
         ppo_iterations: int = 10,
         entropy_coeff: float = 1e-1,
+        graceful_init_pull: bool = True,
     ):
         # Call parent class constructor.
         ProximalPolicyOptimizationMixin.__init__(
@@ -189,6 +197,7 @@ class RollingMemoryPPOMixin(ProximalPolicyOptimizationMixin):
             eps_clip=eps_clip,
             ppo_iterations=ppo_iterations,
             entropy_coeff=entropy_coeff,
+            graceful_init_pull=graceful_init_pull,
         )
 
         # New buffer for action log probs.

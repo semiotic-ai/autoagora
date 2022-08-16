@@ -128,8 +128,6 @@ if __name__ == "__main__":
                 data = run(agent.generate_plot_data(min_x, max_x))
                 agent_x = data.pop("x")
                 agent_y = data["policy"]
-                init_agent_y = data["init policy"]
-
                 agent_color = agent_colors[agent_id % len(agent_colors)]
 
                 # Plot policy and add it to last list in container.
@@ -138,11 +136,13 @@ if __name__ == "__main__":
                 legend_container[-1].append(f"Agent {agent_name}: policy")
 
                 # Plot init policy and add it to last list in container.
-                (img_init_agent,) = plt.plot(
-                    agent_x, init_agent_y, color=agent_color, linestyle="dashed"
-                )
-                image_container[-1].append(img_init_agent)
-                legend_container[-1].append(f"Agent {agent_name}: init policy")
+                if "init policy" in data.keys():
+                    init_agent_y = data["init policy"]
+                    (img_init_agent,) = plt.plot(
+                        agent_x, init_agent_y, color=agent_color, linestyle="dashed"
+                    )
+                    image_container[-1].append(img_init_agent)
+                    legend_container[-1].append(f"Agent {agent_name}: init policy")
 
                 # Agent q/s.
                 agent_qps_x = min(max_x, max(min_x, scaled_bids[agent_id]))

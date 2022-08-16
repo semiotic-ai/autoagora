@@ -6,9 +6,13 @@ import inspect
 
 import torch.optim as optim
 
-from agents.action_mixins import GaussianActionMixin, ScaledGaussianActionMixin
+from agents.action_mixins import (
+    DeterministicActionMixin,
+    GaussianActionMixin,
+    ScaledGaussianActionMixin,
+)
 from agents.agent import Agent
-from agents.policy_mixins import NoUpdatePolicyMixin, PolicyMixin
+from agents.policy_mixins import NoUpdatePolicyMixin
 from agents.reinforcement_learning_policy_mixins import (
     ProximalPolicyOptimizationMixin,
     RollingMemoryPPOMixin,
@@ -31,6 +35,8 @@ _ACTION_TYPES = {
     "scaled_gaussian": ScaledGaussianActionMixin,
     "GaussianActionMixin": GaussianActionMixin,
     "gaussian": GaussianActionMixin,
+    "DeterministicActionMixin": DeterministicActionMixin,
+    "deterministic": DeterministicActionMixin,
 }
 
 _OPTIMIZER_TYPES = {

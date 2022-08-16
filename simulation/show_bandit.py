@@ -102,7 +102,6 @@ if __name__ == "__main__":
             data = run(bandit.generate_plot_data(min_x, max_x))
             agent_x = data.pop("x")
             agent_y = data["policy"]
-            init_agent_y = data["init policy"]
 
             # Plot policy and add it to last list in container.
             (img_agent,) = plt.plot(agent_x, agent_y, color="b")
@@ -110,11 +109,13 @@ if __name__ == "__main__":
             frame_legend_container.append(f"Agent {agent_name}: policy")
 
             # Plot init policy and add it to last list in container.
-            (img_init_agent,) = plt.plot(
-                agent_x, init_agent_y, color="b", linestyle="dashed"
-            )
-            frame_image_container.append(img_init_agent)
-            frame_legend_container.append(f"Agent {agent_name}: init policy")
+            if "init policy" in data.keys():
+                init_agent_y = data["init policy"]
+                (img_init_agent,) = plt.plot(
+                    agent_x, init_agent_y, color="b", linestyle="dashed"
+                )
+                frame_image_container.append(img_init_agent)
+                frame_legend_container.append(f"Agent {agent_name}: init policy")
 
             # Plot agent q/s.
             agent_qps_x = min(max_x, max(min_x, scaled_bid))

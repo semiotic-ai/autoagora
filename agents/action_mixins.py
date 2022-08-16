@@ -62,9 +62,9 @@ class ScaledGaussianActionMixin(ActionMixin):
         """
         # TODO: rething the order here -> clamp self.stddev?
         if initial:
-            return self._initial_logstddev.exp().clamp_max(self.inverse_bid_scale(1e-2))
+            return self._initial_logstddev.exp()
         else:
-            return self._logstddev.exp().clamp_max(self.inverse_bid_scale(1e-2))
+            return self._logstddev.exp()
 
     @property
     def params(self):
@@ -185,13 +185,13 @@ class ScaledGaussianActionMixin(ActionMixin):
 
 
 class GaussianActionMixin(ActionMixin):
-    """Mixin class for agents with continuous action space represented as a gausian in the regular bid space (NO SCALING!)
+    """Mixin class for agents with continuous action space represented as a gausian in the regular action space (NO SCALING!)
     The std dev operates in a separate log space.
     Mixin provides methods for moving for sampling action, visualization etc.
 
     Args:
-        initial_mean: (DEFAULT: 1e-6) initial mean in the original action bid space.
-        initial_stddev: (DEFAULT: 1e-7) initial standard deviation in the original action bid space.
+        initial_mean: (DEFAULT: 1e-6) initial mean in the original action space.
+        initial_stddev: (DEFAULT: 1e-7) initial standard deviation in the original action space.
     """
 
     def __init__(
@@ -303,4 +303,71 @@ class GaussianActionMixin(ActionMixin):
             "x": agent_x,
             "policy": policy_y,
             "init policy": init_y,
+        }
+
+
+class DeterministicActionMixin(ActionMixin):
+    """Mixin class for agents with deterministic actions expressed in the original action (price multiplier) space.
+    Mixin provides methods for moving for getting action, visualization etc.
+
+    Args:
+        initial_value: (DEFAULT: 1e-6) initial value in the action space.
+    """
+
+    def __init__(
+        self,
+        initial_value: float = 1e-6,
+    ):
+        # Store init params.
+        self._value = initial_value
+
+    @property
+    def params(self):
+        """Returns:
+        List of trainable parameters.
+        """
+        return None
+
+    def get_bids(self):
+        """Gets, adds it to action buffer and returns it.
+
+        Return:
+            Action sampled from the action space.
+        """
+        action = self._value
+
+        # Add action to buffer (TODO: (re)think the decoupled buffer-scaling logic)
+        if hasattr(self, "action_buffer"):
+            self.action_buffer.append(action)
+
+        return action
+
+    def get_action(self):
+        """Calls get_bids() to return value."""
+        return self.get_bids()
+
+    async def generate_plot_data(
+        self, min_x: float, max_x: float, num_points: int = 200
+    ):
+        """Generates action distribution for a given cost multiplier range.
+
+        Args:
+            min_x (float): Lower bound cost multiplier.
+            max_x (float): Upper bound cost multiplier.
+            num_points (int, optional): Number of points. Defaults to 200.
+
+        Returns:
+            ([x1, x2, ...], [y1, y2, ...], [iy1, iy2, ...]): Triplet of lists of x, y (current policy PDF) and iy (init policy PDF).
+        """
+
+        # Prepare points in the "unscaled" x.
+        agent_x = [min_x, self._value, self._value, self._value, max_x]
+
+        # Dirac at value.
+        policy_y = [0, 0, 0.5, 0, 0]
+
+        # Return x, current and init policies.
+        return {
+            "x": agent_x,
+            "policy": policy_y,
         }
