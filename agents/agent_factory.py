@@ -7,36 +7,36 @@ import inspect
 import torch.optim as optim
 
 from agents.action_mixins import (
-    DeterministicActionMixin,
-    GaussianActionMixin,
-    ScaledGaussianActionMixin,
+    DeterministicAction,
+    GaussianAction,
+    ScaledGaussianAction,
 )
 from agents.agent import Agent
-from agents.policy_mixins import NoUpdatePolicyMixin
+from agents.policy_mixins import NoUpdatePolicy
 from agents.reinforcement_learning_policy_mixins import (
-    ProximalPolicyOptimizationMixin,
-    RollingMemoryPPOMixin,
-    VanillaPolicyGradientMixin,
+    ProximalPolicyOptimization,
+    RollingMemoryPPO,
+    VanillaPolicyGradient,
 )
 
 _POLICY_TYPES = {
-    "VanillaPolicyGradientMixin": VanillaPolicyGradientMixin,
-    "vpg": VanillaPolicyGradientMixin,
-    "ProximalPolicyOptimizationMixin": ProximalPolicyOptimizationMixin,
-    "ppo": ProximalPolicyOptimizationMixin,
-    "RollingMemoryPPOMixin": RollingMemoryPPOMixin,
-    "rolling_ppo": RollingMemoryPPOMixin,
-    "NoUpdatePolicyMixin": NoUpdatePolicyMixin,
-    "no_update": NoUpdatePolicyMixin,
+    "VanillaPolicyGradient": VanillaPolicyGradient,
+    "vpg": VanillaPolicyGradient,
+    "ProximalPolicyOptimization": ProximalPolicyOptimization,
+    "ppo": ProximalPolicyOptimization,
+    "RollingMemoryPPO": RollingMemoryPPO,
+    "rolling_ppo": RollingMemoryPPO,
+    "NoUpdatePolicy": NoUpdatePolicy,
+    "no_update": NoUpdatePolicy,
 }
 
 _ACTION_TYPES = {
-    "ScaledGaussianActionMixin": ScaledGaussianActionMixin,
-    "scaled_gaussian": ScaledGaussianActionMixin,
-    "GaussianActionMixin": GaussianActionMixin,
-    "gaussian": GaussianActionMixin,
-    "DeterministicActionMixin": DeterministicActionMixin,
-    "deterministic": DeterministicActionMixin,
+    "ScaledGaussianAction": ScaledGaussianAction,
+    "scaled_gaussian": ScaledGaussianAction,
+    "GaussianAction": GaussianAction,
+    "gaussian": GaussianAction,
+    "DeterministicAction": DeterministicAction,
+    "deterministic": DeterministicAction,
 }
 
 _OPTIMIZER_TYPES = {
@@ -63,7 +63,7 @@ class AgentFactory(object):
         if type(policy_section) is str:
             policy_section = {"type": policy_section}
         # Use no updte policy by default.
-        policy_class = _POLICY_TYPES[policy_section.pop("type", "NoUpdatePolicyMixin")]
+        policy_class = _POLICY_TYPES[policy_section.pop("type", "NoUpdatePolicy")]
 
         # Get action section.
         action_section = agent_section.pop("action", {})
@@ -71,9 +71,7 @@ class AgentFactory(object):
         if type(action_section) is str:
             action_section = {"type": action_section}
         # Use scaled gaussian action by default.
-        action_class = _ACTION_TYPES[
-            action_section.pop("type", "ScaledGaussianActionMixin")
-        ]
+        action_class = _ACTION_TYPES[action_section.pop("type", "ScaledGaussianAction")]
 
         # Get optimizer section.
         optim_section = agent_section.pop("optimizer", {})

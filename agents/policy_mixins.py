@@ -4,7 +4,7 @@
 from abc import ABC, abstractmethod
 
 
-class PolicyMixin(ABC):
+class Policy(ABC):
     """Abstract policy class defining its elementary interface"""
 
     @abstractmethod
@@ -22,7 +22,7 @@ class PolicyMixin(ABC):
         pass
 
 
-class NoUpdatePolicyMixin(PolicyMixin):
+class NoUpdatePolicy(Policy):
     """Policy without any update."""
 
     def add_reward(self, reward):
@@ -38,7 +38,7 @@ class NoUpdatePolicyMixin(PolicyMixin):
         pass
 
 
-class ExperienceBufferPolicyMixin(PolicyMixin):
+class ExperienceBufferPolicy(Policy):
     """Abstract policy class that stores and manages its own experience reply buffer with past actions and rewards.
 
     Args:
@@ -50,7 +50,7 @@ class ExperienceBufferPolicyMixin(PolicyMixin):
         buffer_max_size: int = 10,
     ):
         # Call parent constructors.
-        PolicyMixin.__init__(self)
+        Policy.__init__(self)
 
         # Experience reply buffer.
         self.buffer_max_size = buffer_max_size

@@ -1,11 +1,11 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-from agents.action_mixins import ActionMixin
-from agents.policy_mixins import PolicyMixin
+from agents.action_mixins import Action
+from agents.policy_mixins import Policy
 
 
-class Agent(ActionMixin, PolicyMixin):
+class Agent(Action, Policy):
     """Abstract agent class defining agent's elementary interface by composing action and policy mixins."""
 
     def __init__(self, name: str):

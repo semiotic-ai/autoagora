@@ -4,7 +4,7 @@
 from torch.optim import Optimizer
 
 
-class OptimizerMixin(object):
+class Optimizer(object):
     """Symbolic optimizer mixin class.
 
     Args:

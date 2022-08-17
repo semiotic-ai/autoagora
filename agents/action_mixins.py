@@ -3,7 +3,7 @@
 
 from abc import ABC, abstractmethod
 from math import exp, log
-from typing import Optional, Union, overload
+from typing import Union, overload
 
 import numpy as np
 import scipy.stats as stats
@@ -11,14 +11,14 @@ import torch
 from torch import distributions, nn
 
 
-class ActionMixin(ABC):
+class Action(ABC):
     @abstractmethod
     def get_action(self):
         """Abstract method returning agent's action."""
         pass
 
 
-class ScaledGaussianActionMixin(ActionMixin):
+class ScaledGaussianAction(Action):
     """Mixin class for agents with continuous action space represented as a gausian in the scaled space.
     Moreover, the std dev operates in a separate log space.
     Mixin provides methods for moving between external (scaled bid) and internal (bid) space,sampling actions, visualization etc.
@@ -184,7 +184,7 @@ class ScaledGaussianActionMixin(ActionMixin):
         }
 
 
-class GaussianActionMixin(ActionMixin):
+class GaussianAction(Action):
     """Mixin class for agents with continuous action space represented as a gausian in the regular action space (NO SCALING!)
     The std dev operates in a separate log space.
     Mixin provides methods for moving for sampling action, visualization etc.
@@ -306,7 +306,7 @@ class GaussianActionMixin(ActionMixin):
         }
 
 
-class DeterministicActionMixin(ActionMixin):
+class DeterministicAction(Action):
     """Mixin class for agents with deterministic actions expressed in the original action (price multiplier) space.
     Mixin provides methods for moving for getting action, visualization etc.
 

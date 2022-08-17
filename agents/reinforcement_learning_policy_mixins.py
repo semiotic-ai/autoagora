@@ -3,10 +3,10 @@
 
 import torch
 
-from agents.policy_mixins import ExperienceBufferPolicyMixin
+from agents.policy_mixins import ExperienceBufferPolicy
 
 
-class VanillaPolicyGradientMixin(ExperienceBufferPolicyMixin):
+class VanillaPolicyGradient(ExperienceBufferPolicy):
     """Implements vanilla policy gradients optimization."""
 
     def update_policy(self):
@@ -51,7 +51,7 @@ class VanillaPolicyGradientMixin(ExperienceBufferPolicyMixin):
         return loss.item()
 
 
-class ProximalPolicyOptimizationMixin(ExperienceBufferPolicyMixin):
+class ProximalPolicyOptimization(ExperienceBufferPolicy):
     """Proximal policy optimization.
 
     Args:
@@ -71,7 +71,7 @@ class ProximalPolicyOptimizationMixin(ExperienceBufferPolicyMixin):
         graceful_init_pull: bool = True,
     ):
         # Call parent class constructor.
-        ExperienceBufferPolicyMixin.__init__(
+        ExperienceBufferPolicy.__init__(
             self,
             buffer_max_size=buffer_max_size,
         )
@@ -171,7 +171,7 @@ class ProximalPolicyOptimizationMixin(ExperienceBufferPolicyMixin):
         return loss
 
 
-class RollingMemoryPPOMixin(ProximalPolicyOptimizationMixin):
+class RollingMemoryPPO(ProximalPolicyOptimization):
     """Proximal policy optimization with a "rolling" experience buffer.
     Internally stores and manages its own experience reply buffer with past actions and rewards.
 
@@ -191,7 +191,7 @@ class RollingMemoryPPOMixin(ProximalPolicyOptimizationMixin):
         graceful_init_pull: bool = True,
     ):
         # Call parent class constructor.
-        ProximalPolicyOptimizationMixin.__init__(
+        ProximalPolicyOptimization.__init__(
             self,
             buffer_max_size=buffer_max_size,
             eps_clip=eps_clip,
