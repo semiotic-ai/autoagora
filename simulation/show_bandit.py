@@ -3,9 +3,11 @@
 
 import argparse
 from asyncio import run
+from typing import List
 
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
+from matplotlib.artist import Artist
 
 from agents.agent_factory import add_agent_argparse
 from environments.environment_factory import add_environment_argparse
@@ -74,6 +76,8 @@ if __name__ == "__main__":
             # Plot environment.
             env_x, env_y = run(environment.generate_plot_data(min_x, max_x))
             (im_env,) = plt.plot(env_x, env_y, color="grey")
+        else:  # Avoid unbound variables
+            im_env = None
 
         # 1. Get bid from the agent (action)
         scaled_bid = bandit.get_action()
@@ -95,7 +99,8 @@ if __name__ == "__main__":
         # X. Collect the values for visualization of agent's gaussian policy.
         if i % args.fast_forward_factor == 0:
             # Containers for frame.
-            frame_image_container = [im_env]
+            assert im_env  # im_env shouldn't be None
+            frame_image_container: List["Artist"] = [im_env]
             frame_legend_container = ["Queries/s"]
 
             # Get data.
