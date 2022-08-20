@@ -1,10 +1,12 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
+
+from agents.mixin import ABCMixin
 
 
-class Policy(ABC):
+class Policy(ABCMixin):
     """Abstract policy class defining its elementary interface"""
 
     @abstractmethod

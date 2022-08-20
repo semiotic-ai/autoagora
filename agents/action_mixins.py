@@ -10,8 +10,10 @@ import scipy.stats as stats
 import torch
 from torch import distributions, nn
 
+from agents.mixin import ABCMixin
 
-class Action(ABC):
+
+class Action(ABCMixin):
     @abstractmethod
     def get_action(self):
         """Abstract method returning agent's action."""
