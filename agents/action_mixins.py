@@ -10,8 +10,6 @@ import scipy.stats as stats
 import torch
 from torch import distributions, nn
 
-from agents.policy_mixins import ExperienceBufferPolicy
-
 
 class Action(ABC):
     @abstractmethod
@@ -93,7 +91,7 @@ class ScaledGaussianAction(Action):
         # assert isinstance(action, float)
 
         # Add action to buffer (TODO: (re)think the decoupled buffer-scaling logic)
-        if isinstance(self, ExperienceBufferPolicy):
+        if hasattr(self, "action_buffer"):
             self.action_buffer.append(action)
 
         return action
