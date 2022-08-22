@@ -2,13 +2,13 @@
     "agents": {
         "rollmem1": {
             "policy": {
-                "type": "rolling_ppo",
+                "type": "ppo",
                 "buffer_max_size": 10
             },
             "action": {
                 "type": "scaled_gaussian",
-                "initial_mean": 2.0e-06,
-                "initial_stddev": 5e-7
+                "initial_mean": 1.0e-06,
+                "initial_stddev": 3e-7
             },
             "optimizer": {
                 "type": "adam",
@@ -23,7 +23,7 @@
             "action": {
                 "type": "scaled_gaussian",
                 "initial_mean": 2.0e-06,
-                "initial_stddev": 5e-7
+                "initial_stddev": 1e-7
             },
             "optimizer": {
                 "type": "adam",

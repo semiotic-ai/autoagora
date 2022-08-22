@@ -14,9 +14,9 @@
                 "type": "adam",
                 "lr": 1e-7
             },
-            "num_instances": 1
+            "num_instances": 0
         },
-        "vpg2": {
+        "vpg1": {
             "policy": {
                 "type": "vpg",
                 "buffer_max_size": 10
@@ -30,7 +30,7 @@
                 "type": "adam",
                 "lr": 0.01
             },
-            "num_instances": 0
+            "num_instances": 1
         },
         "ppo1": {
             "policy": {
@@ -46,7 +46,7 @@
                 "type": "adam",
                 "lr": 0.01
             },
-            "num_instances": 0
+            "num_instances": 1
         },
         "rollmem1": {
             "policy": {
@@ -70,7 +70,7 @@
                 "initial_mean": 1e-6,
                 "initial_stddev": 1e-7
             },
-            "num_instances": 1
+            "num_instances": 0
         }
     },
     "environment": {
