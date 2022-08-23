@@ -15,7 +15,7 @@ from agents.mixin import ABCMixin
 
 class Action(ABCMixin):
     @abstractmethod
-    def get_action(self):
+    def get_action(self) -> float:
         """Abstract method returning agent's action."""
         pass
 
