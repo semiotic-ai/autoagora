@@ -14,7 +14,7 @@ class Environment(ABCMixin):
         pass
 
     @abstractmethod
-    def reset(self, *args, **kwargs):
+    def reset(self):
         """Abstract method for resetting the state of the environment."""
         pass
 
@@ -24,6 +24,6 @@ class Environment(ABCMixin):
         pass
 
     @abstractmethod
-    def observation(self, *args, **kwargs):
+    def observation(self):
         """Abstract method returning observation based on the environment step."""
         pass

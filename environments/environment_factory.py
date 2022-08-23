@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import argparse
-from typing import Union
 
+from environments.environment import Environment
 from environments.shared_subgraph import NoisySharedSubgraph
 from environments.simulated_subgraph import (
     NoisyCyclicQueriesSubgraph,
@@ -15,18 +15,13 @@ from environments.simulated_subgraph import (
 _ENVIRONMENT_TYPES = {
     "NoisyQueriesSubgraph": NoisyQueriesSubgraph,
     "static": NoisyQueriesSubgraph,
-    "noisy_static": NoisyQueriesSubgraph,
     "NoisyCyclicQueriesSubgraph": NoisyCyclicQueriesSubgraph,
     "cyclic": NoisyCyclicQueriesSubgraph,
-    "noisy_cyclic": NoisyCyclicQueriesSubgraph,
     "NoisyCyclicZeroQueriesSubgraph": NoisyCyclicZeroQueriesSubgraph,
     "cyclic_zero": NoisyCyclicZeroQueriesSubgraph,
-    "noisy_cyclic_zero": NoisyCyclicZeroQueriesSubgraph,
     "NoisyDynamicQueriesSubgraph": NoisyDynamicQueriesSubgraph,
     "dynamic": NoisyDynamicQueriesSubgraph,
-    "noisy_dynamic": NoisyDynamicQueriesSubgraph,
     "NoisySharedSubgraph": NoisySharedSubgraph,
-    "noisy_shared": NoisySharedSubgraph,
     "shared": NoisySharedSubgraph,
 }
 
@@ -41,13 +36,6 @@ class EnvironmentFactory(object):
     """
 
     def __new__(cls, environment_type: str, *args, **kwargs) -> Environment:
-        # If argument is set - do nothing.
-        if "noise" not in kwargs.keys():
-            # If not, try to extract "noise" value from the name.
-            if "noisy" in environment_type:
-                kwargs["noise"] = True
-            else:
-                kwargs["noise"] = False
         # Create the environment object.
         return _ENVIRONMENT_TYPES[environment_type](*args, **kwargs)
 
