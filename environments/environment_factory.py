@@ -40,9 +40,7 @@ class EnvironmentFactory(object):
         kwargs: Dict of keyword arguments passed to agent constructor.
     """
 
-    def __new__(
-        cls, environment_type: str, *args, **kwargs
-    ) -> Union[NoisyQueriesSubgraph, NoisyQueriesSubgraph]:
+    def __new__(cls, environment_type: str, *args, **kwargs) -> Environment:
         # If argument is set - do nothing.
         if "noise" not in kwargs.keys():
             # If not, try to extract "noise" value from the name.
