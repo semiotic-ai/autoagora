@@ -1,32 +1,80 @@
 {
     "agents": {
-        "vpg1": {
-            "VanillaPolicyGradientBandit": {
-                "learning_rate": 0.01,
-                "initial_mean": 0.0,
-                "initial_logstddev": 0.4,
+        "rollmem_no_scaling1": {
+            "policy": {
+                "type": "rolling_ppo",
                 "buffer_max_size": 10
-            }
+            },
+            "action": {
+                "type": "gaussian",
+                "initial_mean": 1e-6,
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 1e-7
+            },
+            "num_instances": 0
+        },
+        "vpg1": {
+            "policy": {
+                "type": "vpg",
+                "buffer_max_size": 10
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 1e-6,
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
+            },
+            "num_instances": 1
         },
         "ppo1": {
-            "ProximalPolicyOptimizationBandit": {
-                "learning_rate": 0.01,
-                "initial_mean": 0.0,
-                "initial_logstddev": 0.4,
+            "policy": {
+                "type": "ppo",
                 "buffer_max_size": 10
-            }
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 1e-6,
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
+            },
+            "num_instances": 1
         },
         "rollmem1": {
-            "RollingMemContinuousBandit": {
-                "learning_rate": 0.01,
-                "initial_mean": 0.0,
-                "initial_logstddev": 0.4,
+            "policy": {
+                "type": "rolling_ppo",
                 "buffer_max_size": 10
-            }
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 1e-6,
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
+            },
+            "num_instances": 1
+        },
+        "gaussian": {
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 1e-6,
+                "initial_stddev": 1e-7
+            },
+            "num_instances": 0
         }
     },
     "environment": {
-        "NoisyCyclicQueriesSubgraph": {
+        "NoisyCyclicZeroQueriesSubgraph": {
             "cycle": 1000,
             "noise": true
         }

@@ -75,11 +75,11 @@ trio = ["trio (>=0.16)"]
 
 [[package]]
 name = "astroid"
-version = "2.12.2"
+version = "2.11.7"
 description = "An abstract syntax tree for Python with inference support."
 category = "dev"
 optional = false
-python-versions = ">=3.7.2"
+python-versions = ">=3.6.2"
 
 [package.dependencies]
 lazy-object-proxy = ">=1.4.0"
@@ -246,6 +246,17 @@ description = "Composable style cycles"
 category = "dev"
 optional = false
 python-versions = ">=3.6"
+
+[[package]]
+name = "dill"
+version = "0.3.5.1"
+description = "serialize all of python"
+category = "dev"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*"
+
+[package.extras]
+graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "docutils"
@@ -767,17 +778,26 @@ plugins = ["importlib-metadata"]
 
 [[package]]
 name = "pylint"
-version = "2.3.0"
+version = "2.14.5"
 description = "python code static checker"
 category = "dev"
 optional = false
-python-versions = ">=3.4.*"
+python-versions = ">=3.7.2"
 
 [package.dependencies]
-astroid = ">=2.2.0"
-colorama = {version = "*", markers = "sys_platform == \"win32\""}
-isort = ">=4.2.5"
-mccabe = "*"
+astroid = ">=2.11.6,<=2.12.0-dev0"
+colorama = {version = ">=0.4.5", markers = "sys_platform == \"win32\""}
+dill = ">=0.2"
+isort = ">=4.2.5,<6"
+mccabe = ">=0.6,<0.8"
+platformdirs = ">=2.2.0"
+tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
+tomlkit = ">=0.10.1"
+typing-extensions = {version = ">=3.10.0", markers = "python_version < \"3.10\""}
+
+[package.extras]
+spelling = ["pyenchant (>=3.2,<4.0)"]
+testutils = ["gitpython (>3)"]
 
 [[package]]
 name = "pylint-gitlab"
@@ -1158,6 +1178,14 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "tomlkit"
+version = "0.11.4"
+description = "Style preserving TOML library"
+category = "dev"
+optional = false
+python-versions = ">=3.6,<4.0"
+
+[[package]]
 name = "torch"
 version = "1.11.0"
 description = "Tensors and Dynamic neural networks in Python with strong GPU acceleration"
@@ -1185,6 +1213,7 @@ typing-extensions = "*"
 [package.source]
 type = "url"
 url = "https://download.pytorch.org/whl/cpu/torch-1.11.0%2Bcpu-cp38-cp38-linux_x86_64.whl"
+
 [[package]]
 name = "typing-extensions"
 version = "4.3.0"
@@ -1255,7 +1284,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<3.11"
-content-hash = "e6e4272789385380aea0b7897d4e3e4fb554f01db64b7fc1a619114e9677b862"
+content-hash = "7bcff3eb20c9e2fcfceb0667cd65823d9e1bf5564edd890cfde9224fa8569432"
 
 [metadata.files]
 absl-py = [
@@ -1349,10 +1378,7 @@ anybadge = [
     {file = "anybadge-1.13.0.tar.gz", hash = "sha256:04c2adf57ab8b2cf503b89883b21214bce3a6418a7c8185096b1535aa2d019ae"},
 ]
 anyio = []
-astroid = [
-    {file = "astroid-2.12.2-py3-none-any.whl", hash = "sha256:2a704303bfaacf4b4e23cf07929a22b7f6d1af635c25a8cc2d6dd58ed5863970"},
-    {file = "astroid-2.12.2.tar.gz", hash = "sha256:4675ef501edbbb143b3d9bb4c81d5f6338f08f960beed2ce41a03dc4cd20d777"},
-]
+astroid = []
 async-timeout = [
     {file = "async-timeout-4.0.2.tar.gz", hash = "sha256:2163e1640ddb52b7a8c80d0a67a08587e5d245cc9c553a74a847056bc2976b15"},
     {file = "async_timeout-4.0.2-py3-none-any.whl", hash = "sha256:8ca1e4fcf50d07413d66d1a5e416e42cfdf5851c981d679a09851a6853383b3c"},
@@ -1413,6 +1439,7 @@ cycler = [
     {file = "cycler-0.11.0-py3-none-any.whl", hash = "sha256:3a27e95f763a428a739d2add979fa7494c912a32c17c4c38c4d5f082cad165a3"},
     {file = "cycler-0.11.0.tar.gz", hash = "sha256:9c87405839a19696e837b3b818fed3f5f69f16f1eec1a1ad77e043dcea9c772f"},
 ]
+dill = []
 docutils = [
     {file = "docutils-0.17.1-py2.py3-none-any.whl", hash = "sha256:cf316c8370a737a022b72b56874f6602acf974a37a9fba42ec2876387549fc61"},
     {file = "docutils-0.17.1.tar.gz", hash = "sha256:686577d2e4c32380bb50cbb22f575ed742d58168cee37e99117a854bcd88f125"},
@@ -1736,10 +1763,7 @@ pygments = [
     {file = "Pygments-2.13.0-py3-none-any.whl", hash = "sha256:f643f331ab57ba3c9d89212ee4a2dabc6e94f117cf4eefde99a0574720d14c42"},
     {file = "Pygments-2.13.0.tar.gz", hash = "sha256:56a8508ae95f98e2b9bdf93a6be5ae3f7d8af858b43e02c5a2ff083726be40c1"},
 ]
-pylint = [
-    {file = "pylint-2.3.0-py3-none-any.whl", hash = "sha256:2bf4bd58d6d5d87174fbc9d1d134a9aeee852d4dc29cbd422a7015772770bc63"},
-    {file = "pylint-2.3.0.tar.gz", hash = "sha256:ee80c7af4f127b2a480d83010c9f0e97beb8eaa652b78c2837d3ed30b12e1182"},
-]
+pylint = []
 pylint-gitlab = [
     {file = "pylint-gitlab-1.1.0.tar.gz", hash = "sha256:8ba2b862773eaedf3485f776242d7a462bbd984fc5c41d5ba2bdc0e84783b0d0"},
     {file = "pylint_gitlab-1.1.0-py3-none-any.whl", hash = "sha256:58d59ace48c765e5f1740e4405403669209e38f8cdbd62330158471fda1e5be1"},
@@ -1877,6 +1901,7 @@ tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
 ]
+tomlkit = []
 torch = []
 typing-extensions = []
 urllib3 = []

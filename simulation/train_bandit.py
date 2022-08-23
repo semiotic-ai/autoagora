@@ -5,19 +5,21 @@ import argparse
 import os
 import sys
 
-import numpy as np
 from anyio import run
 from torch.utils.tensorboard.writer import SummaryWriter
 
-from agents.agent_factory import AgentFactory, add_agent_argparse
-from environments.environment_factory import (
-    EnvironmentFactory,
-    add_environment_argparse,
-)
+from simulation.controller import init_simulation
 
 
 def add_experiment_argparse(parser: argparse.ArgumentParser):
     """Adds argparse arguments related to experiment to parser."""
+    parser.add_argument(
+        "-c",
+        "--config",
+        default="simulation/configs/3different_agents_noisy_cyclic.json",
+        type=str,
+        help="Sets the config file (DEFAULT: simulation/configs/3different_agents_noisy_cyclic.json)",
+    )
     parser.add_argument(
         "-i",
         "--iterations",
@@ -46,30 +48,22 @@ async def main_loop():
 
     # Init argparse.
     parser = argparse.ArgumentParser(
-        usage="%(prog)s [-a ...] [-e ...] [-n ...]",
+        usage="%(prog)s [-c ...] [-i ...]",
         description="Trains an agent on a given environment.",
     )
     add_experiment_argparse(parser=parser)
-    add_agent_argparse(parser=parser)
-    add_environment_argparse(parser=parser)
     # Parse arguments
     args = parser.parse_args()
 
-    # Instantiate the agent.
-    bandit = AgentFactory(
-        agent_type=args.agent,
-        learning_rate=args.learning_rate,
-        buffer_max_size=args.buffer_size,
-    )
-
-    # Instantiate the environment.
-    environment = EnvironmentFactory(environment_type=args.environment)
+    # Initialize the simulation.
+    args, environment, agents = init_simulation(parser=parser)
+    (_, bandit) = next(iter(agents.items()))
 
     total_money = 0
     print(f"Training {bandit} on {environment}. Please wait...")
     for i in range(args.iterations):
-        writer.add_scalar("Distribution mean", bandit.mean, i)
-        writer.add_scalar("Distribution stddev", bandit.logstddev.exp(), i)
+        writer.add_scalar("Distribution mean", bandit.mean(), i)
+        writer.add_scalar("Distribution stddev", bandit.stddev(), i)
 
         # 1. Get bid from the agent (action)
         scaled_bid = bandit.get_action()

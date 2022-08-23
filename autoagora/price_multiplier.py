@@ -5,7 +5,7 @@ import logging
 
 from prometheus_client import Gauge
 
-from agents.reinforcement_learning_bandit import RollingMemContinuousBandit
+from agents.agent_factory import AgentFactory
 from autoagora.subgraph_wrapper import SubgraphWrapper
 
 reward_gauge = Gauge(
@@ -32,11 +32,18 @@ async def price_bandit_loop(subgraph: str):
     # Instantiate environment.
     environment = SubgraphWrapper(subgraph)
 
-    bandit = RollingMemContinuousBandit(
-        learning_rate=0.01,
-        initial_mean=-3,
-        initial_logstddev=1,
-        buffer_max_size=10,
+    agent_section = {
+        "policy": {"type": "rolling_ppo", "buffer_max_size": 10},
+        "action": {
+            "type": "scaled_gaussian",
+            "initial_mean": 5e-8,
+            "initial_stddev": 1,
+        },
+        "optimizer": {"type": "adam", "lr": 0.01},
+    }
+
+    bandit = AgentFactory(
+        agent_name="RollingMemContinuousBandit", agent_section=agent_section
     )
 
     total_revenue = 0
@@ -51,9 +58,9 @@ async def price_bandit_loop(subgraph: str):
         logging.debug(
             "Price bandit %s - Distribution stddev: %s",
             subgraph,
-            bandit.logstddev.exp().item(),
+            bandit.stddev.item(),
         )
-        stddev_gauge.labels(subgraph=subgraph).set(bandit.logstddev.exp().item())
+        stddev_gauge.labels(subgraph=subgraph).set(bandit.stddev.item())
 
         # 1. Get bid from the agent (action)
         scaled_bid = bandit.get_action()

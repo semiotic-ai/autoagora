@@ -11,7 +11,7 @@ Agent
 
 ContinuousActionBandit
 ----------------------
-.. autoclass:: agents.continuous_action_bandit.ContinuousActionBandit
+.. autoclass:: agents.continuous_action_agent.ContinuousActionBandit
    :members:
    :undoc-members:
    :show-inheritance:

@@ -9,28 +9,16 @@ import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 from matplotlib import colors
 
-from agents.agent_factory import add_agent_argparse
-from environments.environment_factory import add_environment_argparse
 from simulation.controller import init_simulation
-from simulation.show_bandit import (
-    add_experiment_argparse as single_agent_add_experiment_parse,
-)
-
-
-def add_experiment_argparse(parser: argparse.ArgumentParser):
-    """Adds argparse arguments related to experiment to parser."""
-    single_agent_add_experiment_parse(parser=parser)
-
+from simulation.show_bandit import add_experiment_argparse
 
 if __name__ == "__main__":
     # Init argparse.
     parser = argparse.ArgumentParser(
-        usage="%(prog)s [-c ...] [-e ...] [-i ...] [--show] [--save]",
+        usage="%(prog)s [-c ...] [-i ...] [--show] [--save]",
         description="Runs multi-agent simulation and (optionally) shows it and/or saves it to a file.",
     )
     add_experiment_argparse(parser=parser)
-    add_agent_argparse(parser=parser)
-    add_environment_argparse(parser=parser)
 
     # Initialize the simulation.
     args, environment, agents = init_simulation(parser=parser)
@@ -94,34 +82,55 @@ if __name__ == "__main__":
             agent.add_reward(monies_per_second)
 
             # 4. Update the policy.
-            if agent_id == 0:
-                print(
-                    f"Agent {agent_id} reward_buffer = ",
-                    agent.reward_buffer,
-                )
-                print(
-                    f"Agent {agent_id} mean = ",
-                    agent.mean.detach(),
-                    f"Agent {agent_id} logstddev = ",
-                    agent.logstddev.detach(),
-                )
+            if True:  # agent_id == 0:
+                if hasattr(agent, "reward_buffer"):
+                    print(
+                        f"Agent {agent_id} reward_buffer = ",
+                        agent.reward_buffer,
+                    )
+                    print(
+                        f"Agent {agent_id} action_buffer = ",
+                        agent.action_buffer,
+                    )
+                if hasattr(agent, "mean"):
+                    print(
+                        f"Agent {agent_id} mean = ",
+                        agent.mean(),
+                        f"Agent {agent_id} stddev = ",
+                        agent.stddev(),
+                    )
+                    print(
+                        f"Agent {agent_id} initial_mean = ",
+                        agent.mean(initial=True),
+                    )
 
                 print(f"Agent {agent_id} observation: ", queries_per_second[agent_id])
             loss = agent.update_policy()
+            print(f"Agent {agent_id} loss = ", loss)
 
         # X. Collect the values for visualization of agent's gaussian policy.
         if i % args.fast_forward_factor == 0:
             for agent_id, (agent_name, agent) in enumerate(agents.items()):
-                agent_x, agent_y, init_agent_y = run(
-                    agent.generate_plot_data(min_x, max_x)
-                )
-                agent_color = agent_colors[agent_id % len(agent_colors)]
-                (img_agent,) = plt.plot(agent_x, agent_y, color=agent_color)
-                # (img_init_agent,) = plt.plot(agent_x, init_agent_y, color="g")
 
-                # Add image to last list in container.
+                # Get data.
+                data = run(agent.generate_plot_data(min_x, max_x))
+                agent_x = data.pop("x")
+                agent_y = data["policy"]
+                agent_color = agent_colors[agent_id % len(agent_colors)]
+
+                # Plot policy and add it to last list in container.
+                (img_agent,) = plt.plot(agent_x, agent_y, color=agent_color)
                 image_container[-1].append(img_agent)
-                legend_container[-1].append(f"Agent {agent_name}: policy (PDF)")
+                legend_container[-1].append(f"Agent {agent_name}: policy")
+
+                # Plot init policy and add it to last list in container.
+                if "init policy" in data.keys():
+                    init_agent_y = data["init policy"]
+                    (img_init_agent,) = plt.plot(
+                        agent_x, init_agent_y, color=agent_color, linestyle="dashed"
+                    )
+                    image_container[-1].append(img_init_agent)
+                    legend_container[-1].append(f"Agent {agent_name}: init policy")
 
                 # Agent q/s.
                 agent_qps_x = min(max_x, max(min_x, scaled_bids[agent_id]))

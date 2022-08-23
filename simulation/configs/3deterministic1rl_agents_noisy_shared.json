@@ -1,24 +1,27 @@
 {
     "agents": {
-        "ppo1": {
-            "policy": {
-                "type": "ppo",
-                "buffer_max_size": 10
-            },
+        "deterministic1": {
             "action": {
-                "type": "scaled_gaussian",
-                "initial_mean": 1.0e-06,
-                "initial_stddev": 3e-7
-            },
-            "optimizer": {
-                "type": "adam",
-                "lr": 0.01
+                "type": "deterministic",
+                "initial_value": 1.25e-06
             }
         },
-        "rollmem2": {
+        "deterministic2": {
+            "action": {
+                "type": "deterministic",
+                "initial_value": 2.5e-06
+            }
+        },
+        "deterministic3": {
+            "action": {
+                "type": "deterministic",
+                "initial_value": 2.0e-06
+            }
+        },
+        "rollmem1_no_fallback": {
             "policy": {
                 "type": "rolling_ppo",
-                "buffer_max_size": 10
+                "graceful_init_pull": false
             },
             "action": {
                 "type": "scaled_gaussian",
