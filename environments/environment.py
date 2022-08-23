@@ -27,3 +27,7 @@ class Environment(ABCMixin):
     def observation(self):
         """Abstract method returning observation based on the environment step."""
         pass
+
+
+class MissingOptionalEnvironment:
+    pass

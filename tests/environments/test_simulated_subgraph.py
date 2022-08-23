@@ -1,6 +1,7 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
+import importlib.util
 from asyncio import run
 from typing import Type
 
@@ -124,3 +125,29 @@ class TestNoisyCyclicQueriesSubgraph:
         qps1 = run(env.queries_per_second())
         qps2 = run(env.queries_per_second())
         assert qps1 != qps2
+
+
+@pytest.mark.skipif(
+    not importlib.util.find_spec("autoagora_isa"),
+    reason=f'Optional package "autoagora-isa" is not installed.',
+)
+class TestIsaSubgraph:
+    @pytest.mark.unit
+    def test(self):
+        from autoagora_isa.isa import IsaSubgraph
+
+        env = IsaSubgraph()
+
+        run(env.set_cost_multiplier(cost_multiplier=1e-6, agent_id=0))
+        run(env.set_cost_multiplier(cost_multiplier=1e-6, agent_id=1))
+
+        env.step()
+
+        agent0_qps = run(env.queries_per_second(agent_id=0))
+        agent1_qps = run(env.queries_per_second(agent_id=1))
+
+        print(f"{agent0_qps=}")
+        print(f"{agent1_qps=}")
+
+        assert agent0_qps == pytest.approx(0.5, rel=0.3)
+        assert agent1_qps == pytest.approx(0.5, rel=0.3)
