@@ -7,6 +7,7 @@ from typing import Type
 
 import pytest
 
+from environments.environment_factory import EnvironmentFactory
 from environments.simulated_subgraph import (
     NoisyCyclicQueriesSubgraph,
     NoisyQueriesSubgraph,
@@ -134,9 +135,7 @@ class TestNoisyCyclicQueriesSubgraph:
 class TestIsaSubgraph:
     @pytest.mark.unit
     def test(self):
-        from autoagora_isa.isa import IsaSubgraph
-
-        env = IsaSubgraph()
+        env = EnvironmentFactory(environment_type_name="isa")
 
         run(env.set_cost_multiplier(cost_multiplier=1e-6, agent_id=0))
         run(env.set_cost_multiplier(cost_multiplier=1e-6, agent_id=1))
