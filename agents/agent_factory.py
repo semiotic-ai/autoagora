@@ -104,21 +104,3 @@ class AgentFactory(object):
             agent._optimizer = optim_class(params=agent.params, **optim_section)
 
         return agent
-
-
-def add_agent_argparse(parser: argparse.ArgumentParser):
-    """Adds argparse arguments related to agent to parser."""
-    parser.add_argument(
-        "-b",
-        "--buffer-size",
-        default=10,
-        type=int,
-        help="Sets agent's buffer size (DEFAULT: 10)",
-    )
-    parser.add_argument(
-        "-l",
-        "--learning-rate",
-        default=0.01,
-        type=float,
-        help="Sets the learning rate (DEFAULT: 0.01)",
-    )

@@ -9,28 +9,16 @@ import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 from matplotlib import colors
 
-from agents.agent_factory import add_agent_argparse
-from environments.environment_factory import add_environment_argparse
 from simulation.controller import init_simulation
-from simulation.show_bandit import (
-    add_experiment_argparse as single_agent_add_experiment_parse,
-)
-
-
-def add_experiment_argparse(parser: argparse.ArgumentParser):
-    """Adds argparse arguments related to experiment to parser."""
-    single_agent_add_experiment_parse(parser=parser)
-
+from simulation.show_bandit import add_experiment_argparse
 
 if __name__ == "__main__":
     # Init argparse.
     parser = argparse.ArgumentParser(
-        usage="%(prog)s [-c ...] [-e ...] [-i ...] [--show] [--save]",
+        usage="%(prog)s [-c ...] [-i ...] [--show] [--save]",
         description="Runs multi-agent simulation and (optionally) shows it and/or saves it to a file.",
     )
     add_experiment_argparse(parser=parser)
-    add_agent_argparse(parser=parser)
-    add_environment_argparse(parser=parser)
 
     # Initialize the simulation.
     args, environment, agents = init_simulation(parser=parser)

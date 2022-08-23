@@ -9,8 +9,6 @@ import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 from matplotlib.artist import Artist
 
-from agents.agent_factory import add_agent_argparse
-from environments.environment_factory import add_environment_argparse
 from simulation.controller import init_simulation
 
 
@@ -48,12 +46,10 @@ def add_experiment_argparse(parser: argparse.ArgumentParser):
 if __name__ == "__main__":
     # Init argparse.
     parser = argparse.ArgumentParser(
-        usage="%(prog)s [-c ...] [-e ...] [-i ...] [--show] [--save]",
-        description="Runs agent simulation and (optionally) shows it and/or saves it to a file.",
+        usage="%(prog)s [-c ...] [-i ...] [--show] [--save]",
+        description="Runs single-agent simulation and (optionally) shows it and/or saves it to a file.",
     )
     add_experiment_argparse(parser=parser)
-    add_agent_argparse(parser=parser)
-    add_environment_argparse(parser=parser)
 
     # Initialize the simulation.
     args, environment, agents = init_simulation(parser=parser)

@@ -1,6 +1,6 @@
 {
     "agents": {
-        "rollmem1": {
+        "ppo1": {
             "policy": {
                 "type": "ppo",
                 "buffer_max_size": 10
