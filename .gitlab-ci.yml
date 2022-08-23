@@ -17,9 +17,10 @@ stages:
 
 .poetry-prescript:
   before_script: 
+    - git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/semiotic-ai".insteadOf "ssh://git@gitlab.com/semiotic-ai"
     - pip install poetry==1.1.13
     - poetry config -n virtualenvs.create false
-    - poetry install -n
+    - poetry install -n -E isa
 
 black+isort:
   stage: Tests
