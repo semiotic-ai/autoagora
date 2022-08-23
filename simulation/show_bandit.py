@@ -3,12 +3,12 @@
 
 import argparse
 from asyncio import run
+from typing import List
 
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
+from matplotlib.artist import Artist
 
-from agents.agent_factory import add_agent_argparse
-from environments.environment_factory import add_environment_argparse
 from simulation.controller import init_simulation
 
 
@@ -46,16 +46,14 @@ def add_experiment_argparse(parser: argparse.ArgumentParser):
 if __name__ == "__main__":
     # Init argparse.
     parser = argparse.ArgumentParser(
-        usage="%(prog)s [-c ...] [-e ...] [-i ...] [--show] [--save]",
-        description="Runs agent simulation and (optionally) shows it and/or saves it to a file.",
+        usage="%(prog)s [-c ...] [-i ...] [--show] [--save]",
+        description="Runs single-agent simulation and (optionally) shows it and/or saves it to a file.",
     )
     add_experiment_argparse(parser=parser)
-    add_agent_argparse(parser=parser)
-    add_environment_argparse(parser=parser)
 
     # Initialize the simulation.
     args, environment, agents = init_simulation(parser=parser)
-    bandit = next(iter(agents.values()))
+    (agent_name, bandit) = next(iter(agents.items()))
 
     # Generate the filename.
     FILENAME = f"{args.config}.mp4"
@@ -74,6 +72,8 @@ if __name__ == "__main__":
             # Plot environment.
             env_x, env_y = run(environment.generate_plot_data(min_x, max_x))
             (im_env,) = plt.plot(env_x, env_y, color="grey")
+        else:  # Avoid unbound variables
+            im_env = None
 
         # 1. Get bid from the agent (action)
         scaled_bid = bandit.get_action()
@@ -94,11 +94,40 @@ if __name__ == "__main__":
 
         # X. Collect the values for visualization of agent's gaussian policy.
         if i % args.fast_forward_factor == 0:
-            agent_x, agent_y, init_agent_y = run(
-                bandit.generate_plot_data(min_x, max_x)
-            )
+            # Containers for frame.
+            assert im_env  # im_env shouldn't be None
+            frame_image_container: List["Artist"] = [im_env]
+            frame_legend_container = ["Queries/s"]
+
+            # Get data.
+            data = run(bandit.generate_plot_data(min_x, max_x))
+            agent_x = data.pop("x")
+            agent_y = data["policy"]
+
+            # Plot policy and add it to last list in container.
             (img_agent,) = plt.plot(agent_x, agent_y, color="b")
-            (img_init_agent,) = plt.plot(agent_x, init_agent_y, color="g")
+            frame_image_container.append(img_agent)
+            frame_legend_container.append(f"Agent {agent_name}: policy")
+
+            # Plot init policy and add it to last list in container.
+            if "init policy" in data.keys():
+                init_agent_y = data["init policy"]
+                (img_init_agent,) = plt.plot(
+                    agent_x, init_agent_y, color="b", linestyle="dashed"
+                )
+                frame_image_container.append(img_init_agent)
+                frame_legend_container.append(f"Agent {agent_name}: init policy")
+
+            # Plot agent q/s.
+            agent_qps_x = min(max_x, max(min_x, scaled_bid))
+            img_agent_qps = plt.scatter(
+                [agent_qps_x],
+                [queries_per_second],
+                marker="o",
+                color="b",
+            )
+            frame_image_container.append(img_agent_qps)
+            frame_legend_container.append(f"Agent {agent_name}: action => q/s")
 
             # Put both "images" with labels & title into a container.
             ax.set_xlabel("Price multiplier")
@@ -111,8 +140,8 @@ if __name__ == "__main__":
                 ha="center",
                 transform=ax.transAxes,
             )
-            legend = ax.legend([im_env, img_agent, img_init_agent], ["Queries/s", "Policy PDF", "Init Policy PDF"])  # type: ignore
-            container.append([im_env, img_agent, title])  # type: ignore
+            legend = ax.legend(frame_image_container, frame_legend_container)  # type: ignore
+            container.append([*frame_image_container, title])  # type: ignore
 
         # 5. Make a step.
         environment.step()

@@ -1,28 +1,34 @@
 {
     "agents": {
-        "ppo1": {
-            "policy": {
-                "type": "ppo",
-                "buffer_max_size": 10
-            },
+        "vpg1": {
+            "policy": "vpg",
             "action": {
                 "type": "scaled_gaussian",
-                "initial_mean": 1.0e-06,
-                "initial_stddev": 3e-7
+                "initial_mean": 1e-6,
+                "initial_stddev": 1e-7
             },
             "optimizer": {
                 "type": "adam",
                 "lr": 0.01
             }
         },
-        "rollmem2": {
-            "policy": {
-                "type": "rolling_ppo",
-                "buffer_max_size": 10
-            },
+        "ppo1": {
+            "policy": "ppo",
             "action": {
                 "type": "scaled_gaussian",
-                "initial_mean": 2.0e-06,
+                "initial_mean": 1e-6,
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
+            }
+        },
+        "rollmem1": {
+            "policy": "rolling_ppo",
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 1e-6,
                 "initial_stddev": 1e-7
             },
             "optimizer": {
