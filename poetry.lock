@@ -131,7 +131,7 @@ tests_no_zope = ["cloudpickle", "coverage[toml] (>=5.0.2)", "hypothesis", "mypy 
 
 [[package]]
 name = "autoagora-isa"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 category = "main"
 optional = true
@@ -144,8 +144,8 @@ py-indexer-selection = "^1.0.0"
 [package.source]
 type = "git"
 url = "ssh://git@gitlab.com/semiotic-ai/the-graph/autoagora-isa.git"
-reference = "e0364fb28816a30c3f51d283093288f8f19715a8"
-resolved_reference = "e0364fb28816a30c3f51d283093288f8f19715a8"
+reference = "340cd01bc0ee5a76046b90dc0ea57b4cc0c4674d"
+resolved_reference = "340cd01bc0ee5a76046b90dc0ea57b4cc0c4674d"
 
 [[package]]
 name = "babel"
@@ -1318,7 +1318,7 @@ isa = ["autoagora-isa"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<3.11"
-content-hash = "11586329496104dfc392e9711ae2c46fd9c48c6278c557a4e1c0d2c1378c0741"
+content-hash = "c85ca78f626534610b247e784aa5fa0097f58d63ab4c986f30047aec6e758572"
 
 [metadata.files]
 absl-py = [
