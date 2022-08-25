@@ -45,6 +45,8 @@ def init_simulation(parser: argparse.ArgumentParser):
     environment_type, properties = next(iter(config["environment"].items()))
 
     # Instantiate the environment.
-    environment = EnvironmentFactory(environment_type=environment_type, **properties)
+    environment = EnvironmentFactory(
+        environment_type_name=environment_type, **properties
+    )
 
     return args, environment, agents
