@@ -8,6 +8,7 @@ import sys
 from anyio import run
 from torch.utils.tensorboard.writer import SummaryWriter
 
+from environments.simulated_subgraph import SimulatedSubgraph
 from simulation.controller import init_simulation
 
 
@@ -57,6 +58,9 @@ async def main_loop():
 
     # Initialize the simulation.
     args, environment, agents = init_simulation(parser=parser)
+    # We need the environment to be SimulatedSubgraph
+    assert isinstance(environment, SimulatedSubgraph)
+
     (_, bandit) = next(iter(agents.items()))
 
     total_money = 0

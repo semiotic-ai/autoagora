@@ -135,7 +135,10 @@ class TestNoisyCyclicQueriesSubgraph:
 class TestIsaSubgraph:
     @pytest.mark.unit
     def test(self):
+        from autoagora_isa.isa import IsaSubgraph
+
         env = EnvironmentFactory(environment_type_name="isa")
+        assert isinstance(env, IsaSubgraph)
 
         run(env.set_cost_multiplier(cost_multiplier=1e-6, agent_id=0))
         run(env.set_cost_multiplier(cost_multiplier=1e-6, agent_id=1))
