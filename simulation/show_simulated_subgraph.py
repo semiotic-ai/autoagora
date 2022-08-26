@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from anyio import run
 
 from environments.environment_factory import add_environment_argparse
+from environments.simulated_subgraph import SimulatedSubgraph
 from simulation.controller import init_simulation
 
 
@@ -53,6 +54,8 @@ async def main():
 
     # Initialize the simulation.
     args, environment, _ = init_simulation(parser=parser)
+    # We need the environment to be SimulatedSubgraph
+    assert isinstance(environment, SimulatedSubgraph)
 
     # Generate the filename.
     FILENAME = f"{environment}.mp4"

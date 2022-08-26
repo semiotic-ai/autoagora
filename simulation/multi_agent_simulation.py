@@ -9,6 +9,7 @@ import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 from matplotlib import colors
 
+from environments.simulated_subgraph import SimulatedSubgraph
 from simulation.controller import init_simulation
 from simulation.show_bandit import add_experiment_argparse
 
@@ -22,6 +23,8 @@ if __name__ == "__main__":
 
     # Initialize the simulation.
     args, environment, agents = init_simulation(parser=parser)
+    # We need the environment to be SimulatedSubgraph
+    assert isinstance(environment, SimulatedSubgraph)
 
     # Generate the filename.
     FILENAME = f"{args.config}.mp4"

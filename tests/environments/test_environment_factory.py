@@ -8,6 +8,7 @@ from environments.simulated_subgraph import (
     Environment,
     NoisyCyclicQueriesSubgraph,
     NoisyQueriesSubgraph,
+    NoisySimulatedSubgraph,
 )
 
 
@@ -35,13 +36,19 @@ class TestEnvironmentFactory:
 
     @pytest.mark.unit
     @pytest.mark.parametrize(
-        "env_type,env_class,noise",
+        "env_type,noise",
         [
-            ("static", NoisyQueriesSubgraph, False),
-            ("cyclic", NoisyCyclicQueriesSubgraph, False),
+            ("static", False),
+            ("cyclic", False),
         ],
     )
-    def test_env_noise(self, env_type: str, env_class: Environment, noise: bool):
-        """Test whether the factory properly handles environment noise."""
+    def test_env_noise(self, env_type: str, noise: bool):
+        """Test whether the factory properly handles environment noise.
+
+        Works only on instances of NoisyQueriesSubgraph.
+        """
         env = EnvironmentFactory(env_type, noise=noise)
+        # We need the environment to be SimulatedSubgraph
+        assert isinstance(env, NoisySimulatedSubgraph)
+
         assert env._noise == noise
