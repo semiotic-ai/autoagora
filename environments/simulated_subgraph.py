@@ -114,7 +114,20 @@ class SimulatedSubgraph(Environment):
         return x, y
 
 
-class NoisyQueriesSubgraph(SimulatedSubgraph):
+class NoisySimulatedSubgraph(SimulatedSubgraph):
+    """A simple abstract environment for simulating noisy subgraph behavior.
+
+    Args:
+        noise: (DEFAULT: True) If set, injects noise.
+    """
+
+    def __init__(self, noise: bool = True) -> None:
+        super().__init__()
+
+        self._noise = noise
+
+
+class NoisyQueriesSubgraph(NoisySimulatedSubgraph):
     """A simple environment simulating subgraph with noisy target queries per second.
 
     Args:
@@ -157,7 +170,7 @@ class NoisyQueriesSubgraph(SimulatedSubgraph):
         return queries_per_second
 
 
-class NoisyCyclicQueriesSubgraph(SimulatedSubgraph):
+class NoisyCyclicQueriesSubgraph(NoisySimulatedSubgraph):
     """A simple environment simulating subgraph with noisy non-stationary target queries per second.
 
     Args:
@@ -208,7 +221,7 @@ class NoisyCyclicQueriesSubgraph(SimulatedSubgraph):
         return queries_per_second
 
 
-class NoisyCyclicZeroQueriesSubgraph(SimulatedSubgraph):
+class NoisyCyclicZeroQueriesSubgraph(NoisySimulatedSubgraph):
     """A simple environment simulating subgraph with that for part of the cycle is not serving queries (queries per second = 0).
 
     Args:
@@ -259,7 +272,7 @@ class NoisyCyclicZeroQueriesSubgraph(SimulatedSubgraph):
         return queries_per_second
 
 
-class NoisyDynamicQueriesSubgraph(SimulatedSubgraph):
+class NoisyDynamicQueriesSubgraph(NoisySimulatedSubgraph):
     """Environment simulating subgraph with variable number of queries changing at every cycle, with cycles where queries are not served at all (queries per second = 0).
 
     Args:
