@@ -2,8 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import argparse
-from typing import Union
+from typing import Dict, Type, Union
 
+from environments.environment import Environment, MissingOptionalEnvironment
 from environments.shared_subgraph import NoisySharedSubgraph
 from environments.simulated_subgraph import (
     NoisyCyclicQueriesSubgraph,
@@ -12,23 +13,31 @@ from environments.simulated_subgraph import (
     NoisyQueriesSubgraph,
 )
 
-_ENVIRONMENT_TYPES = {
-    "NoisyQueriesSubgraph": NoisyQueriesSubgraph,
-    "static": NoisyQueriesSubgraph,
-    "noisy_static": NoisyQueriesSubgraph,
-    "NoisyCyclicQueriesSubgraph": NoisyCyclicQueriesSubgraph,
-    "cyclic": NoisyCyclicQueriesSubgraph,
-    "noisy_cyclic": NoisyCyclicQueriesSubgraph,
-    "NoisyCyclicZeroQueriesSubgraph": NoisyCyclicZeroQueriesSubgraph,
-    "cyclic_zero": NoisyCyclicZeroQueriesSubgraph,
-    "noisy_cyclic_zero": NoisyCyclicZeroQueriesSubgraph,
-    "NoisyDynamicQueriesSubgraph": NoisyDynamicQueriesSubgraph,
-    "dynamic": NoisyDynamicQueriesSubgraph,
-    "noisy_dynamic": NoisyDynamicQueriesSubgraph,
-    "NoisySharedSubgraph": NoisySharedSubgraph,
-    "noisy_shared": NoisySharedSubgraph,
-    "shared": NoisySharedSubgraph,
-}
+_ENVIRONMENT_TYPES: Dict[
+    str, Union[Type[Environment], Type[MissingOptionalEnvironment]]
+] = dict()
+
+try:
+    from autoagora_isa.isa import IsaSubgraph
+except:
+    _ENVIRONMENT_TYPES["isa"] = MissingOptionalEnvironment
+else:
+    _ENVIRONMENT_TYPES["isa"] = IsaSubgraph
+
+_ENVIRONMENT_TYPES.update(
+    {
+        "NoisyQueriesSubgraph": NoisyQueriesSubgraph,
+        "static": NoisyQueriesSubgraph,
+        "NoisyCyclicQueriesSubgraph": NoisyCyclicQueriesSubgraph,
+        "cyclic": NoisyCyclicQueriesSubgraph,
+        "NoisyCyclicZeroQueriesSubgraph": NoisyCyclicZeroQueriesSubgraph,
+        "cyclic_zero": NoisyCyclicZeroQueriesSubgraph,
+        "NoisyDynamicQueriesSubgraph": NoisyDynamicQueriesSubgraph,
+        "dynamic": NoisyDynamicQueriesSubgraph,
+        "NoisySharedSubgraph": NoisySharedSubgraph,
+        "shared": NoisySharedSubgraph,
+    }
+)
 
 
 class EnvironmentFactory(object):
@@ -40,18 +49,17 @@ class EnvironmentFactory(object):
         kwargs: Dict of keyword arguments passed to agent constructor.
     """
 
-    def __new__(
-        cls, environment_type: str, *args, **kwargs
-    ) -> Union[NoisyQueriesSubgraph, NoisyQueriesSubgraph]:
-        # If argument is set - do nothing.
-        if "noise" not in kwargs.keys():
-            # If not, try to extract "noise" value from the name.
-            if "noisy" in environment_type:
-                kwargs["noise"] = True
-            else:
-                kwargs["noise"] = False
-        # Create the environment object.
-        return _ENVIRONMENT_TYPES[environment_type](*args, **kwargs)
+    def __new__(cls, environment_type_name: str, *args, **kwargs) -> Environment:
+        environment_type = _ENVIRONMENT_TYPES[environment_type_name]
+
+        if issubclass(environment_type, Environment):
+            return environment_type(*args, **kwargs)
+        elif environment_type is MissingOptionalEnvironment:
+            raise TypeError(
+                f'Missing optional environment type "{environment_type_name}"'
+            )
+        else:
+            raise RuntimeError(f'Unknown environment type "{environment_type}"')
 
 
 def add_environment_argparse(parser: argparse.ArgumentParser):

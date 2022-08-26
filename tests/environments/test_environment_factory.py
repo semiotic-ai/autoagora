@@ -17,9 +17,9 @@ class TestEnvironmentFactory:
         "env_type,env_class",
         [
             ("NoisyQueriesSubgraph", NoisyQueriesSubgraph),
-            ("noisy_static", NoisyQueriesSubgraph),
+            ("static", NoisyQueriesSubgraph),
             ("NoisyCyclicQueriesSubgraph", NoisyCyclicQueriesSubgraph),
-            ("noisy_cyclic", NoisyCyclicQueriesSubgraph),
+            ("cyclic", NoisyCyclicQueriesSubgraph),
         ],
     )
     def test_env_proper_types(self, env_type: str, env_class: Environment):
@@ -37,13 +37,11 @@ class TestEnvironmentFactory:
     @pytest.mark.parametrize(
         "env_type,env_class,noise",
         [
-            ("noisy_static", NoisyQueriesSubgraph, True),
             ("static", NoisyQueriesSubgraph, False),
-            ("noisy_cyclic", NoisyCyclicQueriesSubgraph, True),
-            ("cyclic", NoisyQueriesSubgraph, False),
+            ("cyclic", NoisyCyclicQueriesSubgraph, False),
         ],
     )
     def test_env_noise(self, env_type: str, env_class: Environment, noise: bool):
         """Test whether the factory properly handles environment noise."""
-        env = EnvironmentFactory(env_type)
+        env = EnvironmentFactory(env_type, noise=noise)
         assert env._noise == noise

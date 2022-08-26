@@ -1,4 +1,4 @@
-image: python:3.8-slim
+image: python:3.8
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
@@ -17,9 +17,12 @@ stages:
 
 .poetry-prescript:
   before_script: 
+    - git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/semiotic-ai".insteadOf "ssh://git@gitlab.com/semiotic-ai"
     - pip install poetry==1.1.13
     - poetry config -n virtualenvs.create false
-    - poetry install -n
+    - poetry config repositories.gitlab-isa https://gitlab.com/api/v4/projects/37745340/packages/pypi/simple
+    - poetry config http-basic.gitlab-isa gitlab-ci-token ${CI_JOB_TOKEN} 
+    - poetry install -n -E isa
 
 black+isort:
   stage: Tests
