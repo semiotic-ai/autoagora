@@ -1,12 +1,10 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-from abc import abstractmethod
-
-from agents.mixin import ABCMixin
+from abc import ABC, abstractmethod
 
 
-class Environment(ABCMixin):
+class Environment(ABC):
     """Abstract environment class defining an elementary interface"""
 
     @abstractmethod
