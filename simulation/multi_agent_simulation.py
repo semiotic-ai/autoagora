@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import argparse
+import logging
 from asyncio import run
 from re import A
 
@@ -13,7 +14,8 @@ from environments.simulated_subgraph import SimulatedSubgraph
 from simulation.controller import init_simulation
 from simulation.show_bandit import add_experiment_argparse
 
-if __name__ == "__main__":
+logging.basicConfig(level="WARN", format="%(message)s")
+
     # Init argparse.
     parser = argparse.ArgumentParser(
         usage="%(prog)s [-c ...] [-i ...] [--show] [--save]",
@@ -44,7 +46,7 @@ if __name__ == "__main__":
 
     print(f"Training {len(agents)} x agents on {environment}. Please wait...")
     for i in range(args.iterations):
-        print("=" * 20, f" step {i} ", "=" * 20)
+        logging.debug("=" * 20 + " step %s " + "=" * 20, i)
 
         # X. Visualize the environment.
         if i % args.fast_forward_factor == 0:
@@ -62,7 +64,7 @@ if __name__ == "__main__":
             # 1. Get bid from the agent (action)
             scaled_bids.append(agent.get_action())
             if agent_id == 0:
-                print(f"Agent {agent_id} action: ", scaled_bids[agent_id])
+                logging.debug("Agent %s action: %s", agent_id, scaled_bids[agent_id])
 
             # 2. Act: set multiplier in the environment.
             run(
@@ -87,29 +89,40 @@ if __name__ == "__main__":
             # 4. Update the policy.
             if True:  # agent_id == 0:
                 if hasattr(agent, "reward_buffer"):
-                    print(
-                        f"Agent {agent_id} reward_buffer = ",
+                    logging.debug(
+                        "Agent %s reward_buffer = %s",
+                        agent_id,
                         agent.reward_buffer,
                     )
-                    print(
-                        f"Agent {agent_id} action_buffer = ",
+                    logging.debug(
+                        "Agent %s action_buffer = %s",
+                        agent_id,
                         agent.action_buffer,
                     )
                 if hasattr(agent, "mean"):
-                    print(
-                        f"Agent {agent_id} mean = ",
+                    logging.debug(
+                        "Agent %s mean = %s",
+                        agent_id,
                         agent.mean(),
-                        f"Agent {agent_id} stddev = ",
+                    )
+                    logging.debug(
+                        f"Agent %s stddev = %s",
+                        agent_id,
                         agent.stddev(),
                     )
-                    print(
-                        f"Agent {agent_id} initial_mean = ",
+                    logging.debug(
+                        f"Agent %s initial_mean = %s",
+                        agent_id,
                         agent.mean(initial=True),
                     )
 
-                print(f"Agent {agent_id} observation: ", queries_per_second[agent_id])
+                logging.debug(
+                    "Agent %s observation: %s",
+                    agent_id,
+                    queries_per_second[agent_id],
+                )
             loss = agent.update_policy()
-            print(f"Agent {agent_id} loss = ", loss)
+            logging.debug(f"Agent %s loss = %s", agent_id, loss)
 
         # X. Collect the values for visualization of agent's gaussian policy.
         if i % args.fast_forward_factor == 0:
