@@ -55,7 +55,7 @@ anyio = "^3.5.0"
 numpy = "^1.22.3"
 scipy = "^1.8.0"
 prometheus-async = {extras = ["aiohttp"], version = "^22.1.0"}
-autoagora-isa = {git = "ssh://git@github.com/semiotic-ai/autoagora-isa.git", rev = "23cdc510c389a75e818bc9026ddc4741e9cc186c", optional = true}
+autoagora-isa = {git = "ssh://git@github.com/semiotic-ai/autoagora-isa.git", rev = "08142a5dcf3cd44c957921d67792d5188d4894ea", optional = true}
 
 [tool.poetry.extras]
 isa = ["autoagora-isa"]
@@ -73,6 +73,9 @@ pylint-gitlab = "1.1"
 sphinxcontrib-napoleon = "^0.7"
 myst-parser = "^0.17.2"
 pylint = "^2.14.5"
+PySide6 = "^6.3.1"
+pyqtgraph = "^0.12.4"
+ffmpeg-python = "^0.2.0"
 
 [build-system]
 requires = ["poetry_core>=1.0.0"]
