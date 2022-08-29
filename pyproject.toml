@@ -63,6 +63,9 @@ pylint-gitlab = "1.1"
 sphinxcontrib-napoleon = "^0.7"
 myst-parser = "^0.17.2"
 pylint = "^2.14.5"
+PySide6 = "^6.3.1"
+pyqtgraph = "^0.12.4"
+ffmpeg-python = "^0.2.0"
 
 [build-system]
 requires = ["poetry_core>=1.0.0"]
