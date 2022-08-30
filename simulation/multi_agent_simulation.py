@@ -76,22 +76,20 @@ def main():
 
     win.nextRow()
 
-    # Create query volume bar graph
+    # Create query volume time plot
     plot_2 = win.addPlot()
     plot_2.setPreferredHeight(300)
-    plot_2.setXRange(0, 1.5)
-    plot_2.setLabel("left", "Agent #")
-    plot_2.setLabel("bottom", "Queries/s")
-    y = [i for i in range(len(agents))]
-    w = [0 for _ in range(len(agents))]
-    qps_bars = pg.BarGraphItem(
-        x0=0,
-        y=y,
-        height=0.7,
-        width=w,
-        brushes=[(i, len(agents)) for i in range(len(agents))],
-    )
-    plot_2.addItem(qps_bars)
+    plot_2.setXRange(0, args.iterations)
+    plot_2.setLabel("left", "Queries/s")
+    plot_2.setLabel("bottom", "Timestep")
+    agent_qps_plots = [
+        plot_2.plot(
+            pen=pg.mkPen(color=(i, len(agents)), width=1),
+            name=f"Agent {agent_name}",
+        )
+        for i, agent_name in enumerate(agents.keys())
+    ]
+    queries_per_second = [[] for _ in agents]
 
     for i in range(args.iterations):
         logging.debug("=" * 20 + " step %s " + "=" * 20, i)
@@ -118,15 +116,14 @@ def main():
             )
 
         # Get observations for all agents.
-        queries_per_second = []
         for agent_id, (agent_name, agent) in enumerate(agents.items()):
             # 3. Get the rewards.
             # Get queries per second for a given .
-            queries_per_second.append(
+            queries_per_second[agent_id] += [
                 run(environment.queries_per_second(agent_id=agent_id))
-            )
+            ]
             # Turn it into "monies".
-            monies_per_second = queries_per_second[agent_id] * scaled_bids[agent_id]
+            monies_per_second = queries_per_second[agent_id][-1] * scaled_bids[agent_id]
             # Add reward.
             agent.add_reward(monies_per_second)
 
@@ -163,7 +160,7 @@ def main():
                 logging.debug(
                     "Agent %s observation: %s",
                     agent_id,
-                    queries_per_second[agent_id],
+                    queries_per_second[agent_id][-1],
                 )
             loss = agent.update_policy()
             logging.debug(f"Agent %s loss = %s", agent_id, loss)
@@ -180,7 +177,8 @@ def main():
                 agent_y = data["policy"]
                 agents_dist[agent_id].setData(agent_x, agent_y)
 
-                qps_bars.setOpts(width=queries_per_second)
+                for _agent_id, plot in enumerate(agent_qps_plots):
+                    plot.setData(queries_per_second[_agent_id])
 
                 # Plot init policy and add it to last list in container.
                 if "init policy" in data.keys():
@@ -192,7 +190,7 @@ def main():
                 agents_scatter_qps.addPoints(
                     [
                         {
-                            "pos": (agent_qps_x, queries_per_second[agent_id]),
+                            "pos": (agent_qps_x, queries_per_second[agent_id][-1]),
                             "brush": (agent_id, len(agents)),
                             "pen": pg.mkPen(color=(agent_id, len(agents)), width=1),
                         }
