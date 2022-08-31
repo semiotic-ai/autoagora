@@ -87,22 +87,6 @@ def main():
     env_plot = plot_1.plot(
         pen=pg.mkPen(color="gray", width=1.5), name="Environment: total query rate"
     )
-    # Budget vertical line
-    plot_1.addLine(
-        x=np.log10(50e-6) if LOG_PLOT else 50e-6,
-        pen=pg.mkPen(
-            color=(len(agents), len(agents) + 1), width=1.5, style=QtCore.Qt.DotLine  # type: ignore
-        ),
-    )
-    # Budget vertical line legend (create empty plot line with right style)
-    plot_1_legend.addItem(
-        pg.PlotDataItem(
-            pen=pg.mkPen(
-                color=(len(agents), len(agents) + 1), width=1.5, style=QtCore.Qt.DotLine  # type: ignore
-            )
-        ),
-        name="Consumer budget",
-    )
 
     win.nextRow()
 
