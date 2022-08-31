@@ -63,6 +63,17 @@ def main():
         )
         for i, agent_name in enumerate(agents.keys())
     ]
+    # This is a line plot with invisible line and visible data points.
+    # Easier to scale with the rest of the plot than with using a ScatterPlot.
+    agents_scatter_qps = [
+        plot_1.plot(
+            pen=pg.mkPen(color=(0, 0, 0, 0), width=0),  # type: ignore
+            name=f"Agent {agent_name}: query rate",
+            symbolBrush=(i, len(agents) + 1),
+            symbolPen="w",
+        )
+        for i, agent_name in enumerate(agents.keys())
+    ]
     # Initial policy PD
     agents_init_dist = [
         plot_1.plot(
@@ -71,12 +82,6 @@ def main():
         )
         for i, agent_name in enumerate(agents.keys())
     ]
-    # Environment QPS
-    env_plot = plot_1.plot(
-        pen=pg.mkPen(color="gray", width=2), name="Environment: total q/s"
-    )
-    agents_scatter_qps = pg.ScatterPlotItem()
-    plot_1.addItem(agents_scatter_qps)
 
     win.nextRow()
 
@@ -174,8 +179,6 @@ def main():
 
         # X. Collect the values for visualization of agent's gaussian policy.
         if i % args.fast_forward_factor == 0:
-            agents_scatter_qps.clear()
-
             for agent_id, (agent_name, agent) in enumerate(agents.items()):
 
                 # Get data.
@@ -194,14 +197,8 @@ def main():
 
                 # Agent q/s.
                 agent_qps_x = min(max_x, max(min_x, scaled_bids[agent_id]))
-                agents_scatter_qps.addPoints(
-                    [
-                        {
-                            "pos": (agent_qps_x, queries_per_second[agent_id][-1]),
-                            "brush": (agent_id, len(agents)),
-                            "pen": pg.mkPen(color=(agent_id, len(agents)), width=1),
-                        }
-                    ]
+                agents_scatter_qps[agent_id].setData(
+                    [agent_qps_x], [queries_per_second[agent_id][-1]]
                 )
 
             plot_1.setTitle(f"time {i}")
