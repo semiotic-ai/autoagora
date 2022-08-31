@@ -63,6 +63,15 @@ def main():
         )
         for i, agent_name in enumerate(agents.keys())
     ]
+
+    # Initial policy PD
+    agents_init_dist = [
+        plot_1.plot(
+            pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5, style=QtCore.Qt.DotLine),  # type: ignore
+            name=f"Agent {agent_name}: init policy",
+        )
+        for i, agent_name in enumerate(agents.keys())
+    ]
     # This is a line plot with invisible line and visible data points.
     # Easier to scale with the rest of the plot than with using a ScatterPlot.
     agents_scatter_qps = [
@@ -78,14 +87,6 @@ def main():
     env_plot = plot_1.plot(
         pen=pg.mkPen(color="gray", width=1.5), name="Environment: total query rate"
     )
-    # Initial policy PD
-    agents_init_dist = [
-        plot_1.plot(
-            pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5, style=QtCore.Qt.DotLine),  # type: ignore
-            name=f"Agent {agent_name}: init policy",
-        )
-        for i, agent_name in enumerate(agents.keys())
-    ]
 
     win.nextRow()
 
