@@ -298,7 +298,11 @@ def main():
         ffmpeg_process.stdin.close()
         ffmpeg_process.wait()
 
-    pg.exit()
+    if win.isHidden():
+        pg.exit()
+    else:
+        # Keep window open
+        pg.exec()
 
 
 if __name__ == "__main__":
