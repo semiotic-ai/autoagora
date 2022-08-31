@@ -58,7 +58,7 @@ def main():
     # Policy PD
     agents_dist = [
         plot_1.plot(
-            pen=pg.mkPen(color=(i, len(agents)), width=2),
+            pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5),
             name=f"Agent {agent_name}: policy",
         )
         for i, agent_name in enumerate(agents.keys())
@@ -74,10 +74,14 @@ def main():
         )
         for i, agent_name in enumerate(agents.keys())
     ]
+    # Environment QPS
+    env_plot = plot_1.plot(
+        pen=pg.mkPen(color="gray", width=1.5), name="Environment: total query rate"
+    )
     # Initial policy PD
     agents_init_dist = [
         plot_1.plot(
-            pen=pg.mkPen(color=(i, len(agents)), width=2, style=QtCore.Qt.DotLine),  # type: ignore
+            pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5, style=QtCore.Qt.DotLine),  # type: ignore
             name=f"Agent {agent_name}: init policy",
         )
         for i, agent_name in enumerate(agents.keys())
@@ -96,12 +100,40 @@ def main():
     plot_2_legend.setParentItem(plot_2_vb)
     agent_qps_plots = [
         plot_2.plot(
-            pen=pg.mkPen(color=(i, len(agents)), width=1),
+            pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5),
             name=f"Agent {agent_name}",
         )
         for i, agent_name in enumerate(agents.keys())
     ]
     queries_per_second = [[] for _ in agents]
+
+    win.nextRow()
+
+    # Create total queries (un)served plot
+    plot_3 = win.addPlot()
+    plot_3.setPreferredHeight(200)
+    plot_3.setLabel("left", "Total queries")
+    plot_3.setLabel("bottom", "Timestep")
+    plot_3_legend = plot_3.addLegend(offset=None)
+    plot_3_vb = win.addViewBox()
+    plot_3_vb.setFixedWidth(300)
+    plot_3_legend.setParentItem(plot_3_vb)
+    plot_3_legend.anchor((0, 0), (0, 0))
+
+    total_agent_queries_plots = [
+        plot_3.plot(
+            pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5),
+            name=f"Agent {agent_name}",
+        )
+        for i, agent_name in enumerate(agents.keys())
+    ]
+    total_unserved_queries_plot = plot_3.plot(
+        pen=pg.mkPen(color=(len(agents), len(agents) + 1), width=1.5),
+        name=f"Dropped",
+    )
+
+    total_agent_queries_data = [[] for _ in agents]
+    total_unserved_queries_data = []
 
     for i in range(args.iterations):
         logging.debug("=" * 20 + " step %s " + "=" * 20, i)
@@ -177,6 +209,28 @@ def main():
             loss = agent.update_policy()
             logging.debug(f"Agent %s loss = %s", agent_id, loss)
 
+            # Agents total queries served (for the plots)
+            if i > 0:
+                total_agent_queries_data[agent_id] += [
+                    total_agent_queries_data[agent_id][-1]
+                    + queries_per_second[agent_id][-1]
+                ]
+            else:
+                total_agent_queries_data[agent_id] += [queries_per_second[agent_id][-1]]
+
+        # Total unserved queries
+        if environment.__class__.__name__ == "IsaSubgraph":
+            if i > 0:
+                total_unserved_queries_data += [
+                    total_unserved_queries_data[-1]
+                    + 1
+                    - sum(e[-1] for e in queries_per_second)
+                ]
+            else:
+                total_unserved_queries_data += [
+                    1 - sum(e[-1] for e in queries_per_second)
+                ]
+
         # X. Collect the values for visualization of agent's gaussian policy.
         if i % args.fast_forward_factor == 0:
             for agent_id, (agent_name, agent) in enumerate(agents.items()):
@@ -200,6 +254,14 @@ def main():
                 agents_scatter_qps[agent_id].setData(
                     [agent_qps_x], [queries_per_second[agent_id][-1]]
                 )
+
+                # Total queries served by agent
+                total_agent_queries_plots[agent_id].setData(
+                    total_agent_queries_data[agent_id]
+                )
+
+            # Total queries unserved
+            total_unserved_queries_plot.setData(total_unserved_queries_data)
 
             plot_1.setTitle(f"time {i}")
 
