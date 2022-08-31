@@ -241,8 +241,7 @@ def main():
                 agent_y = data["policy"]
                 agents_dist[agent_id].setData(agent_x, agent_y)
 
-                for _agent_id, plot in enumerate(agent_qps_plots):
-                    plot.setData(queries_per_second[_agent_id])
+                agent_qps_plots[agent_id].setData(queries_per_second[agent_id])
 
                 # Plot init policy and add it to last list in container.
                 if "init policy" in data.keys():
