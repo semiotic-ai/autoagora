@@ -37,8 +37,7 @@ def main():
     max_x = 5e-6
 
     # Set up PyQtGraph
-    pg.setConfigOption("background", "white")
-    pg.setConfigOption("foreground", "black")
+    pg.setConfigOption("foreground", "white")
     pg.setConfigOptions(antialias=True)
     app = pg.mkQApp("Plot")
     win = pg.GraphicsLayoutWidget(show=not args.save, title="Multi-agent training")
