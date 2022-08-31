@@ -16,6 +16,8 @@ from simulation.show_bandit import add_experiment_argparse
 
 logging.basicConfig(level="WARN", format="%(message)s")
 
+LOG_PLOT = True
+
 
 def main():
     # Init argparse.
@@ -31,33 +33,33 @@ def main():
     assert isinstance(environment, SimulatedSubgraph)
 
     ffmpeg_process = None
-
     # Environment x.
-    min_x = 1e-10
-    max_x = 5e-6
+    min_x = 1e-8
+    max_x = 6e-4
 
     # Set up PyQtGraph
     pg.setConfigOption("foreground", "white")
     pg.setConfigOptions(antialias=True)
     app = pg.mkQApp("Plot")
     win = pg.GraphicsLayoutWidget(show=not args.save, title="Multi-agent training")
-    win.resize(1000, 800)
+    win.resize(1000, 1000)
 
     # Create policy plot
-    plot_1 = win.addPlot(title="time 0")
-    plot_1.setPreferredHeight(600)
-    plot_1_legend = plot_1.addLegend(offset=None)
-    plot_1_vb = win.addViewBox()  # Empty UI box to contain the legend outside the plot
-    plot_1_vb.setFixedWidth(300)
-    plot_1_legend.setParentItem(plot_1_vb)
-    plot_1.setYRange(0, 1.1)
-    plot_1.setXRange(min_x, max_x)
-    plot_1.setClipToView(True)
-    plot_1.setLabel("left", "Query rate")
-    plot_1.setLabel("bottom", "Price multiplier")
+    policy_plot = win.addPlot(title="time 0")
+    policy_plot.setPreferredHeight(300)
+    policy_plot_legend = policy_plot.addLegend(offset=None)
+    policy_plot_vb = win.addViewBox()  # Empty UI box to contain the legend outside the plot
+    policy_plot_vb.setFixedWidth(300)
+    policy_plot_legend.setParentItem(policy_plot_vb)
+    policy_plot.setYRange(0, 1.1)
+    policy_plot.setXRange(min_x, max_x)
+    policy_plot.setClipToView(True)
+    policy_plot.setLabel("left", "Query rate")
+    policy_plot.setLabel("bottom", "Price multiplier")
+    policy_plot.setLogMode(LOG_PLOT, False)
     # Policy PD
     agents_dist = [
-        plot_1.plot(
+        policy_plot.plot(
             pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5),
             name=f"Agent {agent_name}: policy",
         )
@@ -66,7 +68,7 @@ def main():
 
     # Initial policy PD
     agents_init_dist = [
-        plot_1.plot(
+        policy_plot.plot(
             pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5, style=QtCore.Qt.DotLine),  # type: ignore
             name=f"Agent {agent_name}: init policy",
         )
@@ -75,7 +77,7 @@ def main():
     # This is a line plot with invisible line and visible data points.
     # Easier to scale with the rest of the plot than with using a ScatterPlot.
     agents_scatter_qps = [
-        plot_1.plot(
+        policy_plot.plot(
             pen=pg.mkPen(color=(0, 0, 0, 0), width=0),  # type: ignore
             name=f"Agent {agent_name}: query rate",
             symbolBrush=(i, len(agents) + 1),
@@ -84,39 +86,40 @@ def main():
         for i, agent_name in enumerate(agents.keys())
     ]
     # Environment QPS
-    env_plot = plot_1.plot(
+    env_plot = policy_plot.plot(
         pen=pg.mkPen(color="gray", width=1.5), name="Environment: total query rate"
     )
     # Budget vertical line
-    plot_1.addLine(
-        x=np.log10(50e-6) if LOG_PLOT else 50e-6,
-        pen=pg.mkPen(
-            color=(len(agents), len(agents) + 1), width=1.5, style=QtCore.Qt.DotLine  # type: ignore
-        ),
-    )
-    # Budget vertical line legend (create empty plot line with right style)
-    plot_1_legend.addItem(
-        pg.PlotDataItem(
+    if environment.__class__.__name__ == "IsaSubgraph":
+        policy_plot.addLine(
+            x=np.log10(50e-6) if LOG_PLOT else 50e-6,
             pen=pg.mkPen(
                 color=(len(agents), len(agents) + 1), width=1.5, style=QtCore.Qt.DotLine  # type: ignore
-            )
-        ),
-        name="Consumer budget",
-    )
+            ),
+        )
+        # Budget vertical line legend (create empty plot line with right style)
+        policy_plot_legend.addItem(
+            pg.PlotDataItem(
+                pen=pg.mkPen(
+                    color=(len(agents), len(agents) + 1), width=1.5, style=QtCore.Qt.DotLine  # type: ignore
+                )
+            ),
+            name="Consumer budget",
+        )
 
     win.nextRow()
 
     # Create query volume time plot
-    plot_2 = win.addPlot()
-    plot_2.setPreferredHeight(200)
-    plot_2.setLabel("left", "Query rate")
-    plot_2.setLabel("bottom", "Timestep")
-    plot_2_legend = plot_2.addLegend(offset=None)
-    plot_2_vb = win.addViewBox()
-    plot_2_vb.setFixedWidth(300)
-    plot_2_legend.setParentItem(plot_2_vb)
+    query_rate_plot = win.addPlot()
+    # query_rate_plot.setPreferredHeight(200)
+    query_rate_plot.setLabel("left", "Query rate")
+    query_rate_plot.setLabel("bottom", "Timestep")
+    query_rate_plot_legend = query_rate_plot.addLegend(offset=None)
+    query_rate_plot_vb = win.addViewBox()
+    query_rate_plot_vb.setFixedWidth(300)
+    query_rate_plot_legend.setParentItem(query_rate_plot_vb)
     agent_qps_plots = [
-        plot_2.plot(
+        query_rate_plot.plot(
             pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5),
             name=f"Agent {agent_name}",
         )
@@ -127,30 +130,77 @@ def main():
     win.nextRow()
 
     # Create total queries (un)served plot
-    plot_3 = win.addPlot()
-    plot_3.setPreferredHeight(200)
-    plot_3.setLabel("left", "Total queries")
-    plot_3.setLabel("bottom", "Timestep")
-    plot_3_legend = plot_3.addLegend(offset=None)
-    plot_3_vb = win.addViewBox()
-    plot_3_vb.setFixedWidth(300)
-    plot_3_legend.setParentItem(plot_3_vb)
-    plot_3_legend.anchor((0, 0), (0, 0))
+    total_queries_plot = win.addPlot()
+    # total_queries_plot.setPreferredHeight(200)
+    total_queries_plot.setLabel("left", "Total queries")
+    total_queries_plot.setLabel("bottom", "Timestep")
+    total_queries_legend = total_queries_plot.addLegend(offset=None)
+    total_queries_vb = win.addViewBox()
+    total_queries_vb.setFixedWidth(300)
+    total_queries_legend.setParentItem(total_queries_vb)
+    total_queries_legend.anchor((0, 0), (0, 0))
 
     total_agent_queries_plots = [
-        plot_3.plot(
+        total_queries_plot.plot(
             pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5),
             name=f"Agent {agent_name}",
         )
         for i, agent_name in enumerate(agents.keys())
     ]
-    total_unserved_queries_plot = plot_3.plot(
+    total_unserved_queries_plot = total_queries_plot.plot(
         pen=pg.mkPen(color=(len(agents), len(agents) + 1), width=1.5),
         name=f"Dropped",
     )
 
     total_agent_queries_data = [[] for _ in agents]
     total_unserved_queries_data = []
+
+    win.nextRow()
+
+    # Create revenue rate plot
+    revenue_rate_plot = win.addPlot()
+    # revenue_rate_plot.setPreferredHeight(200)
+    revenue_rate_plot.setLabel("left", "Revenue rate")
+    revenue_rate_plot.setLabel("bottom", "Timestep")
+    revenue_rate_legend = revenue_rate_plot.addLegend(offset=None)
+    revenue_rate_vb = win.addViewBox()
+    revenue_rate_vb.setFixedWidth(300)
+    revenue_rate_legend.setParentItem(revenue_rate_vb)
+    revenue_rate_legend.anchor((0, 0), (0, 0))
+
+    revenue_rate_plots = [
+        revenue_rate_plot.plot(
+            pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5),
+            name=f"Agent {agent_name}",
+        )
+        for i, agent_name in enumerate(agents.keys())
+    ]
+
+    revenue_rate_data = [[] for _ in agents]
+
+    win.nextRow()
+
+    # Create total revenue plot
+    total_revenue_plot = win.addPlot()
+    # total_revenue_plot.setPreferredHeight(200)
+    total_revenue_plot.setLabel("left", "Total revenue")
+    total_revenue_plot.setLabel("bottom", "Timestep")
+    total_revenue_legend = total_revenue_plot.addLegend(offset=None)
+    total_revenue_vb = win.addViewBox()
+    total_revenue_vb.setFixedWidth(300)
+    total_revenue_legend.setParentItem(total_revenue_vb)
+    total_revenue_legend.anchor((0, 0), (0, 0))
+
+    total_revenue_plots = [
+        total_revenue_plot.plot(
+            pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5),
+            name=f"Agent {agent_name}",
+        )
+        for i, agent_name in enumerate(agents.keys())
+    ]
+
+    total_revenue_data = [[] for _ in agents]
+
 
     for i in range(args.iterations):
         logging.debug("=" * 20 + " step %s " + "=" * 20, i)
@@ -187,6 +237,12 @@ def main():
             monies_per_second = queries_per_second[agent_id][-1] * scaled_bids[agent_id]
             # Add reward.
             agent.add_reward(monies_per_second)
+
+            revenue_rate_data[agent_id] += [monies_per_second]
+            if i > 0:
+                total_revenue_data[agent_id] += [total_revenue_data[agent_id][-1] + revenue_rate_data[agent_id][-1]]
+            else:
+                total_revenue_data[agent_id] += [revenue_rate_data[agent_id][-1]]
 
             # 4. Update the policy.
             if True:  # agent_id == 0:
@@ -236,24 +292,24 @@ def main():
                 total_agent_queries_data[agent_id] += [queries_per_second[agent_id][-1]]
 
         # Total unserved queries
-        if environment.__class__.__name__ == "IsaSubgraph":
-            if i > 0:
-                total_unserved_queries_data += [
-                    total_unserved_queries_data[-1]
-                    + 1
-                    - sum(e[-1] for e in queries_per_second)
-                ]
-            else:
-                total_unserved_queries_data += [
-                    1 - sum(e[-1] for e in queries_per_second)
-                ]
+        # if environment.__class__.__name__ == "IsaSubgraph":
+        if i > 0:
+            total_unserved_queries_data += [
+                total_unserved_queries_data[-1]
+                + 1
+                - sum(e[-1] for e in queries_per_second)
+            ]
+        else:
+            total_unserved_queries_data += [
+                1 - sum(e[-1] for e in queries_per_second)
+            ]
 
         # X. Collect the values for visualization of agent's gaussian policy.
         if i % args.fast_forward_factor == 0:
             for agent_id, (agent_name, agent) in enumerate(agents.items()):
 
                 # Get data.
-                data = run(agent.generate_plot_data(min_x, max_x))
+                data = run(agent.generate_plot_data(min_x, max_x, logspace=LOG_PLOT))
                 agent_x = data.pop("x")
                 agent_y = data["policy"]
                 agents_dist[agent_id].setData(agent_x, agent_y)
@@ -276,10 +332,20 @@ def main():
                     total_agent_queries_data[agent_id]
                 )
 
+                # Revenue rate by agent
+                revenue_rate_plots[agent_id].setData(
+                    revenue_rate_data[agent_id]
+                )
+
+                # Total revenue by agent
+                total_revenue_plots[agent_id].setData(
+                    total_revenue_data[agent_id]
+                )
+
             # Total queries unserved
             total_unserved_queries_plot.setData(total_unserved_queries_data)
 
-            plot_1.setTitle(f"time {i}")
+            policy_plot.setTitle(f"time {i}")
 
         # 5. Make a step.
         environment.step()
@@ -292,7 +358,7 @@ def main():
                     FILENAME = f"{args.config}.mp4"
                     ffmpeg_process = (
                         ffmpeg.input(
-                            "pipe:", format="rawvideo", pix_fmt="rgb24", s="1000x800"
+                            "pipe:", format="rawvideo", pix_fmt="rgb24", s="1000x1000"
                         )
                         .output(FILENAME, vcodec="libx264", pix_fmt="yuv420p")
                         .overwrite_output()

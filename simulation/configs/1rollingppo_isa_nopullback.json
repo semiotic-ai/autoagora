@@ -1,0 +1,18 @@
+{
+    "agents": {
+        "rolling_ppo_1": {
+            "policy": {
+                "type": "rolling_ppo"
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 4e-7
+            }
+        }
+    },
+    "environment": {
+        "isa": {
+        }
+    }
+}
