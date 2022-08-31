@@ -45,10 +45,15 @@ def main():
 
     # Create policy plot
     plot_1 = win.addPlot(title="time 0")
-    plot_1.setPreferredHeight(700)
-    plot_1.addLegend(offset=(-1, 1))
-    plot_1.setYRange(0, 1.3)
-    plot_1.setLabel("left", "Queries/s")
+    plot_1.setPreferredHeight(600)
+    plot_1_legend = plot_1.addLegend(offset=None)
+    plot_1_vb = win.addViewBox()  # Empty UI box to contain the legend outside the plot
+    plot_1_vb.setFixedWidth(300)
+    plot_1_legend.setParentItem(plot_1_vb)
+    plot_1.setYRange(0, 1.1)
+    plot_1.setXRange(min_x, max_x)
+    plot_1.setClipToView(True)
+    plot_1.setLabel("left", "Query rate")
     plot_1.setLabel("bottom", "Price multiplier")
     # Policy PD
     agents_dist = [
@@ -77,10 +82,13 @@ def main():
 
     # Create query volume time plot
     plot_2 = win.addPlot()
-    plot_2.setPreferredHeight(300)
-    plot_2.setXRange(0, args.iterations)
-    plot_2.setLabel("left", "Queries/s")
+    plot_2.setPreferredHeight(200)
+    plot_2.setLabel("left", "Query rate")
     plot_2.setLabel("bottom", "Timestep")
+    plot_2_legend = plot_2.addLegend(offset=None)
+    plot_2_vb = win.addViewBox()
+    plot_2_vb.setFixedWidth(300)
+    plot_2_legend.setParentItem(plot_2_vb)
     agent_qps_plots = [
         plot_2.plot(
             pen=pg.mkPen(color=(i, len(agents)), width=1),
