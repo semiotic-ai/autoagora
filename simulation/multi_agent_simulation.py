@@ -176,6 +176,9 @@ def main():
                 )
             )
 
+        # Make a step. (Executes a number of queries in the case of the ISA)
+        environment.step()
+
         # Get observations for all agents.
         for agent_id, (agent_name, agent) in enumerate(agents.items()):
             # 3. Get the rewards.
@@ -281,8 +284,6 @@ def main():
 
             plot_1.setTitle(f"time {i}")
 
-        # 5. Make a step.
-        environment.step()
         QtWidgets.QApplication.processEvents()  # type: ignore
 
         if args.save:
