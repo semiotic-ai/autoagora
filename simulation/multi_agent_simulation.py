@@ -34,8 +34,8 @@ def main():
 
     ffmpeg_process = None
     # Environment x.
-    min_x = 1e-8
-    max_x = 6e-4
+    min_x = 1e-7#1e-8
+    max_x = 1e-5#6e-4
 
     # Set up PyQtGraph
     pg.setConfigOption("foreground", "white")
@@ -51,8 +51,9 @@ def main():
     policy_plot_vb = win.addViewBox()  # Empty UI box to contain the legend outside the plot
     policy_plot_vb.setFixedWidth(300)
     policy_plot_legend.setParentItem(policy_plot_vb)
-    policy_plot.setYRange(0, 1.1)
+    policy_plot.setYRange(0, 1.3)
     policy_plot.setXRange(min_x, max_x)
+    policy_plot.disableAutoRange()
     policy_plot.setClipToView(True)
     policy_plot.setLabel("left", "Query rate")
     policy_plot.setLabel("bottom", "Price multiplier")
@@ -106,6 +107,8 @@ def main():
             ),
             name="Consumer budget",
         )
+
+    phantom_plot = policy_plot.plot([1.2], color=(0,0,0,0))
 
     win.nextRow()
 
@@ -225,6 +228,9 @@ def main():
                     scaled_bids[agent_id], agent_id=agent_id
                 )
             )
+
+        # 5. Make a step.
+        environment.step()
 
         # Get observations for all agents.
         for agent_id, (agent_name, agent) in enumerate(agents.items()):
@@ -347,8 +353,6 @@ def main():
 
             policy_plot.setTitle(f"time {i}")
 
-        # 5. Make a step.
-        environment.step()
         QtWidgets.QApplication.processEvents()  # type: ignore
 
         if args.save:

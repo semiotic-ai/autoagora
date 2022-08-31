@@ -3,7 +3,7 @@
         "rolling_ppo_1": {
             "policy": {
                 "type": "rolling_ppo",
-                "graceful_init_pull": false
+                "graceful_init_pull": true
             },
             "action": {
                 "type": "scaled_gaussian",
