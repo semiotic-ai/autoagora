@@ -21,8 +21,8 @@ docker build -t autoagora .
 
 For AutoAgora to function correctly, you will also need to set up:
 
-- [AutoAgora indexer-service](https://gitlab.com/semiotic-ai/the-graph/autoagora-indexer-service)
-- [AutoAgora Processor](https://gitlab.com/semiotic-ai/the-graph/autoagora-processor)
+- [AutoAgora indexer-service](https://github.com/semiotic-ai/autoagora-indexer-service)
+- [AutoAgora Processor](https://github.com/semiotic-ai/autoagora-processor)
 
 AutoAgora will continously:
 
