@@ -1,0 +1,42 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  tests:
+    strategy:
+      fail-fast: true
+      matrix:
+        python-version: ["3.8", "3.9", "3.10"]
+        poetry-version: ["1.1.15"]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: poetry
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Black formatter
+        run: poetry run black --check --diff --color .
+
+      - name: Isort formatter
+        run: poetry run isort --check --diff .
+
+      - name: Pyright static type checks
+        run: poetry run pyright .
+
+      - name: Install pytest github annotation plugin
+        run: poetry run pip install pytest-github-actions-annotate-failures
+
+      - name: "Pytest: unit tests"
+        run: poetry run pytest
