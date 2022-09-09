@@ -16,6 +16,8 @@ from simulation.show_bandit import add_experiment_argparse
 
 logging.basicConfig(level="WARN", format="%(message)s")
 
+LOG_PLOT = True
+
 
 def main():
     # Init argparse.
@@ -57,6 +59,7 @@ def main():
     policy_plot.setClipToView(True)
     policy_plot.setLabel("left", "Query rate")
     policy_plot.setLabel("bottom", "Price multiplier")
+    policy_plot.setLogMode(LOG_PLOT, False)
     # Policy PD
     agents_dist = [
         policy_plot.plot(
@@ -293,7 +296,7 @@ def main():
             for agent_id, (agent_name, agent) in enumerate(agents.items()):
 
                 # Get data.
-                data = run(agent.generate_plot_data(min_x, max_x))
+                data = run(agent.generate_plot_data(min_x, max_x, logspace=LOG_PLOT))
                 agent_x = data.pop("x")
                 agent_y = data["policy"]
                 agents_dist[agent_id].setData(agent_x, agent_y)

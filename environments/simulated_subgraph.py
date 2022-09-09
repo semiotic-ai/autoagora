@@ -83,7 +83,7 @@ class SimulatedSubgraph(Environment):
         return f"{self.__class__.__name__}"
 
     async def generate_plot_data(
-        self, min_x: float, max_x: float, num_points: int = 100
+        self, min_x: float, max_x: float, num_points: int = 100, logspace: bool = False
     ):
         """Generates q/s for a given cost multiplier range.
 
@@ -95,7 +95,10 @@ class SimulatedSubgraph(Environment):
         Returns:
             ([x1, x2, ...], [y1, y2, ...]): Tuple of lists of x and y.
         """
-        x = np.linspace(min_x, max_x, num_points)
+        if logspace:
+            x = np.logspace(np.log10(min_x), np.log10(max_x), num_points, base=10)
+        else:
+            x = np.linspace(min_x, max_x, num_points)
         y = []
 
         # ID of the "fake indexer" - add him to the end.
