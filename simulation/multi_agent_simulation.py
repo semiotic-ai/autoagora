@@ -41,7 +41,7 @@ def main():
     pg.setConfigOptions(antialias=True)
     app = pg.mkQApp("Plot")
     win = pg.GraphicsLayoutWidget(show=not args.save, title="Multi-agent training")
-    win.resize(1000, 800)
+    win.resize(1000, 1000)
 
     # Create policy plot
     policy_plot = win.addPlot(title="time 0")
@@ -336,7 +336,7 @@ def main():
                     FILENAME = f"{args.config}.mp4"
                     ffmpeg_process = (
                         ffmpeg.input(
-                            "pipe:", format="rawvideo", pix_fmt="rgb24", s="1000x800"
+                            "pipe:", format="rawvideo", pix_fmt="rgb24", s="1000x1000"
                         )
                         .output(FILENAME, vcodec="libx264", pix_fmt="yuv420p")
                         .overwrite_output()
