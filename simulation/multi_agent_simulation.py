@@ -138,6 +138,52 @@ def main():
     total_agent_queries_data = [[] for _ in agents]
     total_unserved_queries_data = []
 
+    win.nextRow()
+
+    # Create revenue rate plot
+    revenue_rate_plot = win.addPlot()
+    # revenue_rate_plot.setPreferredHeight(200)
+    revenue_rate_plot.setLabel("left", "Revenue rate")
+    revenue_rate_plot.setLabel("bottom", "Timestep")
+    revenue_rate_legend = revenue_rate_plot.addLegend(offset=None)
+    revenue_rate_vb = win.addViewBox()
+    revenue_rate_vb.setFixedWidth(300)
+    revenue_rate_legend.setParentItem(revenue_rate_vb)
+    revenue_rate_legend.anchor((0, 0), (0, 0))
+
+    revenue_rate_plots = [
+        revenue_rate_plot.plot(
+            pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5),
+            name=f"Agent {agent_name}",
+        )
+        for i, agent_name in enumerate(agents.keys())
+    ]
+
+    revenue_rate_data = [[] for _ in agents]
+
+    win.nextRow()
+
+    # Create total revenue plot
+    total_revenue_plot = win.addPlot()
+    # total_revenue_plot.setPreferredHeight(200)
+    total_revenue_plot.setLabel("left", "Total revenue")
+    total_revenue_plot.setLabel("bottom", "Timestep")
+    total_revenue_legend = total_revenue_plot.addLegend(offset=None)
+    total_revenue_vb = win.addViewBox()
+    total_revenue_vb.setFixedWidth(300)
+    total_revenue_legend.setParentItem(total_revenue_vb)
+    total_revenue_legend.anchor((0, 0), (0, 0))
+
+    total_revenue_plots = [
+        total_revenue_plot.plot(
+            pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5),
+            name=f"Agent {agent_name}",
+        )
+        for i, agent_name in enumerate(agents.keys())
+    ]
+
+    total_revenue_data = [[] for _ in agents]
+
     for i in range(args.iterations):
         logging.debug("=" * 20 + " step %s " + "=" * 20, i)
 
@@ -176,6 +222,14 @@ def main():
             monies_per_second = queries_per_second[agent_id][-1] * scaled_bids[agent_id]
             # Add reward.
             agent.add_reward(monies_per_second)
+
+            revenue_rate_data[agent_id] += [monies_per_second]
+            if i > 0:
+                total_revenue_data[agent_id] += [
+                    total_revenue_data[agent_id][-1] + revenue_rate_data[agent_id][-1]
+                ]
+            else:
+                total_revenue_data[agent_id] += [revenue_rate_data[agent_id][-1]]
 
             # 4. Update the policy.
             if True:  # agent_id == 0:
@@ -264,6 +318,12 @@ def main():
                 total_agent_queries_plots[agent_id].setData(
                     total_agent_queries_data[agent_id]
                 )
+
+                # Revenue rate by agent
+                revenue_rate_plots[agent_id].setData(revenue_rate_data[agent_id])
+
+                # Total revenue by agent
+                total_revenue_plots[agent_id].setData(total_revenue_data[agent_id])
 
             # Total queries unserved
             total_unserved_queries_plot.setData(total_unserved_queries_data)
