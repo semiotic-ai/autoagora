@@ -1,0 +1,41 @@
+{
+    "agents": {
+        "deterministic1": {
+            "action": {
+                "type": "deterministic",
+                "initial_value": 1.25e-06
+            }
+        },
+        "deterministic2": {
+            "action": {
+                "type": "deterministic",
+                "initial_value": 2.5e-06
+            }
+        },
+        "deterministic3": {
+            "action": {
+                "type": "deterministic",
+                "initial_value": 2.0e-06
+            }
+        },
+        "rollmem1_no_fallback": {
+            "policy": {
+                "type": "rolling_ppo",
+                "graceful_init_pull": false
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
+            }
+        }
+    },
+    "environment": {
+        "isa": {
+        }
+    }
+}
