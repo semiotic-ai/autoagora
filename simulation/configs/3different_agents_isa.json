@@ -1,0 +1,44 @@
+{
+    "agents": {
+        "vpg1": {
+            "policy": "vpg",
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 1e-6,
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
+            }
+        },
+        "ppo1": {
+            "policy": "ppo",
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 1e-6,
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
+            }
+        },
+        "rolling_ppo1": {
+            "policy": "rolling_ppo",
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 1e-6,
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
+            }
+        }
+    },
+    "environment": {
+        "isa": {
+        }
+    }
+}
