@@ -18,7 +18,7 @@ _ENVIRONMENT_TYPES: Dict[
 ] = dict()
 
 try:
-    from autoagora_isa.isa import IsaSubgraph
+    from autoagora_isa.isa import IsaSubgraph  # type: ignore
 except:
     _ENVIRONMENT_TYPES["isa"] = MissingOptionalEnvironment
 else:
