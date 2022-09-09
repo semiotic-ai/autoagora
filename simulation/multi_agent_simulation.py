@@ -44,20 +44,22 @@ def main():
     win.resize(1000, 800)
 
     # Create policy plot
-    plot_1 = win.addPlot(title="time 0")
-    plot_1.setPreferredHeight(600)
-    plot_1_legend = plot_1.addLegend(offset=None)
-    plot_1_vb = win.addViewBox()  # Empty UI box to contain the legend outside the plot
-    plot_1_vb.setFixedWidth(300)
-    plot_1_legend.setParentItem(plot_1_vb)
-    plot_1.setYRange(0, 1.1)
-    plot_1.setXRange(min_x, max_x)
-    plot_1.setClipToView(True)
-    plot_1.setLabel("left", "Query rate")
-    plot_1.setLabel("bottom", "Price multiplier")
+    policy_plot = win.addPlot(title="time 0")
+    policy_plot.setPreferredHeight(300)
+    policy_plot_legend = policy_plot.addLegend(offset=None)
+    policy_plot_vb = (
+        win.addViewBox()
+    )  # Empty UI box to contain the legend outside the plot
+    policy_plot_vb.setFixedWidth(300)
+    policy_plot_legend.setParentItem(policy_plot_vb)
+    policy_plot.setYRange(0, 1.1)
+    policy_plot.setXRange(min_x, max_x)
+    policy_plot.setClipToView(True)
+    policy_plot.setLabel("left", "Query rate")
+    policy_plot.setLabel("bottom", "Price multiplier")
     # Policy PD
     agents_dist = [
-        plot_1.plot(
+        policy_plot.plot(
             pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5),
             name=f"Agent {agent_name}: policy",
         )
@@ -66,7 +68,7 @@ def main():
 
     # Initial policy PD
     agents_init_dist = [
-        plot_1.plot(
+        policy_plot.plot(
             pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5, style=QtCore.Qt.DotLine),  # type: ignore
             name=f"Agent {agent_name}: init policy",
         )
@@ -75,7 +77,7 @@ def main():
     # This is a line plot with invisible line and visible data points.
     # Easier to scale with the rest of the plot than with using a ScatterPlot.
     agents_scatter_qps = [
-        plot_1.plot(
+        policy_plot.plot(
             pen=pg.mkPen(color=(0, 0, 0, 0), width=0),  # type: ignore
             name=f"Agent {agent_name}: query rate",
             symbolBrush=(i, len(agents) + 1),
@@ -84,23 +86,23 @@ def main():
         for i, agent_name in enumerate(agents.keys())
     ]
     # Environment QPS
-    env_plot = plot_1.plot(
+    env_plot = policy_plot.plot(
         pen=pg.mkPen(color="gray", width=1.5), name="Environment: total query rate"
     )
 
     win.nextRow()
 
     # Create query volume time plot
-    plot_2 = win.addPlot()
-    plot_2.setPreferredHeight(200)
-    plot_2.setLabel("left", "Query rate")
-    plot_2.setLabel("bottom", "Timestep")
-    plot_2_legend = plot_2.addLegend(offset=None)
-    plot_2_vb = win.addViewBox()
-    plot_2_vb.setFixedWidth(300)
-    plot_2_legend.setParentItem(plot_2_vb)
+    query_rate_plot = win.addPlot()
+    # query_rate_plot.setPreferredHeight(200)
+    query_rate_plot.setLabel("left", "Query rate")
+    query_rate_plot.setLabel("bottom", "Timestep")
+    query_rate_plot_legend = query_rate_plot.addLegend(offset=None)
+    query_rate_plot_vb = win.addViewBox()
+    query_rate_plot_vb.setFixedWidth(300)
+    query_rate_plot_legend.setParentItem(query_rate_plot_vb)
     agent_qps_plots = [
-        plot_2.plot(
+        query_rate_plot.plot(
             pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5),
             name=f"Agent {agent_name}",
         )
@@ -111,24 +113,24 @@ def main():
     win.nextRow()
 
     # Create total queries (un)served plot
-    plot_3 = win.addPlot()
-    plot_3.setPreferredHeight(200)
-    plot_3.setLabel("left", "Total queries")
-    plot_3.setLabel("bottom", "Timestep")
-    plot_3_legend = plot_3.addLegend(offset=None)
-    plot_3_vb = win.addViewBox()
-    plot_3_vb.setFixedWidth(300)
-    plot_3_legend.setParentItem(plot_3_vb)
-    plot_3_legend.anchor((0, 0), (0, 0))
+    total_queries_plot = win.addPlot()
+    # total_queries_plot.setPreferredHeight(200)
+    total_queries_plot.setLabel("left", "Total queries")
+    total_queries_plot.setLabel("bottom", "Timestep")
+    total_queries_legend = total_queries_plot.addLegend(offset=None)
+    total_queries_vb = win.addViewBox()
+    total_queries_vb.setFixedWidth(300)
+    total_queries_legend.setParentItem(total_queries_vb)
+    total_queries_legend.anchor((0, 0), (0, 0))
 
     total_agent_queries_plots = [
-        plot_3.plot(
+        total_queries_plot.plot(
             pen=pg.mkPen(color=(i, len(agents) + 1), width=1.5),
             name=f"Agent {agent_name}",
         )
         for i, agent_name in enumerate(agents.keys())
     ]
-    total_unserved_queries_plot = plot_3.plot(
+    total_unserved_queries_plot = total_queries_plot.plot(
         pen=pg.mkPen(color=(len(agents), len(agents) + 1), width=1.5),
         name=f"Dropped",
     )
@@ -266,7 +268,7 @@ def main():
             # Total queries unserved
             total_unserved_queries_plot.setData(total_unserved_queries_data)
 
-            plot_1.setTitle(f"time {i}")
+            policy_plot.setTitle(f"time {i}")
 
         QtWidgets.QApplication.processEvents()  # type: ignore
 
