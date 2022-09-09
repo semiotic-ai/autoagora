@@ -279,17 +279,14 @@ def main():
                 total_agent_queries_data[agent_id] += [queries_per_second[agent_id][-1]]
 
         # Total unserved queries
-        if environment.__class__.__name__ == "IsaSubgraph":
-            if i > 0:
-                total_unserved_queries_data += [
-                    total_unserved_queries_data[-1]
-                    + 1
-                    - sum(e[-1] for e in queries_per_second)
-                ]
-            else:
-                total_unserved_queries_data += [
-                    1 - sum(e[-1] for e in queries_per_second)
-                ]
+        if i > 0:
+            total_unserved_queries_data += [
+                total_unserved_queries_data[-1]
+                + 1
+                - sum(e[-1] for e in queries_per_second)
+            ]
+        else:
+            total_unserved_queries_data += [1 - sum(e[-1] for e in queries_per_second)]
 
         # X. Collect the values for visualization of agent's gaussian policy.
         if i % args.fast_forward_factor == 0:
