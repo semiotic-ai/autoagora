@@ -23,8 +23,8 @@ packages = [
 autoagora = "autoagora.main:main"
 
 [[tool.poetry.source]]
-name = "gitlab-isa"
-url = "https://gitlab.com/api/v4/projects/37745340/packages/pypi/simple"
+name = "isa-artifacts"
+url = "https://us-west1-python.pkg.dev/the-graph-artifacts/isa/simple/"
 secondary = true
 
 [tool.poetry.dependencies]
@@ -55,7 +55,7 @@ anyio = "^3.5.0"
 numpy = "^1.22.3"
 scipy = "^1.8.0"
 prometheus-async = {extras = ["aiohttp"], version = "^22.1.0"}
-autoagora-isa = {git = "ssh://git@gitlab.com/semiotic-ai/the-graph/autoagora-isa.git", rev = "340cd01bc0ee5a76046b90dc0ea57b4cc0c4674d", optional = true}
+autoagora-isa = {git = "ssh://git@github.com/semiotic-ai/autoagora-isa.git", rev = "23cdc510c389a75e818bc9026ddc4741e9cc186c", optional = true}
 
 [tool.poetry.extras]
 isa = ["autoagora-isa"]
