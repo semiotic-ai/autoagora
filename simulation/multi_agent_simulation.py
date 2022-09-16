@@ -17,6 +17,7 @@ from simulation.show_bandit import add_experiment_argparse
 logging.basicConfig(level="WARN", format="%(message)s")
 
 LOG_PLOT = True
+WINDOW_SIZE = (1000, 1000)
 
 
 def main():
@@ -43,7 +44,7 @@ def main():
     pg.setConfigOptions(antialias=True)
     app = pg.mkQApp("Plot")
     win = pg.GraphicsLayoutWidget(show=not args.save, title="Multi-agent training")
-    win.resize(1000, 1000)
+    win.resize(*WINDOW_SIZE)
 
     # Create policy plot
     policy_plot = win.addPlot(title="time 0")
@@ -339,7 +340,10 @@ def main():
                     FILENAME = f"{args.config}.mp4"
                     ffmpeg_process = (
                         ffmpeg.input(
-                            "pipe:", format="rawvideo", pix_fmt="rgb24", s="1000x1000"
+                            "pipe:",
+                            format="rawvideo",
+                            pix_fmt="rgb24",
+                            s=f"{WINDOW_SIZE[0]}x{WINDOW_SIZE[1]}",
                         )
                         .output(FILENAME, vcodec="libx264", pix_fmt="yuv420p")
                         .overwrite_output()
@@ -350,6 +354,21 @@ def main():
                 qimage = qimage.convertToFormat(
                     QtGui.QImage.Format_RGB888, QtCore.Qt.AutoColor  # type: ignore
                 )
+
+                # May have to rescale (HiDPI displays, etc)
+                if (qimage.width(), qimage.height()) != WINDOW_SIZE:
+                    qimage = (
+                        QtGui.QPixmap.fromImage(qimage)  # type: ignore
+                        .scaled(
+                            WINDOW_SIZE[0],
+                            WINDOW_SIZE[1],
+                            mode=QtCore.Qt.TransformationMode.SmoothTransformation,  # type: ignore
+                        )
+                        .toImage()
+                        .convertToFormat(
+                            QtGui.QImage.Format_RGB888, QtCore.Qt.AutoColor  # type: ignore
+                        )
+                    )
 
                 ffmpeg_process.stdin.write(qimage.constBits().tobytes())
 
