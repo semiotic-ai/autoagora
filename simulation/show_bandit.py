@@ -133,18 +133,18 @@ if __name__ == "__main__":
             frame_legend_container.append(f"Agent {agent_name}: action => q/s")
 
             # Put both "images" with labels & title into a container.
-            ax.set_xlabel("Price multiplier")
+            ax.set_xlabel("Price multiplier")  # type: ignore
             # ax.set_ylabel('queries/s ')
-            title = ax.text(
+            title = ax.text(  # type: ignore
                 0.5,
                 1.05,
                 f"time {i}",
                 size=plt.rcParams["axes.titlesize"],
                 ha="center",
-                transform=ax.transAxes,
+                transform=ax.transAxes,  # type: ignore
             )
             legend = ax.legend(frame_image_container, frame_legend_container)  # type: ignore
-            container.append([*frame_image_container, title])  # type: ignore
+            container.append([*frame_image_container, title])
 
         # 5. Make a step.
         environment.step()

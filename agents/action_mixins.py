@@ -146,7 +146,7 @@ class ScaledGaussianAction(Action):
             raise TypeError(f"Invalid type '{type(x)}'")
 
     async def generate_plot_data(
-        self, min_x: float, max_x: float, num_points: int = 200
+        self, min_x: float, max_x: float, num_points: int = 200, logspace: bool = False
     ):
         """Generates action distribution for a given cost multiplier range.
 
@@ -160,7 +160,10 @@ class ScaledGaussianAction(Action):
         """
 
         # Prepare points in the "unscaled" x.
-        agent_x = np.linspace(min_x, max_x, num_points)
+        if logspace:
+            agent_x = np.logspace(np.log10(min_x), np.log10(max_x), num_points, base=10)
+        else:
+            agent_x = np.linspace(min_x, max_x, num_points)
         # Project the points into the "internal/inverted scale" x.
         agent_x_inverted_scale = [self.inverse_bid_scale(x) for x in agent_x]
 
@@ -270,7 +273,7 @@ class GaussianAction(Action):
         return bid
 
     async def generate_plot_data(
-        self, min_x: float, max_x: float, num_points: int = 200
+        self, min_x: float, max_x: float, num_points: int = 200, logspace: bool = False
     ):
         """Generates action distribution for a given cost multiplier range.
 
@@ -284,7 +287,10 @@ class GaussianAction(Action):
         """
 
         # Prepare points in the "unscaled" x.
-        agent_x = np.linspace(min_x, max_x, num_points)
+        if logspace:
+            agent_x = np.logspace(np.log10(min_x), np.log10(max_x), num_points, base=10)
+        else:
+            agent_x = np.linspace(min_x, max_x, num_points)
 
         # Get agent's PDF for points in the "inverted scale".
         policy_mean = self.mean().detach().numpy()
@@ -349,7 +355,7 @@ class DeterministicAction(Action):
         return self.get_bids()
 
     async def generate_plot_data(
-        self, min_x: float, max_x: float, num_points: int = 200
+        self, min_x: float, max_x: float, num_points: int = 200, logspace: bool = False
     ):
         """Generates action distribution for a given cost multiplier range.
 

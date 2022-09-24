@@ -74,15 +74,15 @@ async def main():
         x, y = await environment.generate_plot_data(min_x, max_x)
         (im,) = plt.plot(x, y, color="grey")
 
-        ax.set_xlabel("Price multiplier")
-        ax.set_ylabel("Queries/second")
-        title = ax.text(
+        ax.set_xlabel("Price multiplier")  # type: ignore
+        ax.set_ylabel("Queries/second")  # type: ignore
+        title = ax.text(  # type: ignore
             0.5,
             1.05,
             f"time {i*args.fast_forward_factor}",
             size=plt.rcParams["axes.titlesize"],
             ha="center",
-            transform=ax.transAxes,
+            transform=ax.transAxes,  # type: ignore
         )
         container.append([im, title])
 

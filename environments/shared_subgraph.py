@@ -93,7 +93,7 @@ class NoisySharedSubgraph(SimulatedSubgraph):
             self._total_query_volume = 1 + np.random.normal() / 20
 
     async def generate_plot_data(
-        self, min_x: float, max_x: float, num_points: int = 100
+        self, min_x: float, max_x: float, num_points: int = 100, logspace: bool = False
     ):
         """Generates q/s for a given cost multiplier range.
 

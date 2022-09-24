@@ -1,0 +1,118 @@
+{
+    "agents": {
+        "rolling_ppo_1": {
+            "policy": {
+                "type": "rolling_ppo",
+                "graceful_init_pull": true
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 4e-7
+            }
+        },
+        "rolling_ppo_2": {
+            "policy": {
+                "type": "rolling_ppo",
+                "graceful_init_pull": true
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 4e-7
+            }
+        },
+        "rolling_ppo_3": {
+            "policy": {
+                "type": "rolling_ppo",
+                "graceful_init_pull": true
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 4e-7
+            }
+        },
+        "rolling_ppo_4": {
+            "policy": {
+                "type": "rolling_ppo",
+                "graceful_init_pull": true
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 4e-7
+            }
+        },
+        "rolling_ppo_5": {
+            "policy": {
+                "type": "rolling_ppo",
+                "graceful_init_pull": true
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 4e-7
+            }
+        },
+        "rolling_ppo_6": {
+            "policy": {
+                "type": "rolling_ppo",
+                "graceful_init_pull": true
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 4e-7
+            }
+        },
+        "rolling_ppo_7": {
+            "policy": {
+                "type": "rolling_ppo",
+                "graceful_init_pull": true
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 4e-7
+            }
+        },
+        "rolling_ppo_8": {
+            "policy": {
+                "type": "rolling_ppo",
+                "graceful_init_pull": true
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 4e-7
+            }
+        },
+        "rolling_ppo_9": {
+            "policy": {
+                "type": "rolling_ppo",
+                "graceful_init_pull": true
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 4e-7
+            }
+        },
+        "rolling_ppo_10": {
+            "policy": {
+                "type": "rolling_ppo",
+                "graceful_init_pull": true
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 4e-7
+            }
+        }
+    },
+    "environment": {
+        "isa": {
+        }
+    }
+}
