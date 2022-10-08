@@ -1,0 +1,26 @@
+{
+    "agents": {
+        "deterministic1": {
+            "action": {
+                "type": "deterministic",
+                "initial_value": 3e-5
+            }
+        },
+        "deterministic2": {
+            "action": {
+                "type": "deterministic",
+                "initial_value": 4e-5
+            }
+        },
+        "deterministic3": {
+            "action": {
+                "type": "deterministic",
+                "initial_value": 4.99e-5
+            }
+        }
+    },
+    "environment": {
+        "isa": {
+        }
+    }
+}

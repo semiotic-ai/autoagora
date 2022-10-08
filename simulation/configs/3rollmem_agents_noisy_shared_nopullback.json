@@ -1,0 +1,42 @@
+{
+    "agents": {
+        "rollmem1": {
+            "policy": {
+                "type": "rolling_ppo",
+                "graceful_init_pull": false
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 1.0e-06,
+                "initial_stddev": 4e-7
+            }
+        },
+        "rollmem2": {
+            "policy": {
+                "type": "rolling_ppo",
+                "graceful_init_pull": false
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 1.0e-06,
+                "initial_stddev": 4e-7
+            }
+        },
+        "rollmem3": {
+            "policy": {
+                "type": "rolling_ppo",
+                "graceful_init_pull": false
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 1.0e-06,
+                "initial_stddev": 4e-7
+            }
+        }
+    },
+    "environment": {
+        "NoisySharedSubgraph": {
+            "noise": true
+        }
+    }
+}

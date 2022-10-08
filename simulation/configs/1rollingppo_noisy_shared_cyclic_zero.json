@@ -1,0 +1,27 @@
+{
+    "agents": {
+        "rollmem1": {
+            "policy": {
+                "type": "rolling_ppo",
+                "buffer_max_size": 10,
+                "graceful_init_pull": true
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 1e-6,
+                "initial_stddev": 5e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
+            },
+            "num_instances": 1
+        }
+    },
+    "environment": {
+        "NoisyCyclicSharedSubgraph": {
+            "cycle": 200,
+            "noise": true
+        }
+    }
+}

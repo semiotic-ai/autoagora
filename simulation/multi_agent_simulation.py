@@ -36,8 +36,8 @@ def main():
     ffmpeg_process = None
 
     # Environment x.
-    min_x = 1e-10
-    max_x = 5e-6
+    min_x = 1e-8
+    max_x = 8e-5
 
     # Set up PyQtGraph
     pg.setConfigOption("foreground", "white")
@@ -55,8 +55,6 @@ def main():
     )  # Empty UI box to contain the legend outside the plot
     policy_plot_vb.setFixedWidth(300)
     policy_plot_legend.setParentItem(policy_plot_vb)
-    policy_plot.setYRange(0, 1.1)
-    policy_plot.setXRange(min_x, max_x)
     policy_plot.setClipToView(True)
     policy_plot.setLabel("left", "Query rate")
     policy_plot.setLabel("bottom", "Price multiplier")
@@ -93,6 +91,8 @@ def main():
     env_plot = policy_plot.plot(
         pen=pg.mkPen(color="gray", width=1.5), name="Environment: total query rate"
     )
+
+    policy_plot.setYRange(0, 1.3)
 
     win.nextRow()
 

@@ -1,0 +1,46 @@
+{
+    "agents": {
+        "random_scaled1": {
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 1.25e-06,
+                "initial_stddev": 1e-7
+            }
+        },
+        "random_scaled2": {
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.5e-06,
+                "initial_stddev": 1e-7
+            }
+        },
+        "random_scaled3": {
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 1e-7
+            }
+        },
+        "rollmem1": {
+            "policy": {
+                "type": "rolling_ppo",
+                "buffer_max_size": 10,
+                "graceful_init_pull": false
+            },
+            "action": {
+                "type": "scaled_gaussian",
+                "initial_mean": 2.0e-06,
+                "initial_stddev": 1e-7
+            },
+            "optimizer": {
+                "type": "adam",
+                "lr": 0.01
+            }
+        }
+    },
+    "environment": {
+        "NoisySharedSubgraph": {
+            "noise": true
+        }
+    }
+}

@@ -5,7 +5,7 @@ import argparse
 from typing import Dict, Type, Union
 
 from environments.environment import Environment, MissingOptionalEnvironment
-from environments.shared_subgraph import NoisySharedSubgraph
+from environments.shared_subgraph import NoisySharedSubgraph, NoisyCyclicSharedSubgraph
 from environments.simulated_subgraph import (
     NoisyCyclicQueriesSubgraph,
     NoisyCyclicZeroQueriesSubgraph,
@@ -36,6 +36,8 @@ _ENVIRONMENT_TYPES.update(
         "dynamic": NoisyDynamicQueriesSubgraph,
         "NoisySharedSubgraph": NoisySharedSubgraph,
         "shared": NoisySharedSubgraph,
+        "NoisyCyclicSharedSubgraph": NoisyCyclicSharedSubgraph,
+        "cyclic_shared": NoisyCyclicSharedSubgraph,
     }
 )
 

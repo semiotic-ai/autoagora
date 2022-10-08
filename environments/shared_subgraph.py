@@ -115,3 +115,53 @@ class NoisySharedSubgraph(SimulatedSubgraph):
 
         # Return x and y.
         return x, y
+
+
+class NoisyCyclicSharedSubgraph(NoisySharedSubgraph):
+    """Environment simulating a shared subgraph where agents can compete over a query volume.
+
+    Args:
+        cycle: (DEFAULT: 1000) Indicates how long a given cycle last.
+        cost_multiplier_threshold: (DEFAULT: 1e-6) Cost multiplier threshold above which subgraph won't return any queries.
+        noise: (DEFAULT: True) If set, injects noise (when queries > 0).
+    """
+
+    def __init__(
+        self, cycle: int = 1000, cost_multiplier_threshold: float = 2e-6, noise: bool = True
+    ) -> None:
+        # Call parent class constructor.
+        super().__init__(cost_multiplier_threshold = cost_multiplier_threshold, noise = True)
+
+        # Remember cycle.
+        self._cycle = cycle
+        self._init_cost_multiplier_threshold = cost_multiplier_threshold
+
+
+    def _sample_shift(self):
+        """Sets the base q/s depending on the step.
+
+        Returns:
+            Base q/s.
+        """
+        # Sample multiplier.
+        if (np.random.ranf() > 0.5):   
+            return 0.0
+        else:
+            return self._init_cost_multiplier_threshold * (0.1 + 0.9*np.random.ranf())
+
+
+    def step(self, number_of_steps: int = 1):
+        """Executes step of the environment.
+
+        Args:
+            step_size: (DEFAULT: 1) Number of steps to perform.
+        """
+        self._step += number_of_steps
+
+        # Different noise => total query volume at every step.
+        if self._noise:
+            self._total_query_volume = 1 + np.random.normal() / 20
+
+        # Dynamic environment, changes every cycle.
+        if (self._step % self._cycle) == 0:
+            self._cost_multiplier_threshold = self._sample_shift()
