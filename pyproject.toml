@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "autoagora"
-version = "0.2.0"
+version = "0.0.0"
 authors = [
     "Alexis Asseman <alexis@semiotic.ai>",
     "Matt Deible <matt@semiotic.ai>",
@@ -18,6 +18,9 @@ packages = [
     { include = "agents" },
     { include = "environments" },
 ]
+
+[tool.poetry-dynamic-versioning]
+enable = true
 
 [tool.poetry.scripts]
 autoagora = "autoagora.main:main"
@@ -78,8 +81,8 @@ pyqtgraph = "^0.12.4"
 ffmpeg-python = "^0.2.0"
 
 [build-system]
-requires = ["poetry_core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry_dynamic_versioning.backend"
 
 [tool.isort]
 profile = "black"
