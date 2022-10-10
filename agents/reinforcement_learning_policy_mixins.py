@@ -132,14 +132,15 @@ class ProximalPolicyOptimization(ExperienceBufferPolicy):
             if self._graceful_init_pull:
                 # Graceful fallback pull towards init mean.
                 if hasattr(self, "_mean") and hasattr(self, "_initial_mean"):
-                    loss += torch.nn.L1Loss()(self._mean, self._initial_mean) * 1e-3
+                    loss += torch.abs(self._mean - self._initial_mean) * 1e-1
 
                 # Graceful fallback pull towards init std dev.
                 if hasattr(self, "_logstddev") and hasattr(self, "_initial_logstddev"):
-                    loss += (
-                        torch.nn.L1Loss()(self._logstddev, self._initial_logstddev)
-                        * 1e-1
-                    )
+                    # If the current stddev < initial stddev, do nothing. Lets the
+                    # agent converge the stddev as tight as it wants.
+                    # Else, apply pullback loss equal to alpha * distance.
+                    if self._logstddev > self._initial_logstddev:
+                        loss += (self._logstddev - self._initial_logstddev) * 1e-1
 
             # Optimize the model parameters.
             self.optimizer.zero_grad()
