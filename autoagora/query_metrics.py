@@ -7,6 +7,7 @@ import re
 from typing import Dict
 
 import aiohttp
+import backoff
 import configargparse
 
 from autoagora.config import args
@@ -20,6 +21,9 @@ argsparser.add_argument(
 )
 
 
+@backoff.on_exception(
+    backoff.expo, aiohttp.ClientError, max_time=30, logger=logging.root
+)
 async def indexer_service_metrics() -> str:
     async with aiohttp.ClientSession() as session:
         async with session.get(args.indexer_service_metrics_endpoint) as response:
@@ -28,6 +32,9 @@ async def indexer_service_metrics() -> str:
     return result
 
 
+@backoff.on_exception(
+    backoff.expo, aiohttp.ClientError, max_time=30, logger=logging.root
+)
 async def query_counts() -> Dict[str, int]:
     async with aiohttp.ClientSession() as session:
         async with session.get(args.indexer_service_metrics_endpoint) as response:
@@ -44,6 +51,9 @@ async def query_counts() -> Dict[str, int]:
     return results
 
 
+@backoff.on_exception(
+    backoff.expo, aiohttp.ClientError, max_time=30, logger=logging.root
+)
 async def subgraph_query_count(subgraph: str) -> int:
     async with aiohttp.ClientSession() as session:
         async with session.get(args.indexer_service_metrics_endpoint) as response:

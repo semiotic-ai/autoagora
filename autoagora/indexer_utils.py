@@ -2,9 +2,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import json
+import logging
 from numbers import Number
 from typing import Any, Dict, Mapping, Optional, Set
 
+import aiohttp
+import backoff
 import configargparse
 from base58 import b58decode, b58encode
 from gql import Client, gql
@@ -37,6 +40,9 @@ def hex_to_ipfs_hash(hex: str) -> str:
     return str(b58encode(hex))
 
 
+@backoff.on_exception(
+    backoff.expo, aiohttp.ClientError, max_time=30, logger=logging.root
+)
 async def query_indexer_agent(query: str, variables: Optional[Mapping] = None):
     async with Client(
         transport=AIOHTTPTransport(args.indexer_agent_mgmt_endpoint),
