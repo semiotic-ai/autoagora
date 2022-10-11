@@ -60,6 +60,7 @@ scipy = "^1.8.0"
 prometheus-async = {extras = ["aiohttp"], version = "^22.1.0"}
 autoagora-isa = {git = "ssh://git@github.com/semiotic-ai/autoagora-isa.git", rev = "08142a5dcf3cd44c957921d67792d5188d4894ea", optional = true}
 backoff = "^2.2.1"
+python-json-logger = "^2.0.4"
 
 [tool.poetry.extras]
 isa = ["autoagora-isa"]
