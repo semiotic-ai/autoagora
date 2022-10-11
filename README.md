@@ -1,6 +1,7 @@
 # AutoAgora
 
-:warning: **Beware! This software is still experimental, use at your own risk!** :warning:
+**AutoAgora is *beta* software. Please use responsibly, monitor it (Prometheus metrics)
+, write issues and contribute!**
 
 An [Agora](https://github.com/graphprotocol/agora) cost model automation tool for The Graph indexers:
 
