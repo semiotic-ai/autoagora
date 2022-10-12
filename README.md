@@ -69,6 +69,10 @@ optional arguments:
                         Activates the relative query cost discovery. Otherwise only builds a default query pricing
                         model with automated market price discovery. [env var: EXPERIMENTAL_MODEL_BUILDER] (default:
                         False)
+  --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+                        [env var: LOG_LEVEL] (default: WARNING)
+  --json-logs JSON_LOGS
+                        Output logs in JSON format. Compatible with GKE. [env var: JSON_LOGS] (default: False)
 ```
 
 AutoAgora also exposes metrics for Prometheus on port `8000` (Example values):
