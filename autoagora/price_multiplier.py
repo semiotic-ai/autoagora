@@ -3,9 +3,9 @@
 
 import logging
 
+from autoagora_agents.agent_factory import AgentFactory
 from prometheus_client import Gauge
 
-from agents.agent_factory import AgentFactory
 from autoagora.subgraph_wrapper import SubgraphWrapper
 
 reward_gauge = Gauge(
