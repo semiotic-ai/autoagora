@@ -18,6 +18,10 @@ WORKDIR /root
 
 COPY --from=build /root/dist/*.whl .
 
+RUN apt-get update && \
+    apt-get install -y git && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN pip install *.whl
 
 CMD [ "autoagora" ]

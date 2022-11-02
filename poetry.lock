@@ -122,6 +122,39 @@ tests = ["cloudpickle", "coverage[toml] (>=5.0.2)", "hypothesis", "mypy (>=0.900
 tests-no-zope = ["cloudpickle", "coverage[toml] (>=5.0.2)", "hypothesis", "mypy (>=0.900,!=0.940)", "pympler", "pytest (>=4.3.0)", "pytest-mypy-plugins"]
 
 [[package]]
+name = "autoagora-agents"
+version = "0.5.0.post7.dev0+9abef99"
+description = ""
+category = "main"
+optional = false
+python-versions = ">=3.8,<3.11"
+develop = false
+
+[package.dependencies]
+anyio = "^3.5.0"
+ConfigArgParse = "^1.5.3"
+more-itertools = "^8.12.0"
+numpy = "^1.22.3"
+scipy = "^1.8.0"
+torch = [
+    {url = "https://download.pytorch.org/whl/cpu/torch-1.11.0%2Bcpu-cp38-cp38-linux_x86_64.whl", markers = "python_version == \"3.8\" and sys_platform == \"linux\" and platform_machine == \"x86_64\""},
+    {url = "https://download.pytorch.org/whl/cpu/torch-1.11.0-cp38-none-macosx_10_9_x86_64.whl", markers = "python_version == \"3.8\" and sys_platform == \"darwin\" and platform_machine == \"x86_64\""},
+    {url = "https://download.pytorch.org/whl/cpu/torch-1.11.0-cp38-none-macosx_11_0_arm64.whl", markers = "python_version == \"3.8\" and sys_platform == \"darwin\" and platform_machine == \"arm64\""},
+    {url = "https://download.pytorch.org/whl/cpu/torch-1.11.0%2Bcpu-cp39-cp39-linux_x86_64.whl", markers = "python_version == \"3.9\" and sys_platform == \"linux\" and platform_machine == \"x86_64\""},
+    {url = "https://download.pytorch.org/whl/cpu/torch-1.11.0-cp39-none-macosx_10_9_x86_64.whl", markers = "python_version == \"3.9\" and sys_platform == \"darwin\" and platform_machine == \"x86_64\""},
+    {url = "https://download.pytorch.org/whl/cpu/torch-1.11.0-cp39-none-macosx_11_0_arm64.whl", markers = "python_version == \"3.9\" and sys_platform == \"darwin\" and platform_machine == \"arm64\""},
+    {url = "https://download.pytorch.org/whl/cpu/torch-1.11.0%2Bcpu-cp310-cp310-linux_x86_64.whl", markers = "python_version == \"3.10\" and sys_platform == \"linux\" and platform_machine == \"x86_64\""},
+    {url = "https://download.pytorch.org/whl/cpu/torch-1.11.0-cp310-none-macosx_10_9_x86_64.whl", markers = "python_version == \"3.10\" and sys_platform == \"darwin\" and platform_machine == \"x86_64\""},
+    {url = "https://download.pytorch.org/whl/cpu/torch-1.11.0-cp310-none-macosx_11_0_arm64.whl", markers = "python_version == \"3.10\" and sys_platform == \"darwin\" and platform_machine == \"arm64\""},
+]
+
+[package.source]
+type = "git"
+url = "https://github.com/semiotic-ai/autoagora-agents.git"
+reference = "v1.0.0"
+resolved_reference = "e4056524074a2826bed068a73f642cfafe8a0027"
+
+[[package]]
 name = "autoagora-isa"
 version = "0.1.1"
 description = ""
@@ -1551,7 +1584,7 @@ isa = ["autoagora-isa"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<3.11"
-content-hash = "1e955566e7a73aa472dfb4e3c39b8a3979bca99cf012b92c5c3869d9ccf1e3df"
+content-hash = "f3061c8f8b5cfe02d3baf348983b01bab6b67712ce8e2354b2abc68b08ef9c14"
 
 [metadata.files]
 absl-py = [
@@ -1703,6 +1736,7 @@ attrs = [
     {file = "attrs-22.1.0-py2.py3-none-any.whl", hash = "sha256:86efa402f67bf2df34f51a335487cf46b1ec130d02b8d39fd248abfd30da551c"},
     {file = "attrs-22.1.0.tar.gz", hash = "sha256:29adc2665447e5191d0e7c568fde78b21f9672d344281d0c6e1ab085429b22b6"},
 ]
+autoagora-agents = []
 autoagora-isa = []
 Babel = [
     {file = "Babel-2.10.3-py3-none-any.whl", hash = "sha256:ff56f4892c1c4bf0d814575ea23471c230d544203c7748e8c68f0089478d48eb"},

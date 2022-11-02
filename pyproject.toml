@@ -15,8 +15,6 @@ classifiers = [
 ]
 packages = [
     { include = "autoagora" },
-    { include = "agents" },
-    { include = "environments" },
 ]
 
 [tool.poetry-dynamic-versioning]
@@ -61,6 +59,7 @@ prometheus-async = {extras = ["aiohttp"], version = "^22.1.0"}
 autoagora-isa = {git = "ssh://git@github.com/semiotic-ai/autoagora-isa.git", rev = "08142a5dcf3cd44c957921d67792d5188d4894ea", optional = true}
 backoff = "^2.2.1"
 python-json-logger = "^2.0.4"
+autoagora-agents = {git = "https://github.com/semiotic-ai/autoagora-agents.git", tag = "v1.0.0"}
 
 [tool.poetry.extras]
 isa = ["autoagora-isa"]
