@@ -9,7 +9,6 @@ authors = [
 description = ""
 license = ""
 classifiers = [
-    "Intended Audience :: Developers",
     "Operating System :: OS Independent",
     "License :: OSI Approved :: Apache Software License"
 ]
@@ -23,11 +22,6 @@ enable = true
 [tool.poetry.scripts]
 autoagora = "autoagora.main:main"
 
-[[tool.poetry.source]]
-name = "isa-artifacts"
-url = "https://us-west1-python.pkg.dev/the-graph-artifacts/isa/simple/"
-secondary = true
-
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
 ConfigArgParse = "^1.5.3"
@@ -40,9 +34,6 @@ prometheus-async = {extras = ["aiohttp"], version = "^22.1.0"}
 backoff = "^2.2.1"
 python-json-logger = "^2.0.4"
 autoagora-agents = {git = "https://github.com/semiotic-ai/autoagora-agents.git", tag = "v1.0.1"}
-
-[tool.poetry.extras]
-isa = ["autoagora-isa"]
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"
