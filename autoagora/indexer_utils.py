@@ -34,10 +34,11 @@ def ipfs_hash_to_hex(ipfs_hash: str) -> str:
 
 def hex_to_ipfs_hash(hex: str) -> str:
     if hex.startswith("0x"):
-        hex = hex[:2]
+        hex = hex[2:]
     assert len(hex) == 64
     hex = "1220" + hex  # Prepend 1220
-    return str(b58encode(hex))
+    hex_bytes = bytes.fromhex(hex)
+    return b58encode(hex_bytes).decode("ascii")
 
 
 @backoff.on_exception(
