@@ -8,7 +8,7 @@
 # AutoAgora
 
 **AutoAgora is *beta* software. Please use responsibly, monitor it (Prometheus metrics)
-, write issues and contribute!**
+, [write issues and contribute](CONTRIBUTING.md)!**
 
 An [Agora](https://github.com/graphprotocol/agora) cost model automation tool for The Graph indexers:
 
