@@ -32,31 +32,11 @@ secondary = true
 python = ">=3.8,<3.11"
 ConfigArgParse = "^1.5.3"
 graphql-core = "^3.2.0"
-more-itertools = "^8.12.0"
 base58 = "^2.1.1"
 aiohttp = "^3.8.1"
 gql = {extras = ["aiohttp"], version = "^3.2.0"}
 asyncpg = "^0.25.0"
-torch = [
-    # Python 3.8
-    {url="https://download.pytorch.org/whl/cpu/torch-1.11.0%2Bcpu-cp38-cp38-linux_x86_64.whl", markers = "python_version == '3.8' and sys_platform == 'linux' and platform_machine == 'x86_64'"},
-    {url="https://download.pytorch.org/whl/cpu/torch-1.11.0-cp38-none-macosx_10_9_x86_64.whl", markers = "python_version == '3.8' and sys_platform == 'darwin' and platform_machine == 'x86_64'"},
-    {url="https://download.pytorch.org/whl/cpu/torch-1.11.0-cp38-none-macosx_11_0_arm64.whl", markers = "python_version == '3.8' and sys_platform == 'darwin' and platform_machine == 'arm64'"},
-    # Python 3.9
-    {url="https://download.pytorch.org/whl/cpu/torch-1.11.0%2Bcpu-cp39-cp39-linux_x86_64.whl", markers = "python_version == '3.9' and sys_platform == 'linux' and platform_machine == 'x86_64'"},
-    {url="https://download.pytorch.org/whl/cpu/torch-1.11.0-cp39-none-macosx_10_9_x86_64.whl", markers = "python_version == '3.9' and sys_platform == 'darwin' and platform_machine == 'x86_64'"},
-    {url="https://download.pytorch.org/whl/cpu/torch-1.11.0-cp39-none-macosx_11_0_arm64.whl", markers = "python_version == '3.9' and sys_platform == 'darwin' and platform_machine == 'arm64'"},
-    # Python 3.10
-    {url="https://download.pytorch.org/whl/cpu/torch-1.11.0%2Bcpu-cp310-cp310-linux_x86_64.whl", markers = "python_version == '3.10' and sys_platform == 'linux' and platform_machine == 'x86_64'"},
-    {url="https://download.pytorch.org/whl/cpu/torch-1.11.0-cp310-none-macosx_10_9_x86_64.whl", markers = "python_version == '3.10' and sys_platform == 'darwin' and platform_machine == 'x86_64'"},
-    {url="https://download.pytorch.org/whl/cpu/torch-1.11.0-cp310-none-macosx_11_0_arm64.whl", markers = "python_version == '3.10' and sys_platform == 'darwin' and platform_machine == 'arm64'"}
-    
-]
-anyio = "^3.5.0"
-numpy = "^1.22.3"
-scipy = "^1.8.0"
 prometheus-async = {extras = ["aiohttp"], version = "^22.1.0"}
-autoagora-isa = {git = "ssh://git@github.com/semiotic-ai/autoagora-isa.git", rev = "08142a5dcf3cd44c957921d67792d5188d4894ea", optional = true}
 backoff = "^2.2.1"
 python-json-logger = "^2.0.4"
 autoagora-agents = {git = "https://github.com/semiotic-ai/autoagora-agents.git", tag = "v1.0.1"}
@@ -67,19 +47,13 @@ isa = ["autoagora-isa"]
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"
 isort = "^5.10.1"
-matplotlib = "^3.5.1"
-tensorboard = "^2.8.0"
 pytest = "^7.1.2"
 sphinx = "^4.5.0"
 sphinx-rtd-theme = "^1.0.0"
 pyright = "^1.1.244"
-pylint-gitlab = "1.1"
 sphinxcontrib-napoleon = "^0.7"
 myst-parser = "^0.17.2"
 pylint = "^2.14.5"
-PySide6 = "^6.3.1"
-pyqtgraph = "^0.12.4"
-ffmpeg-python = "^0.2.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
