@@ -6,13 +6,14 @@ authors = [
     "Matt Deible <matt@semiotic.ai>",
     "Tomasz Kornuta <tomasz@semiotic.ai>"
 ]
-description = ""
-license = ""
+description = "Agora model automation for The Graph indexers."
+license = "Apache-2.0"
 classifiers = [
-    "Intended Audience :: Developers",
     "Operating System :: OS Independent",
     "License :: OSI Approved :: Apache Software License"
 ]
+readme = "README.md"
+repository = "https://github.com/semiotic-ai/autoagora"
 packages = [
     { include = "autoagora" },
 ]
@@ -22,11 +23,6 @@ enable = true
 
 [tool.poetry.scripts]
 autoagora = "autoagora.main:main"
-
-[[tool.poetry.source]]
-name = "isa-artifacts"
-url = "https://us-west1-python.pkg.dev/the-graph-artifacts/isa/simple/"
-secondary = true
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
@@ -41,10 +37,7 @@ backoff = "^2.2.1"
 python-json-logger = "^2.0.4"
 autoagora-agents = {git = "https://github.com/semiotic-ai/autoagora-agents.git", tag = "v1.0.1"}
 
-[tool.poetry.extras]
-isa = ["autoagora-isa"]
-
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = "^22.1.0"
 isort = "^5.10.1"
 pytest = "^7.1.2"
