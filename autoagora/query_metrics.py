@@ -21,6 +21,10 @@ argsparser.add_argument(
 )
 
 
+class HTTPError(Exception):
+    """Catch-all for HTTP errors"""
+
+
 @backoff.on_exception(
     backoff.expo, aiohttp.ClientError, max_time=30, logger=logging.root
 )
@@ -52,12 +56,13 @@ async def query_counts() -> Dict[str, int]:
 
 
 @backoff.on_exception(
-    backoff.expo, aiohttp.ClientError, max_time=30, logger=logging.root
+    backoff.expo, (aiohttp.ClientError, HTTPError), max_time=30, logger=logging.root
 )
 async def subgraph_query_count(subgraph: str) -> int:
     async with aiohttp.ClientSession() as session:
         async with session.get(args.indexer_service_metrics_endpoint) as response:
-            assert response.status == 200
+            if response.status != 200:
+                raise HTTPError(response.status)
 
             results = re.findall(
                 r'indexer_service_queries_ok{{deployment="{subgraph}"}} ([0-9]*)'.format(
