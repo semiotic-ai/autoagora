@@ -29,13 +29,13 @@ class SubgraphWrapper:
             if time_since_last_change < SubgraphWrapper.GATEWAY_DELAY:
                 await sleep(SubgraphWrapper.GATEWAY_DELAY - time_since_last_change)
 
-        timestamp_1 = time()
         query_count_1 = await subgraph_query_count(self.subgraph)
+        timestamp_1 = time()
 
         await sleep(average_duration)
 
-        timestamp_2 = time()
         query_count_2 = await subgraph_query_count(self.subgraph)
+        timestamp_2 = time()
 
         queries_per_second = (query_count_2 - query_count_1) / (
             timestamp_2 - timestamp_1
