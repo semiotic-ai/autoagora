@@ -104,8 +104,9 @@ async def price_bandit_loop(subgraph: str):
             loss = bandit.update_policy()
             if loss is not None:
                 logging.debug("Price bandit %s - Training loss: %s", subgraph, loss)
-    except asyncio.CancelledError:
+    except asyncio.CancelledError as cancelledError:
         logging.debug("Price bandit %s - Removing bandit loop", subgraph)
+        raise cancelledError
     except:
         logging.exception("price_bandit_loop error")
         exit(-1)
