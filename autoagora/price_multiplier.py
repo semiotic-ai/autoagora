@@ -1,6 +1,7 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
+import asyncio
 import logging
 
 from autoagora_agents.agent_factory import AgentFactory
@@ -104,6 +105,9 @@ async def price_bandit_loop(subgraph: str):
             loss = bandit.update_policy()
             if loss is not None:
                 logging.debug("Price bandit %s - Training loss: %s", subgraph, loss)
+    except asyncio.CancelledError as cancelledError:
+        logging.debug("Price bandit %s - Removing bandit loop", subgraph)
+        raise cancelledError
     except:
         logging.exception("price_bandit_loop error")
         exit(-1)
