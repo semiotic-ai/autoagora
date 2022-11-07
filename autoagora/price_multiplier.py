@@ -1,8 +1,8 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-import logging
 import asyncio
+import logging
 
 from autoagora_agents.agent_factory import AgentFactory
 from prometheus_client import Gauge
