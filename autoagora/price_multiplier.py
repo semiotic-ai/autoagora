@@ -3,6 +3,7 @@
 
 import asyncio
 import logging
+import asyncio
 
 from autoagora_agents.agent_factory import AgentFactory
 from prometheus_client import Gauge
