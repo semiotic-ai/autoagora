@@ -1,13 +1,25 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-import logging
 import asyncio
+import logging
 
+import configargparse
 from autoagora_agents.agent_factory import AgentFactory
 from prometheus_client import Gauge
 
+from autoagora.config import args
 from autoagora.subgraph_wrapper import SubgraphWrapper
+
+argsparser = configargparse.get_argument_parser()
+argsparser.add_argument(
+    "--observation-duration",
+    env_var="MEASUREMENT_PERIOD",
+    required=False,
+    type=int,
+    default=60,
+    help="Duration of the measurement period of the query-per-second after a price multiplier update.",
+)
 
 reward_gauge = Gauge(
     "bandit_reward",
@@ -81,7 +93,9 @@ async def price_bandit_loop(subgraph: str):
 
             # 3. Get the reward.
             # Get queries per second.
-            queries_per_second = await environment.queries_per_second(60)
+            queries_per_second = await environment.queries_per_second(
+                args.observation_duration
+            )
             logging.debug(
                 "Price bandit %s - Queries per second: %s", subgraph, queries_per_second
             )
