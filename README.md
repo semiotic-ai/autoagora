@@ -49,7 +49,8 @@ usage: autoagora [-h] --indexer-agent-mgmt-endpoint INDEXER_AGENT_MGMT_ENDPOINT 
                  INDEXER_SERVICE_METRICS_ENDPOINT --logs-postgres-host LOGS_POSTGRES_HOST
                  [--logs-postgres-port LOGS_POSTGRES_PORT] --logs-postgres-database LOGS_POSTGRES_DATABASE
                  --logs-postgres-username LOGS_POSTGRES_USERNAME --logs-postgres-password LOGS_POSTGRES_PASSWORD
-                 [--agora-models-refresh-interval AGORA_MODELS_REFRESH_INTERVAL] [--experimental-model-builder]
+                 [--agora-models-refresh-interval AGORA_MODELS_REFRESH_INTERVAL] 
+                 [--observation-duration OBSERVATION_DURATION] [--experimental-model-builder]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -72,6 +73,9 @@ optional arguments:
   --agora-models-refresh-interval AGORA_MODELS_REFRESH_INTERVAL
                         Interval in seconds between rebuilds of the Agora models. [env var:
                         AGORA_MODELS_REFRESH_INTERVAL] (default: 3600)
+  --observation-duration OBSERVATION_DURATION
+                        Duration of the measurement period of the query-per-second after a price multiplier update. 
+                        [env var: MEASUREMENT_PERIOD] (default: 60)                       
   --experimental-model-builder
                         Activates the relative query cost discovery. Otherwise only builds a default query pricing
                         model with automated market price discovery. [env var: EXPERIMENTAL_MODEL_BUILDER] (default:
