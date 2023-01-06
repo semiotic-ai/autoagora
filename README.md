@@ -50,7 +50,7 @@ usage: autoagora [-h] --indexer-agent-mgmt-endpoint INDEXER_AGENT_MGMT_ENDPOINT 
                  [--logs-postgres-port LOGS_POSTGRES_PORT] --logs-postgres-database LOGS_POSTGRES_DATABASE
                  --logs-postgres-username LOGS_POSTGRES_USERNAME --logs-postgres-password LOGS_POSTGRES_PASSWORD
                  [--agora-models-refresh-interval AGORA_MODELS_REFRESH_INTERVAL] 
-                 [--observation-duration OBSERVATION_DURATION] [--experimental-model-builder]
+                 [--observation-duration OBSERVATION_DURATION] [--experimental-model-builder] [--exclude-subgraphs]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -80,6 +80,9 @@ optional arguments:
                         Activates the relative query cost discovery. Otherwise only builds a default query pricing
                         model with automated market price discovery. [env var: EXPERIMENTAL_MODEL_BUILDER] (default:
                         False)
+  --exclude-subgraphs
+                        Comma delimited list of subgraphs (ipfs hashes) to exclude from model updates. 
+                        [env var: EXCLUDE_SUBGRAPHS] (default: None)
   --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
                         [env var: LOG_LEVEL] (default: WARNING)
   --json-logs JSON_LOGS
