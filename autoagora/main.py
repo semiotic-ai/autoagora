@@ -22,8 +22,17 @@ argsparser.add_argument(
     help="Activates the relative query cost discovery. Otherwise only builds a default "
     "query pricing model with automated market price discovery.",
 )
+argsparser.add_argument(
+    "--exclude-subgraphs",
+    env_var="EXCLUDE_SUBGRAPHS",
+    required=False,
+    help="Comma delimited list of subgraphs (ipfs hash) to exclude from model updates.",
+)
+
 parsed_args, remaining_args = argsparser.parse_known_args()
 experimental_model_builder = parsed_args.experimental_model_builder
+excluded_subgraphs = set((parsed_args.exclude_subgraphs or "").split(","))
+
 del parsed_args
 if experimental_model_builder:
     from autoagora.model_builder import model_update_loop
@@ -50,7 +59,7 @@ async def allocated_subgraph_watcher():
 
     while True:
         try:
-            allocated_subgraphs = await get_allocated_subgraphs()
+            allocated_subgraphs = (await get_allocated_subgraphs()) - excluded_subgraphs
         except:
             logging.exception(
                 "Exception occurred while getting the currently allocated subgraphs."
