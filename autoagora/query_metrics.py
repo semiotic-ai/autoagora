@@ -5,7 +5,6 @@ import asyncio
 import logging
 import re
 from functools import reduce
-from typing import Dict
 
 import aiohttp
 import backoff
@@ -15,36 +14,6 @@ from autoagora.config import args
 
 class HTTPError(Exception):
     """Catch-all for HTTP errors"""
-
-
-@backoff.on_exception(
-    backoff.expo, aiohttp.ClientError, max_time=30, logger=logging.root
-)
-async def indexer_service_metrics(endpoint: str) -> str:
-    async with aiohttp.ClientSession() as session:
-        async with session.get(endpoint) as response:
-            assert response.status == 200, f"{response.status=}"
-            result = await response.text()
-    return result
-
-
-@backoff.on_exception(
-    backoff.expo, aiohttp.ClientError, max_time=30, logger=logging.root
-)
-async def query_counts() -> Dict[str, int]:
-    async with aiohttp.ClientSession() as session:
-        async with session.get(args.indexer_service_metrics_endpoint) as response:
-            assert response.status == 200
-
-            results = re.findall(
-                r'indexer_service_queries_ok{deployment="(Qm[a-zA-Z0-9]{44})"} ([0-9]*)',
-                await indexer_service_metrics(args.indexer_service_metrics_endpoint),
-            )
-
-    results = {subgraph: int(value) for subgraph, value in results}
-    logging.debug("Query counts: %s", results)
-
-    return results
 
 
 @backoff.on_exception(
