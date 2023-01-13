@@ -1,0 +1,3792 @@
+interactions:
+- request:
+    body: null
+    headers: {}
+    method: GET
+    uri: http://indexer-service.default.svc.cluster.local:7300/metrics
+  response:
+    body:
+      string: '# HELP process_cpu_user_seconds_total Total user CPU time spent in
+        seconds.
+
+        # TYPE process_cpu_user_seconds_total counter
+
+        process_cpu_user_seconds_total 16841.56048599993
+
+
+        # HELP process_cpu_system_seconds_total Total system CPU time spent in seconds.
+
+        # TYPE process_cpu_system_seconds_total counter
+
+        process_cpu_system_seconds_total 2354.58189
+
+
+        # HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.
+
+        # TYPE process_cpu_seconds_total counter
+
+        process_cpu_seconds_total 19196.142376000047
+
+
+        # HELP process_start_time_seconds Start time of the process since unix epoch
+        in seconds.
+
+        # TYPE process_start_time_seconds gauge
+
+        process_start_time_seconds 1673117363
+
+
+        # HELP process_resident_memory_bytes Resident memory size in bytes.
+
+        # TYPE process_resident_memory_bytes gauge
+
+        process_resident_memory_bytes 1280593920
+
+
+        # HELP process_virtual_memory_bytes Virtual memory size in bytes.
+
+        # TYPE process_virtual_memory_bytes gauge
+
+        process_virtual_memory_bytes 12867076096
+
+
+        # HELP process_heap_bytes Process heap size in bytes.
+
+        # TYPE process_heap_bytes gauge
+
+        process_heap_bytes 1317122048
+
+
+        # HELP process_open_fds Number of open file descriptors.
+
+        # TYPE process_open_fds gauge
+
+        process_open_fds 26
+
+
+        # HELP process_max_fds Maximum number of open file descriptors.
+
+        # TYPE process_max_fds gauge
+
+        process_max_fds 1048576
+
+
+        # HELP nodejs_eventloop_lag_seconds Lag of event loop in seconds.
+
+        # TYPE nodejs_eventloop_lag_seconds gauge
+
+        nodejs_eventloop_lag_seconds 0.012265654
+
+
+        # HELP nodejs_eventloop_lag_min_seconds The minimum recorded event loop delay.
+
+        # TYPE nodejs_eventloop_lag_min_seconds gauge
+
+        nodejs_eventloop_lag_min_seconds 0.009076736
+
+
+        # HELP nodejs_eventloop_lag_max_seconds The maximum recorded event loop delay.
+
+        # TYPE nodejs_eventloop_lag_max_seconds gauge
+
+        nodejs_eventloop_lag_max_seconds 0.010584063
+
+
+        # HELP nodejs_eventloop_lag_mean_seconds The mean of the recorded event loop
+        delays.
+
+        # TYPE nodejs_eventloop_lag_mean_seconds gauge
+
+        nodejs_eventloop_lag_mean_seconds 0.010080085333333334
+
+
+        # HELP nodejs_eventloop_lag_stddev_seconds The standard deviation of the recorded
+        event loop delays.
+
+        # TYPE nodejs_eventloop_lag_stddev_seconds gauge
+
+        nodejs_eventloop_lag_stddev_seconds 0.00012545648508458134
+
+
+        # HELP nodejs_eventloop_lag_p50_seconds The 50th percentile of the recorded
+        event loop delays.
+
+        # TYPE nodejs_eventloop_lag_p50_seconds gauge
+
+        nodejs_eventloop_lag_p50_seconds 0.010092543
+
+
+        # HELP nodejs_eventloop_lag_p90_seconds The 90th percentile of the recorded
+        event loop delays.
+
+        # TYPE nodejs_eventloop_lag_p90_seconds gauge
+
+        nodejs_eventloop_lag_p90_seconds 0.010133503
+
+
+        # HELP nodejs_eventloop_lag_p99_seconds The 99th percentile of the recorded
+        event loop delays.
+
+        # TYPE nodejs_eventloop_lag_p99_seconds gauge
+
+        nodejs_eventloop_lag_p99_seconds 0.010264575
+
+
+        # HELP nodejs_active_handles Number of active libuv handles grouped by handle
+        type. Every handle type is C++ class name.
+
+        # TYPE nodejs_active_handles gauge
+
+        nodejs_active_handles{type="Socket"} 8
+
+        nodejs_active_handles{type="Server"} 2
+
+
+        # HELP nodejs_active_handles_total Total number of active handles.
+
+        # TYPE nodejs_active_handles_total gauge
+
+        nodejs_active_handles_total 10
+
+
+        # HELP nodejs_active_requests Number of active libuv requests grouped by request
+        type. Every request type is C++ class name.
+
+        # TYPE nodejs_active_requests gauge
+
+
+        # HELP nodejs_active_requests_total Total number of active requests.
+
+        # TYPE nodejs_active_requests_total gauge
+
+        nodejs_active_requests_total 0
+
+
+        # HELP nodejs_heap_size_total_bytes Process heap size from Node.js in bytes.
+
+        # TYPE nodejs_heap_size_total_bytes gauge
+
+        nodejs_heap_size_total_bytes 1102065664
+
+
+        # HELP nodejs_heap_size_used_bytes Process heap size used from Node.js in
+        bytes.
+
+        # TYPE nodejs_heap_size_used_bytes gauge
+
+        nodejs_heap_size_used_bytes 1020413240
+
+
+        # HELP nodejs_external_memory_bytes Node.js external memory size in bytes.
+
+        # TYPE nodejs_external_memory_bytes gauge
+
+        nodejs_external_memory_bytes 3889808
+
+
+        # HELP nodejs_heap_space_size_total_bytes Process heap space size total from
+        Node.js in bytes.
+
+        # TYPE nodejs_heap_space_size_total_bytes gauge
+
+        nodejs_heap_space_size_total_bytes{space="read_only"} 176128
+
+        nodejs_heap_space_size_total_bytes{space="old"} 1083068416
+
+        nodejs_heap_space_size_total_bytes{space="code"} 8757248
+
+        nodejs_heap_space_size_total_bytes{space="map"} 4464640
+
+        nodejs_heap_space_size_total_bytes{space="large_object"} 4550656
+
+        nodejs_heap_space_size_total_bytes{space="code_large_object"} 0
+
+        nodejs_heap_space_size_total_bytes{space="new_large_object"} 0
+
+        nodejs_heap_space_size_total_bytes{space="new"} 1048576
+
+
+        # HELP nodejs_heap_space_size_used_bytes Process heap space size used from
+        Node.js in bytes.
+
+        # TYPE nodejs_heap_space_size_used_bytes gauge
+
+        nodejs_heap_space_size_used_bytes{space="read_only"} 170944
+
+        nodejs_heap_space_size_used_bytes{space="old"} 1005666368
+
+        nodejs_heap_space_size_used_bytes{space="code"} 7497792
+
+        nodejs_heap_space_size_used_bytes{space="map"} 2260080
+
+        nodejs_heap_space_size_used_bytes{space="large_object"} 4434104
+
+        nodejs_heap_space_size_used_bytes{space="code_large_object"} 0
+
+        nodejs_heap_space_size_used_bytes{space="new_large_object"} 0
+
+        nodejs_heap_space_size_used_bytes{space="new"} 388248
+
+
+        # HELP nodejs_heap_space_size_available_bytes Process heap space size available
+        from Node.js in bytes.
+
+        # TYPE nodejs_heap_space_size_available_bytes gauge
+
+        nodejs_heap_space_size_available_bytes{space="read_only"} 0
+
+        nodejs_heap_space_size_available_bytes{space="old"} 58467528
+
+        nodejs_heap_space_size_available_bytes{space="code"} 702400
+
+        nodejs_heap_space_size_available_bytes{space="map"} 2125704
+
+        nodejs_heap_space_size_available_bytes{space="large_object"} 0
+
+        nodejs_heap_space_size_available_bytes{space="code_large_object"} 0
+
+        nodejs_heap_space_size_available_bytes{space="new_large_object"} 1031072
+
+        nodejs_heap_space_size_available_bytes{space="new"} 642824
+
+
+        # HELP nodejs_version_info Node.js version info.
+
+        # TYPE nodejs_version_info gauge
+
+        nodejs_version_info{version="v16.15.1",major="16",minor="15",patch="1"} 1
+
+
+        # HELP nodejs_gc_duration_seconds Garbage collection duration by kind, one
+        of major, minor, incremental or weakcb.
+
+        # TYPE nodejs_gc_duration_seconds histogram
+
+        nodejs_gc_duration_seconds_bucket{le="0.001",kind="minor"} 10640
+
+        nodejs_gc_duration_seconds_bucket{le="0.01",kind="minor"} 198567
+
+        nodejs_gc_duration_seconds_bucket{le="0.1",kind="minor"} 199417
+
+        nodejs_gc_duration_seconds_bucket{le="1",kind="minor"} 199417
+
+        nodejs_gc_duration_seconds_bucket{le="2",kind="minor"} 199417
+
+        nodejs_gc_duration_seconds_bucket{le="5",kind="minor"} 199417
+
+        nodejs_gc_duration_seconds_bucket{le="+Inf",kind="minor"} 199418
+
+        nodejs_gc_duration_seconds_sum{kind="minor"} 506.4602620444345
+
+        nodejs_gc_duration_seconds_count{kind="minor"} 199418
+
+        nodejs_gc_duration_seconds_bucket{le="0.001",kind="incremental"} 15540
+
+        nodejs_gc_duration_seconds_bucket{le="0.01",kind="incremental"} 19639
+
+        nodejs_gc_duration_seconds_bucket{le="0.1",kind="incremental"} 19787
+
+        nodejs_gc_duration_seconds_bucket{le="1",kind="incremental"} 19787
+
+        nodejs_gc_duration_seconds_bucket{le="2",kind="incremental"} 19787
+
+        nodejs_gc_duration_seconds_bucket{le="5",kind="incremental"} 19787
+
+        nodejs_gc_duration_seconds_bucket{le="+Inf",kind="incremental"} 19787
+
+        nodejs_gc_duration_seconds_sum{kind="incremental"} 18.14343241357813
+
+        nodejs_gc_duration_seconds_count{kind="incremental"} 19787
+
+        nodejs_gc_duration_seconds_bucket{le="0.001",kind="major"} 0
+
+        nodejs_gc_duration_seconds_bucket{le="0.01",kind="major"} 5485
+
+        nodejs_gc_duration_seconds_bucket{le="0.1",kind="major"} 12169
+
+        nodejs_gc_duration_seconds_bucket{le="1",kind="major"} 12204
+
+        nodejs_gc_duration_seconds_bucket{le="2",kind="major"} 12204
+
+        nodejs_gc_duration_seconds_bucket{le="5",kind="major"} 12204
+
+        nodejs_gc_duration_seconds_bucket{le="+Inf",kind="major"} 12204
+
+        nodejs_gc_duration_seconds_sum{kind="major"} 153.58083143234225
+
+        nodejs_gc_duration_seconds_count{kind="major"} 12204
+
+        nodejs_gc_duration_seconds_bucket{le="0.001",kind="weakcb"} 1
+
+        nodejs_gc_duration_seconds_bucket{le="0.01",kind="weakcb"} 1
+
+        nodejs_gc_duration_seconds_bucket{le="0.1",kind="weakcb"} 1
+
+        nodejs_gc_duration_seconds_bucket{le="1",kind="weakcb"} 1
+
+        nodejs_gc_duration_seconds_bucket{le="2",kind="weakcb"} 1
+
+        nodejs_gc_duration_seconds_bucket{le="5",kind="weakcb"} 1
+
+        nodejs_gc_duration_seconds_bucket{le="+Inf",kind="weakcb"} 1
+
+        nodejs_gc_duration_seconds_sum{kind="weakcb"} 0.000004765987396240234
+
+        nodejs_gc_duration_seconds_count{kind="weakcb"} 1
+
+
+        # HELP indexer_error Indexer errors observed over time
+
+        # TYPE indexer_error counter
+
+        indexer_error{code="IE010"} 5
+
+
+        # HELP eth_provider_requests Ethereum provider requests
+
+        # TYPE eth_provider_requests counter
+
+        eth_provider_requests{method="eth_chainId"} 1
+
+        eth_provider_requests{method="eth_blockNumber"} 127884
+
+
+        # HELP indexer_service_queries_total Incoming queries
+
+        # TYPE indexer_service_queries_total counter
+
+        indexer_service_queries_total{deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        106163
+
+        indexer_service_queries_total{deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        2731
+
+        indexer_service_queries_total{deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        1378
+
+        indexer_service_queries_total{deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        1697
+
+        indexer_service_queries_total{deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        938
+
+        indexer_service_queries_total{deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        7554
+
+        indexer_service_queries_total{deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        1670
+
+        indexer_service_queries_total{deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        10
+
+        indexer_service_queries_total{deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        147
+
+        indexer_service_queries_total{deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        2938
+
+        indexer_service_queries_total{deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        135
+
+        indexer_service_queries_total{deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        395
+
+        indexer_service_queries_total{deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        24
+
+        indexer_service_queries_total{deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        433
+
+        indexer_service_queries_total{deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        34
+
+        indexer_service_queries_total{deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        142
+
+        indexer_service_queries_total{deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        3
+
+        indexer_service_queries_total{deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        8
+
+        indexer_service_queries_total{deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        3
+
+        indexer_service_queries_total{deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        5
+
+        indexer_service_queries_total{deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        2
+
+        indexer_service_queries_total{deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        3
+
+        indexer_service_queries_total{deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        65
+
+        indexer_service_queries_total{deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        97
+
+        indexer_service_queries_total{deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        25
+
+        indexer_service_queries_total{deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        26
+
+        indexer_service_queries_total{deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        48
+
+        indexer_service_queries_total{deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        71
+
+        indexer_service_queries_total{deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        104
+
+        indexer_service_queries_total{deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        202
+
+        indexer_service_queries_total{deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        1
+
+        indexer_service_queries_total{deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        11
+
+        indexer_service_queries_total{deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        1
+
+        indexer_service_queries_total{deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        10
+
+
+        # HELP indexer_service_queries_ok Successfully executed queries
+
+        # TYPE indexer_service_queries_ok counter
+
+        indexer_service_queries_ok{deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        106163
+
+        indexer_service_queries_ok{deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        2731
+
+        indexer_service_queries_ok{deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        1378
+
+        indexer_service_queries_ok{deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        1697
+
+        indexer_service_queries_ok{deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        938
+
+        indexer_service_queries_ok{deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        7554
+
+        indexer_service_queries_ok{deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        1670
+
+        indexer_service_queries_ok{deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        10
+
+        indexer_service_queries_ok{deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        147
+
+        indexer_service_queries_ok{deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        2938
+
+        indexer_service_queries_ok{deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        135
+
+        indexer_service_queries_ok{deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        395
+
+        indexer_service_queries_ok{deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        24
+
+        indexer_service_queries_ok{deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        433
+
+        indexer_service_queries_ok{deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        34
+
+        indexer_service_queries_ok{deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        142
+
+        indexer_service_queries_ok{deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        3
+
+        indexer_service_queries_ok{deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        8
+
+        indexer_service_queries_ok{deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        3
+
+        indexer_service_queries_ok{deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        5
+
+        indexer_service_queries_ok{deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        2
+
+        indexer_service_queries_ok{deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        3
+
+        indexer_service_queries_ok{deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        65
+
+        indexer_service_queries_ok{deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        97
+
+        indexer_service_queries_ok{deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        25
+
+        indexer_service_queries_ok{deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        26
+
+        indexer_service_queries_ok{deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        48
+
+        indexer_service_queries_ok{deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        71
+
+        indexer_service_queries_ok{deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        104
+
+        indexer_service_queries_ok{deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        202
+
+        indexer_service_queries_ok{deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        1
+
+        indexer_service_queries_ok{deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        11
+
+        indexer_service_queries_ok{deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        1
+
+        indexer_service_queries_ok{deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        10
+
+
+        # HELP indexer_service_queries_failed Queries that failed to execute
+
+        # TYPE indexer_service_queries_failed counter
+
+
+        # HELP indexer_service_queries_with_invalid_receipt_header Queries that failed
+        executing because they came with an invalid receipt header
+
+        # TYPE indexer_service_queries_with_invalid_receipt_header counter
+
+
+        # HELP indexer_service_queries_with_invalid_receipt_value Queries that failed
+        executing because they came with an invalid receipt value
+
+        # TYPE indexer_service_queries_with_invalid_receipt_value counter
+
+
+        # HELP indexer_service_queries_without_receipt Queries that failed executing
+        because they came without a receipt
+
+        # TYPE indexer_service_queries_without_receipt counter
+
+
+        # HELP indexer_service_query_duration Duration of processing a query from
+        start to end
+
+        # TYPE indexer_service_query_duration histogram
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        3
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        284
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        29919
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        60839
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        75894
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        85814
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        93060
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        97829
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        100499
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        106104
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        106160
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        106163
+
+        indexer_service_query_duration_sum{deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        33679.3081955388
+
+        indexer_service_query_duration_count{deployment="QmdQrhoanCwQ81Y5d2DkhDajBV3hxA9rgmPxStjjXBGZoW"}
+        106163
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        12
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        1039
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        1760
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        2529
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        2691
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        2717
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        2729
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        2731
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        2731
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        2731
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        2731
+
+        indexer_service_query_duration_sum{deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        139.45420503300014
+
+        indexer_service_query_duration_count{deployment="QmWxteQps5mtjAx14XD1uycg6kJkFN8EPW7561iZE3dJz8"}
+        2731
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        444
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        1104
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        1252
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        1326
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        1369
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        1377
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        1378
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        1378
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        1378
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        1378
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        1378
+
+        indexer_service_query_duration_sum{deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        33.65429327500006
+
+        indexer_service_query_duration_count{deployment="QmXWbpH76U6TM4teRNMZzog2ismx577CkH7dzn1Nw69FcV"}
+        1378
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        220
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        502
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        855
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        1046
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        1261
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        1587
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        1697
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        1697
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        1697
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        1697
+
+        indexer_service_query_duration_sum{deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        522.743531140999
+
+        indexer_service_query_duration_count{deployment="QmPziMSbs4i7oQ6AfxmY5HDXMRVHiBBb8soWqncLpKfQGr"}
+        1697
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        2
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        76
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        756
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        896
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        929
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        937
+
+        indexer_service_query_duration_bucket{le="1",deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        937
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        938
+
+        indexer_service_query_duration_bucket{le="5",deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        938
+
+        indexer_service_query_duration_bucket{le="10",deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        938
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        938
+
+        indexer_service_query_duration_sum{deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        42.802609383
+
+        indexer_service_query_duration_count{deployment="Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"}
+        938
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        3
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        1068
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        3186
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        4711
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        6220
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        7415
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        7512
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        7544
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        7553
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        7553
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        7553
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        7554
+
+        indexer_service_query_duration_sum{deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        483.95360849100007
+
+        indexer_service_query_duration_count{deployment="QmYzsCjrVwwXtdsNm3PZVNziLGmb9o513GUzkq5wwhgXDT"}
+        7554
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        288
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        594
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        1425
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        1635
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        1657
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        1668
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        1670
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        1670
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        1670
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        1670
+
+        indexer_service_query_duration_sum{deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        123.08460562100002
+
+        indexer_service_query_duration_count{deployment="QmdvneqZqz2NYeaqnVJGxhZzdonbVzyQSxzMJEE168tbNN"}
+        1670
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        2
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        7
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        10
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        10
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        10
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        10
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        10
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        10
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        10
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        10
+
+        indexer_service_query_duration_sum{deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        0.383757332
+
+        indexer_service_query_duration_count{deployment="QmfRkTYBhZC7eYnW79wC9hmkdkhcGsFBTs4KALHjy4AuMm"}
+        10
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        33
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        75
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        117
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        125
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        136
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        145
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        147
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        147
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        147
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        147
+
+        indexer_service_query_duration_sum{deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        19.753629600000014
+
+        indexer_service_query_duration_count{deployment="QmbJzTd7DCAg9aP57DgLsYbokrX82BjE1ToKedPMMTRCf4"}
+        147
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        15
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        1240
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        1654
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        2662
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        2862
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        2912
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        2933
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        2937
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        2938
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        2938
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        2938
+
+        indexer_service_query_duration_sum{deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        175.798688791
+
+        indexer_service_query_duration_count{deployment="QmXZiV6S13ha6QXq4dmaM3TB4CHcDxBMvGexSNu9Kc28EH"}
+        2938
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        1
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        99
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        122
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        132
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        133
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        134
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        135
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        135
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        135
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        135
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        135
+
+        indexer_service_query_duration_sum{deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        4.496449863999998
+
+        indexer_service_query_duration_count{deployment="QmW8r5NcWfraxqXY4p64sH9ohfZFEdoeTUoXKBdm2c9W28"}
+        135
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        4
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        4
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        5
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        5
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        256
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        387
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        394
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        394
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        394
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        395
+
+        indexer_service_query_duration_sum{deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        229.42968811100008
+
+        indexer_service_query_duration_count{deployment="QmT8631Rt8ZaGtD48F7WP6trs5Wd2RNoacMRPYLfuotDwB"}
+        395
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        9
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        15
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        20
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        21
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        23
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        23
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        24
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        24
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        24
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        24
+
+        indexer_service_query_duration_sum{deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        2.6692826100000002
+
+        indexer_service_query_duration_count{deployment="QmUTEf1ieNSmhk1pStwed1YiNE2kmWJqHL4QmNkDxMJpZL"}
+        24
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        1
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        123
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        143
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        159
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        211
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        238
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        252
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        404
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        415
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        427
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        433
+
+        indexer_service_query_duration_sum{deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        456.22152209999985
+
+        indexer_service_query_duration_count{deployment="QmcPHxcC2ZN7m79XfYZ77YmF4t9UCErv87a9NFKrSLWKtJ"}
+        433
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        4
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        20
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        25
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        29
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        31
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        32
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        34
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        34
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        34
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        34
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        34
+
+        indexer_service_query_duration_sum{deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        2.784614975
+
+        indexer_service_query_duration_count{deployment="QmVNTpoZWSYF3v1Es9DWADz6KHe72SGECD8dk6buCkL8Sm"}
+        34
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        7
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        44
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        90
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        106
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        121
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        135
+
+        indexer_service_query_duration_bucket{le="1",deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        141
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        142
+
+        indexer_service_query_duration_bucket{le="5",deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        142
+
+        indexer_service_query_duration_bucket{le="10",deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        142
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        142
+
+        indexer_service_query_duration_sum{deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        16.687068672
+
+        indexer_service_query_duration_count{deployment="Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB"}
+        142
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        2
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        2
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        2
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        2
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        3
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        3
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        3
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        3
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        3
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        3
+
+        indexer_service_query_duration_sum{deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        0.295396701
+
+        indexer_service_query_duration_count{deployment="QmRgcqzGHrnzPtd8BBvp18Lx184zf6yisxef6nV1EHjGkW"}
+        3
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        1
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        2
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        2
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        4
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        5
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        6
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        6
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        6
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        6
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        8
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        8
+
+        indexer_service_query_duration_sum{deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        17.475080511999998
+
+        indexer_service_query_duration_count{deployment="QmQxqSTqo1VBRAtVCbvN65TM6rHCXpD1S11t7aJXaSo8ip"}
+        8
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        1
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        3
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        3
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        3
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        3
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        3
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        3
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        3
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        3
+
+        indexer_service_query_duration_sum{deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        0.194589405
+
+        indexer_service_query_duration_count{deployment="QmecPw1iYuu85rtdYL2J2W9qcr6p8ijich9P5GbEAmmbW5"}
+        3
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        2
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        3
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        4
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        5
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        5
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        5
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        5
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        5
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        5
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        5
+
+        indexer_service_query_duration_sum{deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        0.301970068
+
+        indexer_service_query_duration_count{deployment="QmPFXU8M52Z9Sg4mYGPudYzFHr2M7HznPpPiNXK7tGxeK7"}
+        5
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        1
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        2
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        2
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        2
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        2
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        2
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        2
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        2
+
+        indexer_service_query_duration_sum{deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        0.27891242
+
+        indexer_service_query_duration_count{deployment="QmWHdVfTfjBde4Qi43sbJSFjPDtmRTANGT6o6D6thujKmv"}
+        2
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        2
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        2
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        3
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        3
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        3
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        3
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        3
+
+        indexer_service_query_duration_sum{deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        1.071189946
+
+        indexer_service_query_duration_count{deployment="QmSprHjGnBezezPBBaGSwkoEL9Cqx2qhnhGaXhWEsoo5X7"}
+        3
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        3
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        31
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        47
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        54
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        62
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        64
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        65
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        65
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        65
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        65
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        65
+
+        indexer_service_query_duration_sum{deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        4.109348196
+
+        indexer_service_query_duration_count{deployment="QmU6utnMWtzeUK3Ke2ZDsLS9f9ev9T3ugz57tm5ARhDm4W"}
+        65
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        14
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        35
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        59
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        73
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        73
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        81
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        84
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        84
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        96
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        97
+
+        indexer_service_query_duration_sum{deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        124.82295434799998
+
+        indexer_service_query_duration_count{deployment="QmNoe4VQFSKAC3uiq48UQASg4QeqFVSKYYGwnxNjNi6GYX"}
+        97
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        1
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        12
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        15
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        20
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        23
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        24
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        25
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        25
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        25
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        25
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        25
+
+        indexer_service_query_duration_sum{deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        2.508544499
+
+        indexer_service_query_duration_count{deployment="QmS6N6ZjYH1mGRYhu7ky3AmkYEZ7ogMxwnwrDUFdmBmbun"}
+        25
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        1
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        13
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        19
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        24
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        26
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        26
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        26
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        26
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        26
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        26
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        26
+
+        indexer_service_query_duration_sum{deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        1.151662511
+
+        indexer_service_query_duration_count{deployment="QmcPT5Ug2YDDqKuwHWyfm3YvEw1bNTXUYdjtsms8mHQSyK"}
+        26
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        4
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        22
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        34
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        42
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        46
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        48
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        48
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        48
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        48
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        48
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        48
+
+        indexer_service_query_duration_sum{deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        2.9695069319999994
+
+        indexer_service_query_duration_count{deployment="QmUWs5T26H1a9sPCPtYfrK4CFdg9xjezbhe5RhFUh84s1Z"}
+        48
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        2
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        44
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        60
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        65
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        70
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        70
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        70
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        71
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        71
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        71
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        71
+
+        indexer_service_query_duration_sum{deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        3.932676611
+
+        indexer_service_query_duration_count{deployment="QmSJ7QuYRiHaWpRwqAmf9QR97bHYrayEeYL13shtAfQgAh"}
+        71
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        4
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        64
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        89
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        100
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        103
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        104
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        104
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        104
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        104
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        104
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        104
+
+        indexer_service_query_duration_sum{deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        3.6995871300000003
+
+        indexer_service_query_duration_count{deployment="QmY6z9Au2h4QoTMMLwiRkdirBJctSCSqFJUBhHrDX2CFia"}
+        104
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        19
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        34
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        71
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        97
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        125
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        161
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        195
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        202
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        202
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        202
+
+        indexer_service_query_duration_sum{deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        118.64766439600002
+
+        indexer_service_query_duration_count{deployment="QmSvVWWgni9dVDxFDySDuDFC7jH8PdBy3guKc7x9rRgGXv"}
+        202
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        1
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        1
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        1
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        1
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        1
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        1
+
+        indexer_service_query_duration_sum{deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        0.258246877
+
+        indexer_service_query_duration_count{deployment="QmXR9PxfxHDNzcgRTvYCQj1oFR1q2uUtx8uZHApi9i4XdX"}
+        1
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        4
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        6
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        7
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        9
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        11
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        11
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        11
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        11
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        11
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        11
+
+        indexer_service_query_duration_sum{deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        1.209700674
+
+        indexer_service_query_duration_count{deployment="QmVQdzeGdPUiLiACeqXRpKAYpyj8Z1yfWLMUq7A7WundUf"}
+        11
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        1
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        1
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        1
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        1
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        1
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        1
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        1
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        1
+
+        indexer_service_query_duration_sum{deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        0.091108
+
+        indexer_service_query_duration_count{deployment="QmeBPZyEeaHyZAiFS2Q7cT3CESS49hhgGuT3E9S8RYoHNm"}
+        1
+
+        indexer_service_query_duration_bucket{le="0.005",deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.01",deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        0
+
+        indexer_service_query_duration_bucket{le="0.025",deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        6
+
+        indexer_service_query_duration_bucket{le="0.05",deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        9
+
+        indexer_service_query_duration_bucket{le="0.1",deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        10
+
+        indexer_service_query_duration_bucket{le="0.25",deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        10
+
+        indexer_service_query_duration_bucket{le="0.5",deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        10
+
+        indexer_service_query_duration_bucket{le="1",deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        10
+
+        indexer_service_query_duration_bucket{le="2.5",deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        10
+
+        indexer_service_query_duration_bucket{le="5",deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        10
+
+        indexer_service_query_duration_bucket{le="10",deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        10
+
+        indexer_service_query_duration_bucket{le="+Inf",deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        10
+
+        indexer_service_query_duration_sum{deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        0.295821242
+
+        indexer_service_query_duration_count{deployment="QmQvWjkGqnAk1YBfSogasskPhJ5dG46yxvrzYeJsowjhqb"}
+        10
+
+
+        # HELP indexer_service_channel_messages_total Incoming channel messages
+
+        # TYPE indexer_service_channel_messages_total counter
+
+        indexer_service_channel_messages_total 0
+
+
+        # HELP indexer_service_channel_messages_ok Successfully handled channel messages
+
+        # TYPE indexer_service_channel_messages_ok counter
+
+        indexer_service_channel_messages_ok 0
+
+
+        # HELP indexer_service_channel_messages_failed Failed channel messages
+
+        # TYPE indexer_service_channel_messages_failed counter
+
+        indexer_service_channel_messages_failed 0
+
+
+        # HELP indexer_service_channel_message_duration Duration of processing channel
+        messages
+
+        # TYPE indexer_service_channel_message_duration histogram
+
+        indexer_service_channel_message_duration_bucket{le="0.005"} 0
+
+        indexer_service_channel_message_duration_bucket{le="0.01"} 0
+
+        indexer_service_channel_message_duration_bucket{le="0.025"} 0
+
+        indexer_service_channel_message_duration_bucket{le="0.05"} 0
+
+        indexer_service_channel_message_duration_bucket{le="0.1"} 0
+
+        indexer_service_channel_message_duration_bucket{le="0.25"} 0
+
+        indexer_service_channel_message_duration_bucket{le="0.5"} 0
+
+        indexer_service_channel_message_duration_bucket{le="1"} 0
+
+        indexer_service_channel_message_duration_bucket{le="2.5"} 0
+
+        indexer_service_channel_message_duration_bucket{le="5"} 0
+
+        indexer_service_channel_message_duration_bucket{le="10"} 0
+
+        indexer_service_channel_message_duration_bucket{le="+Inf"} 0
+
+        indexer_service_channel_message_duration_sum 0
+
+        indexer_service_channel_message_duration_count 0
+
+
+        # HELP indexer_service_cost_model_queries_total Queries for individual cost
+        models
+
+        # TYPE indexer_service_cost_model_queries_total counter
+
+        indexer_service_cost_model_queries_total{deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        2
+
+        indexer_service_cost_model_queries_total{deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        2
+
+        indexer_service_cost_model_queries_total{deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        2
+
+        indexer_service_cost_model_queries_total{deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        2
+
+        indexer_service_cost_model_queries_total{deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        2
+
+        indexer_service_cost_model_queries_total{deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        3
+
+        indexer_service_cost_model_queries_total{deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        3
+
+        indexer_service_cost_model_queries_total{deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        3
+
+        indexer_service_cost_model_queries_total{deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        2
+
+        indexer_service_cost_model_queries_total{deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        2
+
+        indexer_service_cost_model_queries_total{deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        2
+
+        indexer_service_cost_model_queries_total{deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        2
+
+        indexer_service_cost_model_queries_total{deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        2
+
+        indexer_service_cost_model_queries_total{deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        2
+
+        indexer_service_cost_model_queries_total{deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        2
+
+        indexer_service_cost_model_queries_total{deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        1
+
+        indexer_service_cost_model_queries_total{deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        1
+
+
+        # HELP indexer_service_cost_model_queries_invalid Invalid queries for individual
+        cost models
+
+        # TYPE indexer_service_cost_model_queries_invalid counter
+
+        indexer_service_cost_model_queries_invalid 0
+
+
+        # HELP indexer_service_cost_model_queries_failed Failed queries for individual
+        cost models
+
+        # TYPE indexer_service_cost_model_queries_failed counter
+
+
+        # HELP indexer_service_cost_model_query_duration Duration of processing queries
+        for individual cost models
+
+        # TYPE indexer_service_cost_model_query_duration histogram
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        2
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        0.10761007
+
+        indexer_service_cost_model_query_duration_count{deployment="0x5bc3ea06dc6ebe3478d8af066ca08fb9d0cd3f01a65e8196e78e14578ad267d0"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        2
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        0.088617804
+
+        indexer_service_cost_model_query_duration_count{deployment="0x5ad5fd7286753136cd9baa2b4659a800d53acd1be396b0d9be2316be3a6697b7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        2
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        0.08412212799999999
+
+        indexer_service_cost_model_query_duration_count{deployment="0x1669ff76562bae25d689656ea54b60c6a78f17e6280a4e67abe65cd6dc702288"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        0.040946371
+
+        indexer_service_cost_model_query_duration_count{deployment="0x37c5d50df082ad6cb42308af3da3db1be622eefa82dfc4157e238a28ae474ebd"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        2
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        0.086267274
+
+        indexer_service_cost_model_query_duration_count{deployment="0x690752ca4c6cd7a89792e10f681e28631fa4e28ab84cb445be2ece9eea9dd8bc"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        0.042889243
+
+        indexer_service_cost_model_query_duration_count{deployment="0x31b091b737cb2f5abf965db8835a76026392014731aac77def6c01b8d73bc8a7"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        2
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        0.084129525
+
+        indexer_service_cost_model_query_duration_count{deployment="0x3b7925648ec5f83460916334c229447708ff71cf19a3288f53e0d33499968d3b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        3
+
+        indexer_service_cost_model_query_duration_sum{deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        0.139998086
+
+        indexer_service_cost_model_query_duration_count{deployment="0xc922cd5c34c73046afdd2bd7e33b54419e04af90d4a440cc6c1e8235d0aa21a8"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        3
+
+        indexer_service_cost_model_query_duration_sum{deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        0.144024545
+
+        indexer_service_cost_model_query_duration_count{deployment="0xf4e8723471608d67fd6f2585905ce327bfa5491523f1220364a03430a5b4ab00"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        3
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        0.150009103
+
+        indexer_service_cost_model_query_duration_count{deployment="0x42a81a83f3bf21ba5c9aab216ed4b0d315c9a7cf6e856765bb439c72cc679272"}
+        3
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        2
+
+        indexer_service_cost_model_query_duration_sum{deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        0.09490104299999999
+
+        indexer_service_cost_model_query_duration_count{deployment="0xfde514fea0a9ffc8745f305ac9e5cf27977dd10ad1e3721e7ed9bf6950a2491c"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        0.04714044
+
+        indexer_service_cost_model_query_duration_count{deployment="0xe7cf16674b2e9b92dafece7082c3f6817edfbaa0a38ca5b40943f97bb7076f01"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        2
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        0.08517243
+
+        indexer_service_cost_model_query_duration_count{deployment="0x05783b0e507a848fc0b0242499a9e7675b0586850d0b2840d71de6659a29339b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        0.041441534
+
+        indexer_service_cost_model_query_duration_count{deployment="0x73926ee0b1a068d42b760664cc2a2f317aa41465f4aeb0eaea6b4e876a44a3f8"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        2
+
+        indexer_service_cost_model_query_duration_sum{deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        0.087205701
+
+        indexer_service_cost_model_query_duration_count{deployment="0xf1c39327ac103655b80fe25775594f2de4af2ceb6ab34215b49c632aab5c4ade"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        2
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        0.086864614
+
+        indexer_service_cost_model_query_duration_count{deployment="0x55a128aeab5978678203e2ff34e5ebf4819a1bd121e672618474fa6eca0c729b"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        2
+
+        indexer_service_cost_model_query_duration_sum{deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        0.085613741
+
+        indexer_service_cost_model_query_duration_count{deployment="0xa997e66d79d4fdf962dc91e926bbef61e3761386e6f6e84a18d25794901790a5"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        2
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        0.085569971
+
+        indexer_service_cost_model_query_duration_count{deployment="0x0d8b986e52c0a50d4d819d3acd4b8afb02449fab8fa531e28f60fc0c34db6236"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        0.042943066
+
+        indexer_service_cost_model_query_duration_count{deployment="0xeb5ba4f578c5e1d9b81c30b8da685dbcaa7bdb8470a8c25ebd60d3bb64bb6a8e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        2
+
+        indexer_service_cost_model_query_duration_sum{deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        0.085653514
+
+        indexer_service_cost_model_query_duration_count{deployment="0xe79e08874661cea7f5a398a3d28795a7c5fadb242a8bf3a663fb3f1853efd8a7"}
+        2
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        0.043146274
+
+        indexer_service_cost_model_query_duration_count{deployment="0x441a17c588057e411a34c8109238465c8e0dbbb13ad78e1e7098eac000c004d5"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        0.04291507
+
+        indexer_service_cost_model_query_duration_count{deployment="0x89120082f87340211c2625500290d4d8b0e9212411955c530f467ce747d1ce96"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        0.044375671
+
+        indexer_service_cost_model_query_duration_count{deployment="0x1873db2143e93fdbd0d124f1367798df3fb8ba5afd7ca3aee7b0c8741056e80b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        0.044493925
+
+        indexer_service_cost_model_query_duration_count{deployment="0xb6ac1fc0db75cc42be29eaea77b79f9a05d78b16904742065e12223ffe3e2e9e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        0.042528121
+
+        indexer_service_cost_model_query_duration_count{deployment="0x4712852b0a0ce5a9b52b78e523609707dda1b1f48108733a62054a1f5dda1d4e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        0.044151403
+
+        indexer_service_cost_model_query_duration_count{deployment="0x9e5f110feec4073bdb83e06ea5087d6a144e69d4a9bdc23f1d229673265958e2"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        0.041906932
+
+        indexer_service_cost_model_query_duration_count{deployment="0x67236dab258a02ff9d9b9a919092ffeb847cbae1d3f4edc6b1d0cb9ee9e02b1d"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        0.04579814
+
+        indexer_service_cost_model_query_duration_count{deployment="0x39cf2ea79481874d08a4ca0618b27ed2b2ff88b31c5c10f137ebd472e8a41c2e"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        0.044973075
+
+        indexer_service_cost_model_query_duration_count{deployment="0x9114b5bead999aa3e20a267ccd7671a0ad625e18fe1472535c6fa0ad044df46b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        0.043448422
+
+        indexer_service_cost_model_query_duration_count{deployment="0xea0081b34c9d8ae0c52c2131711f093d33bd6efb8638f0a5bbc3da0a08462a46"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        0.042751402
+
+        indexer_service_cost_model_query_duration_count{deployment="0x189be0acae9fff75ec275adcce5fa52f609a2f47bc7de79eda0972e73eb76e83"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        0.047491351
+
+        indexer_service_cost_model_query_duration_count{deployment="0xc0bb19a3321ddd3ee6a956bdea9c98e5954feb57d4c2e7d279d0e2be0080530b"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        0.045765595
+
+        indexer_service_cost_model_query_duration_count{deployment="0x73d760c6ef8fb889b3af6625fff6f22fed34218ee33ff27aa0d75932678d3065"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        0.045355387
+
+        indexer_service_cost_model_query_duration_count{deployment="0xb8089f03bcc4ea7f078e41239cb212c94b84477efdf4b33e0c604876dbfcdbe0"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.005",deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.01",deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.025",deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        0
+
+        indexer_service_cost_model_query_duration_bucket{le="0.05",deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.1",deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.25",deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="0.5",deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="1",deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="2.5",deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="5",deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="10",deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        1
+
+        indexer_service_cost_model_query_duration_bucket{le="+Inf",deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        1
+
+        indexer_service_cost_model_query_duration_sum{deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        0.045797427
+
+        indexer_service_cost_model_query_duration_count{deployment="0x2ce3e6306ceab992bff73264acc029446d939229fda31e228d57f3144c5377d3"}
+        1
+
+
+        # HELP indexer_service_cost_model_batch_queries Queries for batches of cost
+        models
+
+        # TYPE indexer_service_cost_model_batch_queries counter
+
+        indexer_service_cost_model_batch_queries 25549
+
+
+        # HELP indexer_service_cost_model_batch_queries_invalid Invalid queries for
+        batches of cost models
+
+        # TYPE indexer_service_cost_model_batch_queries_invalid counter
+
+        indexer_service_cost_model_batch_queries_invalid 0
+
+
+        # HELP indexer_service_cost_model_batch_queries_failed Failed queries for
+        batches of cost models
+
+        # TYPE indexer_service_cost_model_batch_queries_failed counter
+
+        indexer_service_cost_model_batch_queries_failed 0
+
+
+        # HELP indexer_service_cost_model_batch_query_duration Duration of processing
+        batch queries for cost models
+
+        # TYPE indexer_service_cost_model_batch_query_duration histogram
+
+        indexer_service_cost_model_batch_query_duration_bucket{le="0.005"} 0
+
+        indexer_service_cost_model_batch_query_duration_bucket{le="0.01"} 0
+
+        indexer_service_cost_model_batch_query_duration_bucket{le="0.025"} 2364
+
+        indexer_service_cost_model_batch_query_duration_bucket{le="0.05"} 16056
+
+        indexer_service_cost_model_batch_query_duration_bucket{le="0.1"} 25418
+
+        indexer_service_cost_model_batch_query_duration_bucket{le="0.25"} 25546
+
+        indexer_service_cost_model_batch_query_duration_bucket{le="0.5"} 25549
+
+        indexer_service_cost_model_batch_query_duration_bucket{le="1"} 25549
+
+        indexer_service_cost_model_batch_query_duration_bucket{le="2.5"} 25549
+
+        indexer_service_cost_model_batch_query_duration_bucket{le="5"} 25549
+
+        indexer_service_cost_model_batch_query_duration_bucket{le="10"} 25549
+
+        indexer_service_cost_model_batch_query_duration_bucket{le="+Inf"} 25549
+
+        indexer_service_cost_model_batch_query_duration_sum 1184.8111165870005
+
+        indexer_service_cost_model_batch_query_duration_count 25549
+
+
+        # HELP indexer_service_cost_model_batch_query_size Number of cost models requested
+        per batch query
+
+        # TYPE indexer_service_cost_model_batch_query_size histogram
+
+        indexer_service_cost_model_batch_query_size_bucket{le="0.005"} 0
+
+        indexer_service_cost_model_batch_query_size_bucket{le="0.01"} 0
+
+        indexer_service_cost_model_batch_query_size_bucket{le="0.025"} 0
+
+        indexer_service_cost_model_batch_query_size_bucket{le="0.05"} 0
+
+        indexer_service_cost_model_batch_query_size_bucket{le="0.1"} 0
+
+        indexer_service_cost_model_batch_query_size_bucket{le="0.25"} 0
+
+        indexer_service_cost_model_batch_query_size_bucket{le="0.5"} 0
+
+        indexer_service_cost_model_batch_query_size_bucket{le="1"} 0
+
+        indexer_service_cost_model_batch_query_size_bucket{le="2.5"} 0
+
+        indexer_service_cost_model_batch_query_size_bucket{le="5"} 0
+
+        indexer_service_cost_model_batch_query_size_bucket{le="10"} 0
+
+        indexer_service_cost_model_batch_query_size_bucket{le="+Inf"} 25549
+
+        indexer_service_cost_model_batch_query_size_sum 9259695
+
+        indexer_service_cost_model_batch_query_size_count 25549
+
+        '
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '146811'
+      Content-Type:
+      - text/plain; charset=utf-8; version=0.0.4
+      Date:
+      - Fri, 13 Jan 2023 16:55:48 GMT
+      Etag:
+      - W/"23d7b-P+QxZOOTyDuEjSB8qR1/rFlrm+8"
+      Keep-Alive:
+      - timeout=5
+      X-Powered-By:
+      - Express
+    status:
+      code: 200
+      message: OK
+    url: http://indexer-service.default.svc.cluster.local:7300/metrics
+version: 1
