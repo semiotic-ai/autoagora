@@ -8,20 +8,11 @@ from typing import Any, Dict, Mapping, Optional, Set
 
 import aiohttp
 import backoff
-import configargparse
 from base58 import b58decode, b58encode
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 
 from autoagora.config import args
-
-argsparser = configargparse.get_argument_parser()
-argsparser.add_argument(
-    "--indexer-agent-mgmt-endpoint",
-    env_var="INDEXER_AGENT_MGMT_ENDPOINT",
-    required=True,
-    help="URL to the indexer-agent management GraphQL endpoint.",
-)
 
 
 def ipfs_hash_to_hex(ipfs_hash: str) -> str:

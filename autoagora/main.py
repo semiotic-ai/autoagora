@@ -6,41 +6,19 @@ import logging
 from dataclasses import dataclass
 from typing import Dict, Optional
 
-import configargparse
 from prometheus_async.aio.web import start_http_server
 
-from autoagora.config import init_config
+from autoagora.config import args, init_config
 from autoagora.indexer_utils import get_allocated_subgraphs, set_cost_model
 from autoagora.price_multiplier import price_bandit_loop
 
+init_config()
+
 # Import the model builder only when "--experimental-model-builder"
-argsparser = configargparse.get_arg_parser()
-argsparser.add_argument(
-    "--experimental-model-builder",
-    env_var="EXPERIMENTAL_MODEL_BUILDER",
-    action="store_true",
-    help="Activates the relative query cost discovery. Otherwise only builds a default "
-    "query pricing model with automated market price discovery.",
-)
-argsparser.add_argument(
-    "--exclude-subgraphs",
-    env_var="EXCLUDE_SUBGRAPHS",
-    required=False,
-    help="Comma delimited list of subgraphs (ipfs hash) to exclude from model updates.",
-)
-
-parsed_args, remaining_args = argsparser.parse_known_args()
-experimental_model_builder = parsed_args.experimental_model_builder
-excluded_subgraphs = set((parsed_args.exclude_subgraphs or "").split(","))
-
-del parsed_args
-if experimental_model_builder:
+if args.experimental_model_builder:
     from autoagora.model_builder import model_update_loop
 
 DEFAULT_AGORA_VARIABLES = {"DEFAULT_COST": 50}
-
-
-init_config(remaining_args)
 
 
 @dataclass
@@ -56,6 +34,7 @@ class SubgraphUpdateLoops:
 
 async def allocated_subgraph_watcher():
     update_loops: Dict[str, SubgraphUpdateLoops] = dict()
+    excluded_subgraphs = set((args.exclude_subgraphs or "").split(","))
 
     while True:
         try:
@@ -78,7 +57,7 @@ async def allocated_subgraph_watcher():
                     variables=DEFAULT_AGORA_VARIABLES,
                 )
 
-                if experimental_model_builder:
+                if args.experimental_model_builder:
                     # Launch the model update loop for the new subgraph
                     update_loops[new_subgraph].model = aio.ensure_future(
                         model_update_loop(new_subgraph)

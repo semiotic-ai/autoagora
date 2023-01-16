@@ -4,22 +4,11 @@
 import asyncio
 import logging
 
-import configargparse
 from autoagora_agents.agent_factory import AgentFactory
 from prometheus_client import Gauge
 
 from autoagora.config import args
 from autoagora.subgraph_wrapper import SubgraphWrapper
-
-argsparser = configargparse.get_argument_parser()
-argsparser.add_argument(
-    "--observation-duration",
-    env_var="MEASUREMENT_PERIOD",
-    required=False,
-    type=int,
-    default=60,
-    help="Duration of the measurement period of the query-per-second after a price multiplier update.",
-)
 
 reward_gauge = Gauge(
     "bandit_reward",

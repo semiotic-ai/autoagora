@@ -4,22 +4,11 @@
 import asyncio as aio
 import logging
 
-import configargparse
 import graphql
 
 from autoagora.config import args
 from autoagora.indexer_utils import set_cost_model
 from autoagora.logs_db import LogsDB
-
-argsparser = configargparse.get_argument_parser()
-argsparser.add_argument(
-    "--agora-models-refresh-interval",
-    env_var="AGORA_MODELS_REFRESH_INTERVAL",
-    required=False,
-    type=int,
-    default=3600,
-    help="Interval in seconds between rebuilds of the Agora models.",
-)
 
 
 async def model_builder(subgraph: str) -> str:
