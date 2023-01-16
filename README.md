@@ -45,48 +45,66 @@ Therefore, only a single instance of `AutoAgora` should be running against an `i
 Configuration:
 
 ```txt
-usage: autoagora [-h] --indexer-agent-mgmt-endpoint INDEXER_AGENT_MGMT_ENDPOINT --indexer-service-metrics-endpoint
-                 INDEXER_SERVICE_METRICS_ENDPOINT --logs-postgres-host LOGS_POSTGRES_HOST
-                 [--logs-postgres-port LOGS_POSTGRES_PORT] --logs-postgres-database LOGS_POSTGRES_DATABASE
-                 --logs-postgres-username LOGS_POSTGRES_USERNAME --logs-postgres-password LOGS_POSTGRES_PASSWORD
-                 [--agora-models-refresh-interval AGORA_MODELS_REFRESH_INTERVAL] 
-                 [--observation-duration OBSERVATION_DURATION] [--experimental-model-builder] [--exclude-subgraphs]
+usage: autoagora [-h] [--experimental-model-builder]
+                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--json-logs JSON_LOGS]
+                 --indexer-agent-mgmt-endpoint INDEXER_AGENT_MGMT_ENDPOINT
+                 --indexer-service-metrics-endpoint INDEXER_SERVICE_METRICS_ENDPOINT
+                 [--observation-duration OBSERVATION_DURATION]
+                 [--exclude-subgraphs EXCLUDE_SUBGRAPHS]
+                 [--agora-models-refresh-interval AGORA_MODELS_REFRESH_INTERVAL]
+                 [--logs-postgres-host LOGS_POSTGRES_HOST]
+                 [--logs-postgres-port LOGS_POSTGRES_PORT]
+                 [--logs-postgres-database LOGS_POSTGRES_DATABASE]
+                 [--logs-postgres-username LOGS_POSTGRES_USERNAME]
+                 [--logs-postgres-password LOGS_POSTGRES_PASSWORD]
 
 optional arguments:
   -h, --help            show this help message and exit
-  --indexer-agent-mgmt-endpoint INDEXER_AGENT_MGMT_ENDPOINT
-                        URL to the indexer-agent management GraphQL endpoint. [env var: INDEXER_AGENT_MGMT_ENDPOINT]
-                        (default: None)
-  --indexer-service-metrics-endpoint INDEXER_SERVICE_METRICS_ENDPOINT
-                        HTTP endpoint for the indexer-service metrics. [env var: INDEXER_SERVICE_METRICS_ENDPOINT]
-                        (default: None)
-  --logs-postgres-host LOGS_POSTGRES_HOST
-                        Host of the postgres instance storing the logs. [env var: LOGS_POSTGRES_HOST] (default: None)
-  --logs-postgres-port LOGS_POSTGRES_PORT
-                        Port of the postgres instance storing the logs. [env var: LOGS_POSTGRES_PORT] (default: 5432)
-  --logs-postgres-database LOGS_POSTGRES_DATABASE
-                        Name of the logs database. [env var: LOGS_POSTGRES_DATABASE] (default: None)
-  --logs-postgres-username LOGS_POSTGRES_USERNAME
-                        Username for the logs database. [env var: LOGS_POSTGRES_USERNAME] (default: None)
-  --logs-postgres-password LOGS_POSTGRES_PASSWORD
-                        Password for the logs database. [env var: LOGS_POSTGRES_PASSWORD] (default: None)
-  --agora-models-refresh-interval AGORA_MODELS_REFRESH_INTERVAL
-                        Interval in seconds between rebuilds of the Agora models. [env var:
-                        AGORA_MODELS_REFRESH_INTERVAL] (default: 3600)
-  --observation-duration OBSERVATION_DURATION
-                        Duration of the measurement period of the query-per-second after a price multiplier update. 
-                        [env var: MEASUREMENT_PERIOD] (default: 60)                       
   --experimental-model-builder
-                        Activates the relative query cost discovery. Otherwise only builds a default query pricing
-                        model with automated market price discovery. [env var: EXPERIMENTAL_MODEL_BUILDER] (default:
-                        False)
-  --exclude-subgraphs
-                        Comma delimited list of subgraphs (ipfs hashes) to exclude from model updates. 
-                        [env var: EXCLUDE_SUBGRAPHS] (default: None)
+                        Activates the relative query cost discovery. Otherwise only builds a
+                        default query pricing model with automated market price discovery. [env
+                        var: EXPERIMENTAL_MODEL_BUILDER] (default: False)
   --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
                         [env var: LOG_LEVEL] (default: WARNING)
   --json-logs JSON_LOGS
-                        Output logs in JSON format. Compatible with GKE. [env var: JSON_LOGS] (default: False)
+                        Output logs in JSON format. Compatible with GKE. [env var: JSON_LOGS]
+                        (default: False)
+  --indexer-agent-mgmt-endpoint INDEXER_AGENT_MGMT_ENDPOINT
+                        URL to the indexer-agent management GraphQL endpoint. [env var:
+                        INDEXER_AGENT_MGMT_ENDPOINT] (default: None)
+  --indexer-service-metrics-endpoint INDEXER_SERVICE_METRICS_ENDPOINT
+                        HTTP endpoint for the indexer-service metrics. [env var:
+                        INDEXER_SERVICE_METRICS_ENDPOINT] (default: None)
+  --observation-duration OBSERVATION_DURATION
+                        Duration of the measurement period of the query-per-second after a price
+                        multiplier update. [env var: MEASUREMENT_PERIOD] (default: 60)
+
+Model Builder Options:
+
+  --exclude-subgraphs EXCLUDE_SUBGRAPHS
+                        Comma delimited list of subgraphs (ipfs hash) to exclude from model
+                        updates. [env var: EXCLUDE_SUBGRAPHS] (default: None)
+  --agora-models-refresh-interval AGORA_MODELS_REFRESH_INTERVAL
+                        Interval in seconds between rebuilds of the Agora models. [env var:
+                        AGORA_MODELS_REFRESH_INTERVAL] (default: 3600)
+  --logs-postgres-host LOGS_POSTGRES_HOST
+                        Host of the postgres instance storing the logs. [env var:
+                        LOGS_POSTGRES_HOST] (default: None)
+  --logs-postgres-port LOGS_POSTGRES_PORT
+                        Port of the postgres instance storing the logs. [env var:
+                        LOGS_POSTGRES_PORT] (default: 5432)
+  --logs-postgres-database LOGS_POSTGRES_DATABASE
+                        Name of the logs database. [env var: LOGS_POSTGRES_DATABASE] (default:
+                        None)
+  --logs-postgres-username LOGS_POSTGRES_USERNAME
+                        Username for the logs database. [env var: LOGS_POSTGRES_USERNAME]
+                        (default: None)
+  --logs-postgres-password LOGS_POSTGRES_PASSWORD
+                        Password for the logs database. [env var: LOGS_POSTGRES_PASSWORD]
+                        (default: None)
+
+ If an arg is specified in more than one place, then commandline values override environment
+variables which override defaults.
 ```
 
 AutoAgora also exposes metrics for Prometheus on port `8000` (Example values):
