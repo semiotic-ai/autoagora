@@ -8,17 +8,8 @@ from typing import Dict
 
 import aiohttp
 import backoff
-import configargparse
 
 from autoagora.config import args
-
-argsparser = configargparse.get_argument_parser()
-argsparser.add_argument(
-    "--indexer-service-metrics-endpoint",
-    env_var="INDEXER_SERVICE_METRICS_ENDPOINT",
-    required=True,
-    help="HTTP endpoint for the indexer-service metrics.",
-)
 
 
 class HTTPError(Exception):

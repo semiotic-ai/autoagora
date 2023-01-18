@@ -7,43 +7,8 @@ from dataclasses import dataclass
 from typing import Optional
 
 import asyncpg
-import configargparse
 
 from autoagora.config import args
-
-argsparser = configargparse.get_argument_parser()
-argsparser.add_argument(
-    "--logs-postgres-host",
-    env_var="LOGS_POSTGRES_HOST",
-    required=True,
-    help="Host of the postgres instance storing the logs.",
-)
-argsparser.add_argument(
-    "--logs-postgres-port",
-    env_var="LOGS_POSTGRES_PORT",
-    required=False,
-    type=int,
-    default=5432,
-    help="Port of the postgres instance storing the logs.",
-)
-argsparser.add_argument(
-    "--logs-postgres-database",
-    env_var="LOGS_POSTGRES_DATABASE",
-    required=True,
-    help="Name of the logs database.",
-)
-argsparser.add_argument(
-    "--logs-postgres-username",
-    env_var="LOGS_POSTGRES_USERNAME",
-    required=True,
-    help="Username for the logs database.",
-)
-argsparser.add_argument(
-    "--logs-postgres-password",
-    env_var="LOGS_POSTGRES_PASSWORD",
-    required=True,
-    help="Password for the logs database.",
-)
 
 
 class LogsDB:
