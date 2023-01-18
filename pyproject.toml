@@ -48,6 +48,9 @@ myst-parser = "^0.17.2"
 pylint = "^2.14.5"
 pytest-cov = "^4.0.0"
 vcrpy = "^4.2.1"
+pytest-postgresql = "^4.1.1"
+psycopg = {extras = ["binary"], version = "^3.1.8"}
+pytest-asyncio = "^0.20.3"
 
 [tool.semantic_release]
 upload_to_repository = false
@@ -67,6 +70,7 @@ addopts = "--strict-markers --durations=5 -vv"
 markers = [
     "unit: marks tests as unit tests",
 ]
+asyncio_mode = "auto"
 
 [tool.pylint.typecheck]
 # List of members which are set dynamically and missed by pylint inference system, and

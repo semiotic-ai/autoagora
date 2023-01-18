@@ -12,6 +12,7 @@ from autoagora.config import args, init_config
 from autoagora.indexer_utils import get_allocated_subgraphs, set_cost_model
 from autoagora.model_builder import model_update_loop
 from autoagora.price_multiplier import price_bandit_loop
+from autoagora.price_save_state_db import PriceSaveStateDB
 
 init_config()
 
@@ -34,6 +35,10 @@ async def allocated_subgraph_watcher():
     excluded_subgraphs = set(
         (args.relative_query_costs_exclude_subgraphs or "").split(",")
     )
+
+    # Save state handler for the price multiplier
+    price_mul_save_state_db = PriceSaveStateDB()
+    await price_mul_save_state_db.connect()
 
     while True:
         try:
@@ -67,7 +72,7 @@ async def allocated_subgraph_watcher():
 
                 # Launch the price multiplier update loop for the new subgraph
                 update_loops[new_subgraph].bandit = aio.ensure_future(
-                    price_bandit_loop(new_subgraph)
+                    price_bandit_loop(new_subgraph, price_mul_save_state_db)
                 )
                 logging.info(
                     "Added price multiplier update loop for subgraph %s", new_subgraph
