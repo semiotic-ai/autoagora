@@ -21,22 +21,22 @@ An [Agora](https://github.com/graphprotocol/agora) cost model automation tool fo
 
 Just build the container!
 
-```sh
+```console
 docker build -t autoagora .
 ```
 
 ### Usage
 
-For AutoAgora to function correctly, you will also need to set up:
+For AutoAgora's relative query costs generator, you will also need to set up:
 
 - [AutoAgora indexer-service](https://github.com/semiotic-ai/autoagora-indexer-service)
 - [AutoAgora Processor](https://github.com/semiotic-ai/autoagora-processor)
 
-AutoAgora will continously:
+AutoAgora will continuously:
 
 - Watch for the indexer's current allocations by querying the `indexer-agent`'s management GraphQL endpoint.
-- Analyze the query logs stored in a PostgreSQL database -- logs that were previously processed by the `AutoAgora
-indexer-service` wrapper and the `AutoAgora Processor`.
+- Analyze the query logs stored in a PostgreSQL database (relative query costs generator) -- logs that were previously
+  processed by the `AutoAgora indexer-service` wrapper and the `AutoAgora Processor`.
 - Gather query metrics from the `indexer-service`'s prometheus metrics endpoint.
 - Update the allocated subgraph's cost models by sending mutations to the `indexer-agent`'s management GraphQL endpoint.
 
@@ -126,13 +126,18 @@ bandit_stddev{subgraph="QmRDGLp6BHwiH9HAE2NYEE3f7LrKuRqziHBv76trT4etgU"} 1.84346
 bandit_mean{subgraph="QmRDGLp6BHwiH9HAE2NYEE3f7LrKuRqziHBv76trT4etgU"} 3.653126148672616e-05
 ```
 
-Where "bandit" refers to the reinforcement learning method (Continuum-armed bandit) used to track the market price for each subgraph.
+Where "bandit" refers to the reinforcement learning method (Continuum-armed bandit) used to track the market price for
+each subgraph.
 
 ## Developer's guide
 
+If you would like to contribute, please consult [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
 ### Installation directly from the source code
 
-To install AutoAgora directly from the source code please clone the repository and install package in the virtual environment using `poetry`:
+To install AutoAgora directly from the source code please clone the repository and install package in the virtual
+environment using `poetry`:
+
 ```console
 git clone https://github.com/semiotic-ai/autoagora.git
 cd autoagora
