@@ -1,7 +1,6 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-import asyncio
 import logging
 from dataclasses import dataclass
 from typing import Optional
@@ -143,19 +142,3 @@ class LogsDB:
         logging.debug("Frequent query hashes: %s", rows)
 
         return list(bytes(row[0]).hex() for row in rows)
-
-    # def get_random_variables_for_query(self, query_hash: bytes):
-
-
-if __name__ == "__main__":
-
-    async def test():
-        ldb = LogsDB()
-        await ldb.connect()
-        # r = await ldb.get_frequent_query_hashes_without_timing()
-        r = await ldb.get_subgraph_average_query_stats(
-            "Qmaz1R8vcv9v3gUfksqiS9JUz7K9G8S5By3JYn8kTiiP5K"
-        )
-        print(r)
-
-    asyncio.run(test())
