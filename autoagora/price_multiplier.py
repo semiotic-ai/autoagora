@@ -6,6 +6,7 @@ import logging
 from datetime import datetime, timedelta, timezone
 from typing import Tuple
 
+import asyncpg
 from autoagora_agents.agent_factory import AgentFactory
 from prometheus_client import Gauge
 
@@ -33,12 +34,13 @@ mean_gauge = Gauge(
 )
 
 
-async def price_bandit_loop(subgraph: str, save_state_db: PriceSaveStateDB):
+async def price_bandit_loop(subgraph: str, pgpool: asyncpg.Pool):
     try:
         # Instantiate environment.
         environment = SubgraphWrapper(subgraph)
 
         # Try restoring the mean and stddev from a save state, or use defaults
+        save_state_db = PriceSaveStateDB(pgpool)
         start_mean, start_stddev = await restore_from_save_state(
             subgraph=subgraph,
             default_mean=5e-8,

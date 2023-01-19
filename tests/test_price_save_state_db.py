@@ -1,36 +1,26 @@
 import random
 import string
 
+import asyncpg
 import pytest
 from autoagora_agents.agent_factory import AgentFactory
 
-from autoagora import config, price_save_state_db
+from autoagora import price_save_state_db
 
 
 class TestPriceSaveStateDB:
     @pytest.fixture
     async def pssdb(self, postgresql):
-        config.init_config(
-            [
-                "--indexer-agent-mgmt-endpoint",
-                "dummy_endpoint_placeholder",
-                "--indexer-service-metrics-endpoint",
-                "dummy_endpoint_placeholder",
-                "--postgres-host",
-                postgresql.info.host,
-                "--postgres-port",
-                str(postgresql.info.port),
-                "--postgres-database",
-                postgresql.info.dbname,
-                "--postgres-username",
-                postgresql.info.user,
-                "--postgres-password",
-                postgresql.info.password,
-            ]
+        pgpool = await asyncpg.create_pool(
+            host=postgresql.info.host,
+            database=postgresql.info.dbname,
+            user=postgresql.info.user,
+            password=postgresql.info.password,
+            port=postgresql.info.port,
         )
+        assert pgpool
 
-        pssdb_ = price_save_state_db.PriceSaveStateDB()
-        await pssdb_.connect()
+        pssdb_ = price_save_state_db.PriceSaveStateDB(pgpool)
         return pssdb_
 
     async def test_create_write_read(self, pssdb):

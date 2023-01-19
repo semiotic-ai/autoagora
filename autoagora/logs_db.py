@@ -3,11 +3,8 @@
 
 import logging
 from dataclasses import dataclass
-from typing import Optional
 
 import asyncpg
-
-from autoagora.config import args
 
 
 class LogsDB:
@@ -20,60 +17,51 @@ class LogsDB:
         avg_time: float
         stddev_time: float
 
-    def __init__(self) -> None:
-        self.connection: Optional[asyncpg.connection.Connection] = None
-
-    async def connect(self) -> None:
-        self.connection = await asyncpg.connect(
-            host=args.postgres_host,
-            database=args.postgres_database,
-            user=args.postgres_username,
-            password=args.postgres_password,
-            port=args.postgres_port,
-        )
+    def __init__(self, pgpool: asyncpg.Pool) -> None:
+        self.pgpool = pgpool
 
     async def get_most_frequent_queries(
         self, subgraph_ipfs_hash: str, min_count: int = 100
     ):
-        assert self.connection
-        rows = await self.connection.fetch(
-            """
-            SELECT
-                query,
-                count_id,
-                min_time,
-                max_time,
-                avg_time,
-                stddev_time
-            FROM
-                query_skeletons
-            INNER JOIN
-            (
+        async with self.pgpool.acquire() as connection:
+            rows = await connection.fetch(
+                """
                 SELECT
-                    query_hash as qhash,
-                    count(id) as count_id,
-                    Min(query_time_ms) as min_time,
-                    Max(query_time_ms) as max_time,
-                    Avg(query_time_ms) as avg_time,
-                    Stddev(query_time_ms) as stddev_time 
+                    query,
+                    count_id,
+                    min_time,
+                    max_time,
+                    avg_time,
+                    stddev_time
                 FROM
-                    query_logs
-                WHERE
-                    subgraph = $1
-                    AND query_time_ms IS NOT NULL
-                GROUP BY
-                    qhash
-                HAVING
-                    Count(id) >= $2
-            ) as query_logs
-            ON
-                qhash = hash
-            ORDER BY
-                count_id DESC
-            """,
-            subgraph_ipfs_hash,
-            min_count,
-        )
+                    query_skeletons
+                INNER JOIN
+                (
+                    SELECT
+                        query_hash as qhash,
+                        count(id) as count_id,
+                        Min(query_time_ms) as min_time,
+                        Max(query_time_ms) as max_time,
+                        Avg(query_time_ms) as avg_time,
+                        Stddev(query_time_ms) as stddev_time 
+                    FROM
+                        query_logs
+                    WHERE
+                        subgraph = $1
+                        AND query_time_ms IS NOT NULL
+                    GROUP BY
+                        qhash
+                    HAVING
+                        Count(id) >= $2
+                ) as query_logs
+                ON
+                    qhash = hash
+                ORDER BY
+                    count_id DESC
+                """,
+                subgraph_ipfs_hash,
+                min_count,
+            )
 
         return [
             LogsDB.QueryStats(
@@ -88,23 +76,23 @@ class LogsDB:
         ]
 
     async def get_subgraph_average_query_stats(self, subgraph_ipfs_hash: str):
-        assert self.connection
-        row = await self.connection.fetchrow(
-            """
-            SELECT
-                count(id),
-                Min(query_time_ms),
-                Max(query_time_ms),
-                Avg(query_time_ms),
-                Stddev(query_time_ms) 
-            FROM
-                query_logs
-            WHERE
-                subgraph = $1
-                AND query_time_ms IS NOT NULL
-            """,
-            subgraph_ipfs_hash,
-        )
+        async with self.pgpool.acquire() as connection:
+            row = await connection.fetchrow(
+                """
+                SELECT
+                    count(id),
+                    Min(query_time_ms),
+                    Max(query_time_ms),
+                    Avg(query_time_ms),
+                    Stddev(query_time_ms) 
+                FROM
+                    query_logs
+                WHERE
+                    subgraph = $1
+                    AND query_time_ms IS NOT NULL
+                """,
+                subgraph_ipfs_hash,
+            )
 
         assert row
 
@@ -122,22 +110,22 @@ class LogsDB:
         )
 
     async def get_frequent_query_hashes_without_timing(self, min_count: int = 100):
-        assert self.connection
-        rows = await self.connection.fetch(
-            """
-            SELECT
-                query_hash
-            FROM
-                query_logs
-            GROUP BY
-                query_hash
-            HAVING
-                Count(id) >= $1
-                AND Sum(CASE WHEN query_time_ms IS NOT NULL THEN 1 ELSE 0 END) < $2
-            """,
-            min_count,
-            min_count,
-        )
+        async with self.pgpool.acquire() as connection:
+            rows = await connection.fetch(
+                """
+                SELECT
+                    query_hash
+                FROM
+                    query_logs
+                GROUP BY
+                    query_hash
+                HAVING
+                    Count(id) >= $1
+                    AND Sum(CASE WHEN query_time_ms IS NOT NULL THEN 1 ELSE 0 END) < $2
+                """,
+                min_count,
+                min_count,
+            )
 
         logging.debug("Frequent query hashes: %s", rows)
 

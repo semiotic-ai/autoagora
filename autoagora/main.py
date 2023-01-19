@@ -6,13 +6,13 @@ import logging
 from dataclasses import dataclass
 from typing import Dict, Optional
 
+import asyncpg
 from prometheus_async.aio.web import start_http_server
 
 from autoagora.config import args, init_config
 from autoagora.indexer_utils import get_allocated_subgraphs, set_cost_model
 from autoagora.model_builder import model_update_loop
 from autoagora.price_multiplier import price_bandit_loop
-from autoagora.price_save_state_db import PriceSaveStateDB
 
 init_config()
 
@@ -36,9 +36,20 @@ async def allocated_subgraph_watcher():
         (args.relative_query_costs_exclude_subgraphs or "").split(",")
     )
 
-    # Save state handler for the price multiplier
-    price_mul_save_state_db = PriceSaveStateDB()
-    await price_mul_save_state_db.connect()
+    try:
+        pgpool = await asyncpg.create_pool(
+            host=args.postgres_host,
+            database=args.postgres_database,
+            user=args.postgres_username,
+            password=args.postgres_password,
+            port=args.postgres_port,
+        )
+        assert pgpool
+    except:
+        logging.exception(
+            "Error while creating connection pool to the PostgreSQL database."
+        )
+        raise
 
     while True:
         try:
@@ -64,7 +75,7 @@ async def allocated_subgraph_watcher():
                 if args.relative_query_costs:
                     # Launch the model update loop for the new subgraph
                     update_loops[new_subgraph].model = aio.ensure_future(
-                        model_update_loop(new_subgraph)
+                        model_update_loop(new_subgraph, pgpool)
                     )
                     logging.info(
                         "Added model update loop for subgraph %s", new_subgraph
@@ -72,7 +83,7 @@ async def allocated_subgraph_watcher():
 
                 # Launch the price multiplier update loop for the new subgraph
                 update_loops[new_subgraph].bandit = aio.ensure_future(
-                    price_bandit_loop(new_subgraph, price_mul_save_state_db)
+                    price_bandit_loop(new_subgraph, pgpool)
                 )
                 logging.info(
                     "Added price multiplier update loop for subgraph %s", new_subgraph
