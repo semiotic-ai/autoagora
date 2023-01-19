@@ -26,33 +26,15 @@ def init_config(argv: Optional[Sequence[str]] = None):
     Argument values are added to the global `args` namespace object declared in this
     module.
     """
-    # 2 arg parsers to make it possible to fetch the `experimental_model_builder` option
-    # early without breaking anything.
-    argsparser_experimental_model_builder = configargparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter, add_help=False
-    )
-    argsparser_experimental_model_builder.add_argument(
-        "--experimental-model-builder",
-        env_var="EXPERIMENTAL_MODEL_BUILDER",
-        action="store_true",
-        help="Activates the relative query cost discovery. Otherwise only builds a "
-        "default query pricing model with automated market price discovery.",
-    )
-    # Get the value of `experimental-model-builder` early
-    _, argv = argsparser_experimental_model_builder.parse_known_args(
-        argv, namespace=args
-    )
 
-    # 2nd arg parser
-    argsparser = configargparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-        parents=[argsparser_experimental_model_builder],
+    argparser = configargparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 
     #
     # General arguments
     #
-    argsparser.add_argument(
+    argparser.add_argument(
         "--log-level",
         env_var="LOG_LEVEL",
         type=str,
@@ -60,7 +42,7 @@ def init_config(argv: Optional[Sequence[str]] = None):
         default="WARNING",
         required=False,
     )
-    argsparser.add_argument(
+    argparser.add_argument(
         "--json-logs",
         env_var="JSON_LOGS",
         type=bool,
@@ -70,9 +52,51 @@ def init_config(argv: Optional[Sequence[str]] = None):
     )
 
     #
+    # AutoAgora DB
+    #
+    argparser_database_group = argparser.add_argument_group(
+        "Database settings",
+        description="Must be the same database as AutoAgora Processor's if the "
+        "relative costs models generator is enabled.",
+    )
+    argparser_database_group.add_argument(
+        "--postgres-host",
+        env_var="POSTGRES_HOST",
+        required=True,
+        help="Host of the postgres instance to be used by AutoAgora.",
+    )
+    argparser_database_group.add_argument(
+        "--postgres-port",
+        env_var="POSTGRES_PORT",
+        required=False,
+        type=int,
+        default=5432,
+        help="Port of the postgres instance to be used by AutoAgora.",
+    )
+    argparser_database_group.add_argument(
+        "--postgres-database",
+        env_var="POSTGRES_DATABASE",
+        required=False,
+        default="autoagora",
+        help="Name of the database to be used by AutoAgora.",
+    )
+    argparser_database_group.add_argument(
+        "--postgres-username",
+        env_var="POSTGRES_USERNAME",
+        required=True,
+        help="Username for the database to be used by AutoAgora.",
+    )
+    argparser_database_group.add_argument(
+        "--postgres-password",
+        env_var="POSTGRES_PASSWORD",
+        required=True,
+        help="Password for the database to be used by AutoAgora.",
+    )
+
+    #
     # Indexer utils
     #
-    argsparser.add_argument(
+    argparser.add_argument(
         "--indexer-agent-mgmt-endpoint",
         env_var="INDEXER_AGENT_MGMT_ENDPOINT",
         required=True,
@@ -82,8 +106,7 @@ def init_config(argv: Optional[Sequence[str]] = None):
     #
     # Query volume metrics
     #
-
-    argsparser.add_argument(
+    argparser.add_argument(
         "--indexer-service-metrics-endpoint",
         env_var="INDEXER_SERVICE_METRICS_ENDPOINT",
         required=True,
@@ -93,9 +116,9 @@ def init_config(argv: Optional[Sequence[str]] = None):
     #
     # Price multiplier (Absolute price)
     #
-    argsparser.add_argument(
-        "--observation-duration",
-        env_var="MEASUREMENT_PERIOD",
+    argparser.add_argument(
+        "--qps-observation-duration",
+        env_var="QPS_OBSERVATION_DURATION",
         required=False,
         type=int,
         default=60,
@@ -106,64 +129,33 @@ def init_config(argv: Optional[Sequence[str]] = None):
     #
     # Optional model builder (Relative query costs)
     #
-    model_builder_group = argsparser.add_argument_group(
-        title="Model Builder Options", description=""
+    argparser_relative_query_costs = argparser.add_argument_group(
+        "Relative query costs generator settings"
     )
-    model_builder_group.add_argument(
-        "--exclude-subgraphs",
-        env_var="EXCLUDE_SUBGRAPHS",
+    argparser_relative_query_costs.add_argument(
+        "--relative-query-costs",
+        env_var="RELATIVE_QUERY_COSTS",
+        action="store_true",
+        help="(EXPERIMENTAL) Enables the relative query cost generator. Otherwise only "
+        "builds a default query pricing model with automated market price discovery.",
+    )
+    argparser_relative_query_costs.add_argument(
+        "--relative-query-costs-exclude-subgraphs",
+        env_var="RELATIVE_QUERY_COSTS_EXCLUDE_SUBGRAPHS",
         required=False,
-        help="Comma delimited list of subgraphs (ipfs hash) to exclude from model "
-        "updates.",
+        help="Comma delimited list of subgraphs (ipfs hash) to exclude from the "
+        "relative query costs model generator.",
     )
-    model_builder_group.add_argument(
-        "--agora-models-refresh-interval",
-        env_var="AGORA_MODELS_REFRESH_INTERVAL",
+    argparser_relative_query_costs.add_argument(
+        "--relative-query-costs-refresh-interval",
+        env_var="RELATIVE_QUERY_COSTS_REFRESH_INTERVAL",
         required=False,
         type=int,
         default=3600,
-        help="Interval in seconds between rebuilds of the Agora models.",
+        help="(Seconds) Interval between rebuilds of the relative query costs models.",
     )
 
-    #
-    # Logs DB
-    #
-
-    # Needed only if the model builder is turned on
-    model_builder_group.add_argument(
-        "--logs-postgres-host",
-        env_var="LOGS_POSTGRES_HOST",
-        required=args.experimental_model_builder,
-        help="Host of the postgres instance storing the logs.",
-    )
-    model_builder_group.add_argument(
-        "--logs-postgres-port",
-        env_var="LOGS_POSTGRES_PORT",
-        required=False,
-        type=int,
-        default=5432,
-        help="Port of the postgres instance storing the logs.",
-    )
-    model_builder_group.add_argument(
-        "--logs-postgres-database",
-        env_var="LOGS_POSTGRES_DATABASE",
-        required=args.experimental_model_builder,
-        help="Name of the logs database.",
-    )
-    model_builder_group.add_argument(
-        "--logs-postgres-username",
-        env_var="LOGS_POSTGRES_USERNAME",
-        required=args.experimental_model_builder,
-        help="Username for the logs database.",
-    )
-    model_builder_group.add_argument(
-        "--logs-postgres-password",
-        env_var="LOGS_POSTGRES_PASSWORD",
-        required=args.experimental_model_builder,
-        help="Password for the logs database.",
-    )
-
-    argsparser.parse_args(args=argv, namespace=args)
+    argparser.parse_args(args=argv, namespace=args)
 
     # Set the logs formatting
     if args.json_logs:

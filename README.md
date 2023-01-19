@@ -21,22 +21,22 @@ An [Agora](https://github.com/graphprotocol/agora) cost model automation tool fo
 
 Just build the container!
 
-```sh
+```console
 docker build -t autoagora .
 ```
 
 ### Usage
 
-For AutoAgora to function correctly, you will also need to set up:
+For AutoAgora's relative query costs generator, you will also need to set up:
 
 - [AutoAgora indexer-service](https://github.com/semiotic-ai/autoagora-indexer-service)
 - [AutoAgora Processor](https://github.com/semiotic-ai/autoagora-processor)
 
-AutoAgora will continously:
+AutoAgora will continuously:
 
 - Watch for the indexer's current allocations by querying the `indexer-agent`'s management GraphQL endpoint.
-- Analyze the query logs stored in a PostgreSQL database -- logs that were previously processed by the `AutoAgora
-indexer-service` wrapper and the `AutoAgora Processor`.
+- Analyze the query logs stored in a PostgreSQL database (relative query costs generator) -- logs that were previously
+  processed by the `AutoAgora indexer-service` wrapper and the `AutoAgora Processor`.
 - Gather query metrics from the `indexer-service`'s prometheus metrics endpoint.
 - Update the allocated subgraph's cost models by sending mutations to the `indexer-agent`'s management GraphQL endpoint.
 
@@ -45,25 +45,18 @@ Therefore, only a single instance of `AutoAgora` should be running against an `i
 Configuration:
 
 ```txt
-usage: autoagora [-h] [--experimental-model-builder]
-                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--json-logs JSON_LOGS]
-                 --indexer-agent-mgmt-endpoint INDEXER_AGENT_MGMT_ENDPOINT
-                 --indexer-service-metrics-endpoint INDEXER_SERVICE_METRICS_ENDPOINT
-                 [--observation-duration OBSERVATION_DURATION]
-                 [--exclude-subgraphs EXCLUDE_SUBGRAPHS]
-                 [--agora-models-refresh-interval AGORA_MODELS_REFRESH_INTERVAL]
-                 [--logs-postgres-host LOGS_POSTGRES_HOST]
-                 [--logs-postgres-port LOGS_POSTGRES_PORT]
-                 [--logs-postgres-database LOGS_POSTGRES_DATABASE]
-                 [--logs-postgres-username LOGS_POSTGRES_USERNAME]
-                 [--logs-postgres-password LOGS_POSTGRES_PASSWORD]
+usage: autoagora [-h] [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--json-logs JSON_LOGS]
+                 --postgres-host POSTGRES_HOST [--postgres-port POSTGRES_PORT]
+                 [--postgres-database POSTGRES_DATABASE] --postgres-username POSTGRES_USERNAME
+                 --postgres-password POSTGRES_PASSWORD --indexer-agent-mgmt-endpoint
+                 INDEXER_AGENT_MGMT_ENDPOINT --indexer-service-metrics-endpoint
+                 INDEXER_SERVICE_METRICS_ENDPOINT
+                 [--qps-observation-duration QPS_OBSERVATION_DURATION] [--relative-query-costs]
+                 [--relative-query-costs-exclude-subgraphs RELATIVE_QUERY_COSTS_EXCLUDE_SUBGRAPHS]
+                 [--relative-query-costs-refresh-interval RELATIVE_QUERY_COSTS_REFRESH_INTERVAL]
 
 optional arguments:
   -h, --help            show this help message and exit
-  --experimental-model-builder
-                        Activates the relative query cost discovery. Otherwise only builds a
-                        default query pricing model with automated market price discovery. [env
-                        var: EXPERIMENTAL_MODEL_BUILDER] (default: False)
   --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
                         [env var: LOG_LEVEL] (default: WARNING)
   --json-logs JSON_LOGS
@@ -75,33 +68,42 @@ optional arguments:
   --indexer-service-metrics-endpoint INDEXER_SERVICE_METRICS_ENDPOINT
                         HTTP endpoint for the indexer-service metrics. [env var:
                         INDEXER_SERVICE_METRICS_ENDPOINT] (default: None)
-  --observation-duration OBSERVATION_DURATION
+  --qps-observation-duration QPS_OBSERVATION_DURATION
                         Duration of the measurement period of the query-per-second after a price
-                        multiplier update. [env var: MEASUREMENT_PERIOD] (default: 60)
+                        multiplier update. [env var: QPS_OBSERVATION_DURATION] (default: 60)
 
-Model Builder Options:
+Database settings:
+  Must be the same database as AutoAgora Processor's if the relative costs models generator is
+  enabled.
 
-  --exclude-subgraphs EXCLUDE_SUBGRAPHS
-                        Comma delimited list of subgraphs (ipfs hash) to exclude from model
-                        updates. [env var: EXCLUDE_SUBGRAPHS] (default: None)
-  --agora-models-refresh-interval AGORA_MODELS_REFRESH_INTERVAL
-                        Interval in seconds between rebuilds of the Agora models. [env var:
-                        AGORA_MODELS_REFRESH_INTERVAL] (default: 3600)
-  --logs-postgres-host LOGS_POSTGRES_HOST
-                        Host of the postgres instance storing the logs. [env var:
-                        LOGS_POSTGRES_HOST] (default: None)
-  --logs-postgres-port LOGS_POSTGRES_PORT
-                        Port of the postgres instance storing the logs. [env var:
-                        LOGS_POSTGRES_PORT] (default: 5432)
-  --logs-postgres-database LOGS_POSTGRES_DATABASE
-                        Name of the logs database. [env var: LOGS_POSTGRES_DATABASE] (default:
-                        None)
-  --logs-postgres-username LOGS_POSTGRES_USERNAME
-                        Username for the logs database. [env var: LOGS_POSTGRES_USERNAME]
-                        (default: None)
-  --logs-postgres-password LOGS_POSTGRES_PASSWORD
-                        Password for the logs database. [env var: LOGS_POSTGRES_PASSWORD]
-                        (default: None)
+  --postgres-host POSTGRES_HOST
+                        Host of the postgres instance to be used by AutoAgora. [env var:
+                        POSTGRES_HOST] (default: None)
+  --postgres-port POSTGRES_PORT
+                        Port of the postgres instance to be used by AutoAgora. [env var:
+                        POSTGRES_PORT] (default: 5432)
+  --postgres-database POSTGRES_DATABASE
+                        Name of the database to be used by AutoAgora. [env var: POSTGRES_DATABASE]
+                        (default: autoagora)
+  --postgres-username POSTGRES_USERNAME
+                        Username for the database to be used by AutoAgora. [env var:
+                        POSTGRES_USERNAME] (default: None)
+  --postgres-password POSTGRES_PASSWORD
+                        Password for the database to be used by AutoAgora. [env var:
+                        POSTGRES_PASSWORD] (default: None)
+
+Relative query costs generator settings:
+  --relative-query-costs
+                        (EXPERIMENTAL) Enables the relative query cost generator. Otherwise only
+                        builds a default query pricing model with automated market price
+                        discovery. [env var: RELATIVE_QUERY_COSTS] (default: False)
+  --relative-query-costs-exclude-subgraphs RELATIVE_QUERY_COSTS_EXCLUDE_SUBGRAPHS
+                        Comma delimited list of subgraphs (ipfs hash) to exclude from the relative
+                        query costs model generator. [env var:
+                        RELATIVE_QUERY_COSTS_EXCLUDE_SUBGRAPHS] (default: None)
+  --relative-query-costs-refresh-interval RELATIVE_QUERY_COSTS_REFRESH_INTERVAL
+                        (Seconds) Interval between rebuilds of the relative query costs models.
+                        [env var: RELATIVE_QUERY_COSTS_REFRESH_INTERVAL] (default: 3600)
 
  If an arg is specified in more than one place, then commandline values override environment
 variables which override defaults.
@@ -124,13 +126,18 @@ bandit_stddev{subgraph="QmRDGLp6BHwiH9HAE2NYEE3f7LrKuRqziHBv76trT4etgU"} 1.84346
 bandit_mean{subgraph="QmRDGLp6BHwiH9HAE2NYEE3f7LrKuRqziHBv76trT4etgU"} 3.653126148672616e-05
 ```
 
-Where "bandit" refers to the reinforcement learning method (Continuum-armed bandit) used to track the market price for each subgraph.
+Where "bandit" refers to the reinforcement learning method (Continuum-armed bandit) used to track the market price for
+each subgraph.
 
 ## Developer's guide
 
+If you would like to contribute, please consult [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
 ### Installation directly from the source code
 
-To install AutoAgora directly from the source code please clone the repository and install package in the virtual environment using `poetry`:
+To install AutoAgora directly from the source code please clone the repository and install package in the virtual
+environment using `poetry`:
+
 ```console
 git clone https://github.com/semiotic-ai/autoagora.git
 cd autoagora

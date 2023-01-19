@@ -10,13 +10,10 @@ from prometheus_async.aio.web import start_http_server
 
 from autoagora.config import args, init_config
 from autoagora.indexer_utils import get_allocated_subgraphs, set_cost_model
+from autoagora.model_builder import model_update_loop
 from autoagora.price_multiplier import price_bandit_loop
 
 init_config()
-
-# Import the model builder only when "--experimental-model-builder"
-if args.experimental_model_builder:
-    from autoagora.model_builder import model_update_loop
 
 DEFAULT_AGORA_VARIABLES = {"DEFAULT_COST": 50}
 
@@ -34,7 +31,9 @@ class SubgraphUpdateLoops:
 
 async def allocated_subgraph_watcher():
     update_loops: Dict[str, SubgraphUpdateLoops] = dict()
-    excluded_subgraphs = set((args.exclude_subgraphs or "").split(","))
+    excluded_subgraphs = set(
+        (args.relative_query_costs_exclude_subgraphs or "").split(",")
+    )
 
     while True:
         try:
@@ -57,7 +56,7 @@ async def allocated_subgraph_watcher():
                     variables=DEFAULT_AGORA_VARIABLES,
                 )
 
-                if args.experimental_model_builder:
+                if args.relative_query_costs:
                     # Launch the model update loop for the new subgraph
                     update_loops[new_subgraph].model = aio.ensure_future(
                         model_update_loop(new_subgraph)
