@@ -54,4 +54,4 @@ async def model_update_loop(subgraph: str):
     while True:
         model = await model_builder(subgraph)
         await set_cost_model(subgraph, model)
-        await aio.sleep(args.agora_models_refresh_interval)
+        await aio.sleep(args.relative_query_costs_refresh_interval)

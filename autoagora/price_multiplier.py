@@ -83,7 +83,7 @@ async def price_bandit_loop(subgraph: str):
             # 3. Get the reward.
             # Get queries per second.
             queries_per_second = await environment.queries_per_second(
-                args.observation_duration
+                args.qps_observation_duration
             )
             logging.debug(
                 "Price bandit %s - Queries per second: %s", subgraph, queries_per_second

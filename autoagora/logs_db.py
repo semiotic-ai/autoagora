@@ -26,11 +26,11 @@ class LogsDB:
 
     async def connect(self) -> None:
         self.connection = await asyncpg.connect(
-            host=args.logs_postgres_host,
-            database=args.logs_postgres_database,
-            user=args.logs_postgres_username,
-            password=args.logs_postgres_password,
-            port=args.logs_postgres_port,
+            host=args.postgres_host,
+            database=args.postgres_database,
+            user=args.postgres_username,
+            password=args.postgres_password,
+            port=args.postgres_port,
         )
 
     async def get_most_frequent_queries(

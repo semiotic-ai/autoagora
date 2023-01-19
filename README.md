@@ -45,25 +45,18 @@ Therefore, only a single instance of `AutoAgora` should be running against an `i
 Configuration:
 
 ```txt
-usage: autoagora [-h] [--experimental-model-builder]
-                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--json-logs JSON_LOGS]
-                 --indexer-agent-mgmt-endpoint INDEXER_AGENT_MGMT_ENDPOINT
-                 --indexer-service-metrics-endpoint INDEXER_SERVICE_METRICS_ENDPOINT
-                 [--observation-duration OBSERVATION_DURATION]
-                 [--exclude-subgraphs EXCLUDE_SUBGRAPHS]
-                 [--agora-models-refresh-interval AGORA_MODELS_REFRESH_INTERVAL]
-                 [--logs-postgres-host LOGS_POSTGRES_HOST]
-                 [--logs-postgres-port LOGS_POSTGRES_PORT]
-                 [--logs-postgres-database LOGS_POSTGRES_DATABASE]
-                 [--logs-postgres-username LOGS_POSTGRES_USERNAME]
-                 [--logs-postgres-password LOGS_POSTGRES_PASSWORD]
+usage: autoagora [-h] [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--json-logs JSON_LOGS]
+                 --postgres-host POSTGRES_HOST [--postgres-port POSTGRES_PORT]
+                 [--postgres-database POSTGRES_DATABASE] --postgres-username POSTGRES_USERNAME
+                 --postgres-password POSTGRES_PASSWORD --indexer-agent-mgmt-endpoint
+                 INDEXER_AGENT_MGMT_ENDPOINT --indexer-service-metrics-endpoint
+                 INDEXER_SERVICE_METRICS_ENDPOINT
+                 [--qps-observation-duration QPS_OBSERVATION_DURATION] [--relative-query-costs]
+                 [--relative-query-costs-exclude-subgraphs RELATIVE_QUERY_COSTS_EXCLUDE_SUBGRAPHS]
+                 [--relative-query-costs-refresh-interval RELATIVE_QUERY_COSTS_REFRESH_INTERVAL]
 
 optional arguments:
   -h, --help            show this help message and exit
-  --experimental-model-builder
-                        Activates the relative query cost discovery. Otherwise only builds a
-                        default query pricing model with automated market price discovery. [env
-                        var: EXPERIMENTAL_MODEL_BUILDER] (default: False)
   --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
                         [env var: LOG_LEVEL] (default: WARNING)
   --json-logs JSON_LOGS
@@ -75,33 +68,42 @@ optional arguments:
   --indexer-service-metrics-endpoint INDEXER_SERVICE_METRICS_ENDPOINT
                         HTTP endpoint for the indexer-service metrics. [env var:
                         INDEXER_SERVICE_METRICS_ENDPOINT] (default: None)
-  --observation-duration OBSERVATION_DURATION
+  --qps-observation-duration QPS_OBSERVATION_DURATION
                         Duration of the measurement period of the query-per-second after a price
-                        multiplier update. [env var: MEASUREMENT_PERIOD] (default: 60)
+                        multiplier update. [env var: QPS_OBSERVATION_DURATION] (default: 60)
 
-Model Builder Options:
+Database settings:
+  Must be the same database as AutoAgora Processor's if the relative costs models generator is
+  enabled.
 
-  --exclude-subgraphs EXCLUDE_SUBGRAPHS
-                        Comma delimited list of subgraphs (ipfs hash) to exclude from model
-                        updates. [env var: EXCLUDE_SUBGRAPHS] (default: None)
-  --agora-models-refresh-interval AGORA_MODELS_REFRESH_INTERVAL
-                        Interval in seconds between rebuilds of the Agora models. [env var:
-                        AGORA_MODELS_REFRESH_INTERVAL] (default: 3600)
-  --logs-postgres-host LOGS_POSTGRES_HOST
-                        Host of the postgres instance storing the logs. [env var:
-                        LOGS_POSTGRES_HOST] (default: None)
-  --logs-postgres-port LOGS_POSTGRES_PORT
-                        Port of the postgres instance storing the logs. [env var:
-                        LOGS_POSTGRES_PORT] (default: 5432)
-  --logs-postgres-database LOGS_POSTGRES_DATABASE
-                        Name of the logs database. [env var: LOGS_POSTGRES_DATABASE] (default:
-                        None)
-  --logs-postgres-username LOGS_POSTGRES_USERNAME
-                        Username for the logs database. [env var: LOGS_POSTGRES_USERNAME]
-                        (default: None)
-  --logs-postgres-password LOGS_POSTGRES_PASSWORD
-                        Password for the logs database. [env var: LOGS_POSTGRES_PASSWORD]
-                        (default: None)
+  --postgres-host POSTGRES_HOST
+                        Host of the postgres instance to be used by AutoAgora. [env var:
+                        POSTGRES_HOST] (default: None)
+  --postgres-port POSTGRES_PORT
+                        Port of the postgres instance to be used by AutoAgora. [env var:
+                        POSTGRES_PORT] (default: 5432)
+  --postgres-database POSTGRES_DATABASE
+                        Name of the database to be used by AutoAgora. [env var: POSTGRES_DATABASE]
+                        (default: autoagora)
+  --postgres-username POSTGRES_USERNAME
+                        Username for the database to be used by AutoAgora. [env var:
+                        POSTGRES_USERNAME] (default: None)
+  --postgres-password POSTGRES_PASSWORD
+                        Password for the database to be used by AutoAgora. [env var:
+                        POSTGRES_PASSWORD] (default: None)
+
+Relative query costs generator settings:
+  --relative-query-costs
+                        (EXPERIMENTAL) Enables the relative query cost generator. Otherwise only
+                        builds a default query pricing model with automated market price
+                        discovery. [env var: RELATIVE_QUERY_COSTS] (default: False)
+  --relative-query-costs-exclude-subgraphs RELATIVE_QUERY_COSTS_EXCLUDE_SUBGRAPHS
+                        Comma delimited list of subgraphs (ipfs hash) to exclude from the relative
+                        query costs model generator. [env var:
+                        RELATIVE_QUERY_COSTS_EXCLUDE_SUBGRAPHS] (default: None)
+  --relative-query-costs-refresh-interval RELATIVE_QUERY_COSTS_REFRESH_INTERVAL
+                        (Seconds) Interval between rebuilds of the relative query costs models.
+                        [env var: RELATIVE_QUERY_COSTS_REFRESH_INTERVAL] (default: 3600)
 
  If an arg is specified in more than one place, then commandline values override environment
 variables which override defaults.
