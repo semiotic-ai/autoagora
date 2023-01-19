@@ -3,7 +3,6 @@ name = "autoagora"
 version = "0.0.0"
 authors = [
     "Alexis Asseman <alexis@semiotic.ai>",
-    "Matt Deible <matt@semiotic.ai>",
     "Tomasz Kornuta <tomasz@semiotic.ai>"
 ]
 description = "Agora model automation for The Graph indexers."
