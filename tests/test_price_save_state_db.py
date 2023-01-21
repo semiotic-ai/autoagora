@@ -1,9 +1,11 @@
 import random
 import string
+from math import exp, log
 
 import asyncpg
 import pytest
 from autoagora_agents.agent_factory import AgentFactory
+from numpy.testing import assert_approx_equal
 
 from autoagora import price_save_state_db
 
@@ -93,6 +95,9 @@ class TestPriceSaveStateDB:
     async def test_save_reload_agent(self, pssdb):
         random.seed(42)
 
+        mean = 5e-8
+        stddev = 1e-1
+
         subgraph = "".join(random.choices(string.ascii_letters + string.digits, k=46))
 
         # Create pricing agent
@@ -100,8 +105,8 @@ class TestPriceSaveStateDB:
             "policy": {"type": "rolling_ppo", "buffer_max_size": 10},
             "action": {
                 "type": "scaled_gaussian",
-                "initial_mean": 5e-8,
-                "initial_stddev": 1e-7,
+                "initial_mean": mean,
+                "initial_stddev": stddev,
             },
             "optimizer": {"type": "adam", "lr": 0.01},
         }
@@ -109,10 +114,13 @@ class TestPriceSaveStateDB:
             agent_name="RollingMemContinuousBandit", agent_section=agent_section
         )
 
+        assert_approx_equal(actual=bandit.bid_scale(bandit.mean().item()), desired=mean)
+        assert_approx_equal(actual=bandit.stddev().item(), desired=stddev)
+
         await pssdb.save_state(
             subgraph=subgraph,
             mean=bandit.bid_scale(bandit.mean().item()),
-            stddev=bandit.bid_scale(bandit.stddev().item()),
+            stddev=bandit.stddev().item(),
         )
 
         del bandit
@@ -131,3 +139,6 @@ class TestPriceSaveStateDB:
         bandit = AgentFactory(
             agent_name="RollingMemContinuousBandit", agent_section=agent_section
         )
+
+        assert_approx_equal(actual=bandit.bid_scale(bandit.mean().item()), desired=mean)
+        assert_approx_equal(actual=bandit.stddev().item(), desired=stddev)

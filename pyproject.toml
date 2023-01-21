@@ -34,7 +34,7 @@ asyncpg = "^0.27.0"
 prometheus-async = {extras = ["aiohttp"], version = "^22.1.0"}
 backoff = "^2.2.1"
 python-json-logger = "^2.0.4"
-autoagora-agents = {git = "https://github.com/semiotic-ai/autoagora-agents.git", tag = "v1.0.1"}
+autoagora-agents = {git = "https://github.com/semiotic-ai/autoagora-agents.git", rev = "v1.2.1"}
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.1.0"

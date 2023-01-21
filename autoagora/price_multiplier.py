@@ -44,7 +44,7 @@ async def price_bandit_loop(subgraph: str, pgpool: asyncpg.Pool):
         start_mean, start_stddev = await restore_from_save_state(
             subgraph=subgraph,
             default_mean=5e-8,
-            default_stddev=1e-7,
+            default_stddev=1e-1,
             max_save_state_age=timedelta(hours=24),
             save_state_db=save_state_db,
         )
@@ -89,7 +89,7 @@ async def price_bandit_loop(subgraph: str, pgpool: asyncpg.Pool):
             await save_state_db.save_state(
                 subgraph=subgraph,
                 mean=bandit.bid_scale(bandit.mean().item()),
-                stddev=bandit.bid_scale(bandit.stddev().item()),
+                stddev=bandit.stddev().item(),
             )
 
             # 1. Get bid from the agent (action)

@@ -258,7 +258,7 @@ tests-no-zope = ["cloudpickle", "cloudpickle", "hypothesis", "hypothesis", "mypy
 
 [[package]]
 name = "autoagora-agents"
-version = "0.0.0"
+version = "1.0.0.post4.dev0+59b17ae"
 description = ""
 category = "main"
 optional = false
@@ -287,8 +287,8 @@ torch = [
 [package.source]
 type = "git"
 url = "https://github.com/semiotic-ai/autoagora-agents.git"
-reference = "v1.0.1"
-resolved_reference = "f8f38ff361a31bee082f051a5d3961868a2a4c65"
+reference = "v1.2.1"
+resolved_reference = "c3f134023904ee5e49def8192548865ac3e23ba6"
 
 [[package]]
 name = "babel"
@@ -2310,4 +2310,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<3.11"
-content-hash = "dd3605057bf33022e83be6c0520a289f204dfe20a8fffaef85fc124074af0dbe"
+content-hash = "cf700fe9bbd27b16243888a3f85df9ca48e3fa8c7c35bd1357f595c5efd9cc0f"
