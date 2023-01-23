@@ -35,7 +35,6 @@ prometheus-async = {extras = ["aiohttp"], version = "^22.1.0"}
 backoff = "^2.2.1"
 python-json-logger = "^2.0.4"
 autoagora-agents = {git = "https://github.com/semiotic-ai/autoagora-agents.git", tag = "v1.0.1"}
-vcrpy = "^4.2.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.1.0"
@@ -48,6 +47,7 @@ sphinxcontrib-napoleon = "^0.7"
 myst-parser = "^0.17.2"
 pylint = "^2.14.5"
 pytest-cov = "^4.0.0"
+vcrpy = "^4.2.1"
 
 [tool.semantic_release]
 upload_to_repository = false
