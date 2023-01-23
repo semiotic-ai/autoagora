@@ -12,6 +12,12 @@ class TestQueryMetrics:
             [
                 "--indexer-agent-mgmt-endpoint",
                 "http://nowhere",
+                "--postgres-host",
+                "nowhere",
+                "--postgres-username",
+                "nowhere",
+                "--postgres-password",
+                "nowhere",
                 "--indexer-service-metrics-endpoint",
                 "http://indexer-service.default.svc.cluster.local:7300/metrics",
             ]
@@ -29,6 +35,12 @@ class TestQueryMetrics:
             [
                 "--indexer-agent-mgmt-endpoint",
                 "http://nowhere",
+                "--postgres-host",
+                "nowhere",
+                "--postgres-username",
+                "nowhere",
+                "--postgres-password",
+                "nowhere",
                 "--indexer-service-metrics-endpoint",
                 "http://indexer-service-0:7300/metrics,http://indexer-service-1:7300/metrics",
             ]
