@@ -110,7 +110,7 @@ def init_config(argv: Optional[Sequence[str]] = None):
         "--indexer-service-metrics-endpoint",
         env_var="INDEXER_SERVICE_METRICS_ENDPOINT",
         required=True,
-        help="HTTP endpoint for the indexer-service metrics.",
+        help="HTTP endpoint for the indexer-service metrics. Can be a comma-separated for multiple endpoints.",
     )
 
     #
