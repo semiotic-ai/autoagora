@@ -28,12 +28,14 @@ async def subgraph_query_count(subgraph: str) -> int:
                 if response.status != 200:
                     raise HTTPError(response.status)
 
-                results.extend(re.findall(
-                    r'indexer_service_queries_ok{{deployment="{subgraph}"}} ([0-9]*)'.format(
-                        subgraph=subgraph
-                    ),
-                    await response.text()
-                ))
+                results.extend(
+                    re.findall(
+                        r'indexer_service_queries_ok{{deployment="{subgraph}"}} ([0-9]*)'.format(
+                            subgraph=subgraph
+                        ),
+                        await response.text(),
+                    )
+                )
 
     if len(results) == 0:
         # The subgraph query count will not be in the metric if it hasn't received any
