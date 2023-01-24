@@ -66,8 +66,9 @@ optional arguments:
                         URL to the indexer-agent management GraphQL endpoint. [env var:
                         INDEXER_AGENT_MGMT_ENDPOINT] (default: None)
   --indexer-service-metrics-endpoint INDEXER_SERVICE_METRICS_ENDPOINT
-                        HTTP endpoint for the indexer-service metrics. [env var:
-                        INDEXER_SERVICE_METRICS_ENDPOINT] (default: None)
+                        HTTP endpoint for the indexer-service metrics. Can be a comma-separated 
+                        for multiple endpoints. [env var: INDEXER_SERVICE_METRICS_ENDPOINT]
+                        (default: None)
   --qps-observation-duration QPS_OBSERVATION_DURATION
                         Duration of the measurement period of the query-per-second after a price
                         multiplier update. [env var: QPS_OBSERVATION_DURATION] (default: 60)
