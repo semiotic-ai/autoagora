@@ -4,6 +4,7 @@
 import asyncio as aio
 import logging
 
+import asyncpg
 import graphql
 
 from autoagora.config import args
@@ -11,10 +12,8 @@ from autoagora.indexer_utils import set_cost_model
 from autoagora.logs_db import LogsDB
 
 
-async def model_builder(subgraph: str) -> str:
-    logs_db = LogsDB()
-    await logs_db.connect()
-
+async def model_builder(subgraph: str, pgpool: asyncpg.Pool) -> str:
+    logs_db = LogsDB(pgpool)
     agora_entries = []
 
     most_frequent_queries = await logs_db.get_most_frequent_queries(subgraph)
@@ -50,8 +49,8 @@ async def model_builder(subgraph: str) -> str:
     return model
 
 
-async def model_update_loop(subgraph: str):
+async def model_update_loop(subgraph: str, pgpool):
     while True:
-        model = await model_builder(subgraph)
+        model = await model_builder(subgraph, pgpool)
         await set_cost_model(subgraph, model)
         await aio.sleep(args.relative_query_costs_refresh_interval)

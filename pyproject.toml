@@ -30,11 +30,11 @@ graphql-core = "^3.2.0"
 base58 = "^2.1.1"
 aiohttp = "^3.8.1"
 gql = {extras = ["aiohttp"], version = "^3.2.0"}
-asyncpg = "^0.25.0"
+asyncpg = "^0.27.0"
 prometheus-async = {extras = ["aiohttp"], version = "^22.1.0"}
 backoff = "^2.2.1"
 python-json-logger = "^2.0.4"
-autoagora-agents = {git = "https://github.com/semiotic-ai/autoagora-agents.git", tag = "v1.0.1"}
+autoagora-agents = {git = "https://github.com/semiotic-ai/autoagora-agents.git", rev = "v1.2.1"}
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.1.0"
@@ -48,6 +48,9 @@ myst-parser = "^0.17.2"
 pylint = "^2.14.5"
 pytest-cov = "^4.0.0"
 vcrpy = "^4.2.1"
+pytest-postgresql = "^4.1.1"
+psycopg = {extras = ["binary"], version = "^3.1.8"}
+pytest-asyncio = "^0.20.3"
 
 [tool.semantic_release]
 upload_to_repository = false
@@ -67,6 +70,7 @@ addopts = "--strict-markers --durations=5 -vv"
 markers = [
     "unit: marks tests as unit tests",
 ]
+asyncio_mode = "auto"
 
 [tool.pylint.typecheck]
 # List of members which are set dynamically and missed by pylint inference system, and

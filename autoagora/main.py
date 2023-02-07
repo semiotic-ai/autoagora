@@ -6,6 +6,7 @@ import logging
 from dataclasses import dataclass
 from typing import Dict, Optional
 
+import asyncpg
 from prometheus_async.aio.web import start_http_server
 
 from autoagora.config import args, init_config
@@ -35,6 +36,23 @@ async def allocated_subgraph_watcher():
         (args.relative_query_costs_exclude_subgraphs or "").split(",")
     )
 
+    try:
+        pgpool = await asyncpg.create_pool(
+            host=args.postgres_host,
+            database=args.postgres_database,
+            user=args.postgres_username,
+            password=args.postgres_password,
+            port=args.postgres_port,
+            min_size=1,
+            max_size=args.postgres_max_connections,
+        )
+        assert pgpool
+    except:
+        logging.exception(
+            "Error while creating connection pool to the PostgreSQL database."
+        )
+        raise
+
     while True:
         try:
             allocated_subgraphs = (await get_allocated_subgraphs()) - excluded_subgraphs
@@ -59,7 +77,7 @@ async def allocated_subgraph_watcher():
                 if args.relative_query_costs:
                     # Launch the model update loop for the new subgraph
                     update_loops[new_subgraph].model = aio.ensure_future(
-                        model_update_loop(new_subgraph)
+                        model_update_loop(new_subgraph, pgpool)
                     )
                     logging.info(
                         "Added model update loop for subgraph %s", new_subgraph
@@ -67,7 +85,7 @@ async def allocated_subgraph_watcher():
 
                 # Launch the price multiplier update loop for the new subgraph
                 update_loops[new_subgraph].bandit = aio.ensure_future(
-                    price_bandit_loop(new_subgraph)
+                    price_bandit_loop(new_subgraph, pgpool)
                 )
                 logging.info(
                     "Added price multiplier update loop for subgraph %s", new_subgraph

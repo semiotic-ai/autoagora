@@ -92,6 +92,14 @@ def init_config(argv: Optional[Sequence[str]] = None):
         required=True,
         help="Password for the database to be used by AutoAgora.",
     )
+    argparser_database_group.add_argument(
+        "--postgres-max-connections",
+        default=1,
+        type=int,
+        env_var="POSTGRES_MAX_CONNECTIONS",
+        required=False,
+        help="Maximum postgres connections (internal pool).",
+    )
 
     #
     # Indexer utils
