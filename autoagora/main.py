@@ -43,6 +43,8 @@ async def allocated_subgraph_watcher():
             user=args.postgres_username,
             password=args.postgres_password,
             port=args.postgres_port,
+            min_size=1,
+            max_size=args.postgres_max_connections,
         )
         assert pgpool
     except:
