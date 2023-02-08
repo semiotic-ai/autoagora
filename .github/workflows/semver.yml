@@ -44,7 +44,7 @@ jobs:
       uses: redhat-actions/buildah-build@v2
       with:
         image: autoagora
-        tags: latest v${{ needs.release.outputs.published_version }}. v${{ needs.release.outputs.published_version }}
+        tags: latest v${{ needs.release.outputs.published_version }} v${{ needs.release.outputs.published_version }}
         containerfiles: |
           ./Dockerfile
     - name: Push
