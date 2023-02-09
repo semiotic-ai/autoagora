@@ -15,6 +15,9 @@ jobs:
     outputs:      
       published: ${{ steps.release.outputs.published }}
       published_version: ${{ steps.release.outputs.published_version }}
+      published_version_major: ${{ steps.release.outputs.published_version_major }}
+      published_version_minor: ${{ steps.release.outputs.published_version_minor }}
+      published_version_patch: ${{ steps.release.outputs.published_version_patch }}
 
     steps:
     - uses: actions/checkout@v3
@@ -44,7 +47,11 @@ jobs:
       uses: redhat-actions/buildah-build@v2
       with:
         image: autoagora
-        tags: latest v${{ needs.release.outputs.published_version }} v${{ needs.release.outputs.published_version }}
+        tags: >
+          latest
+          v${{ needs.release.outputs.published_version_major }}
+          v${{ needs.release.outputs.published_version_major }}.${{ needs.release.outputs.published_version_minor }}
+          v${{ needs.release.outputs.published_version}}
         containerfiles: |
           ./Dockerfile
     - name: Push
