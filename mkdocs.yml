@@ -1,0 +1,52 @@
+# Project information
+site_name: AutoAgora
+site_url: https://semiotic-ai.github.io/autoagora/
+
+# Repository
+repo_name: semiotic-ai/autoagora
+repo_url: https://github.com/semiotic-ai/autoagora
+edit_uri: ""
+
+# Configuration
+theme: 
+  name: material
+  features:
+    - navigation.tabs
+    - toc.integrate
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    primary: teal
+    accent: purple
+
+plugins:
+- search
+- mkdocstrings:
+    default_handler: python
+    handlers:
+      python:
+        options:
+          docstring_section_style: list
+          members_order: source
+          show_root_heading: true
+          show_signature_annotations: true
+          heading_level: 3
+          filters: ["!_"]
+- mike
+
+# Customization
+extra:
+  version:
+    provider: mike
+    default: latest
+
+markdown_extensions:
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+nav:
+  - Home : README.md

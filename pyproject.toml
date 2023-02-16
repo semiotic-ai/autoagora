@@ -40,17 +40,22 @@ autoagora-agents = {git = "https://github.com/semiotic-ai/autoagora-agents.git",
 black = "^22.1.0"
 isort = "^5.10.1"
 pytest = "^7.1.2"
-sphinx = "^4.5.0"
-sphinx-rtd-theme = "^1.0.0"
 pyright = "^1.1.244"
-sphinxcontrib-napoleon = "^0.7"
-myst-parser = "^0.17.2"
 pylint = "^2.14.5"
 pytest-cov = "^4.0.0"
 vcrpy = "^4.2.1"
 pytest-postgresql = "^4.1.1"
 psycopg = {extras = ["binary"], version = "^3.1.8"}
 pytest-asyncio = "^0.20.3"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.4.2"
+mkdocs-material = "^9.0.8"
+mkdocstrings-python = "^0.8.3"
+mike = "^1.1.2"
 
 [tool.semantic_release]
 upload_to_repository = false
