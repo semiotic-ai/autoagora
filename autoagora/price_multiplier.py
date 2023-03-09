@@ -12,6 +12,7 @@ from prometheus_client import Gauge
 
 from autoagora.config import args
 from autoagora.price_save_state_db import PriceSaveStateDB
+from autoagora.query_metrics import MetricsEndpoints
 from autoagora.subgraph_wrapper import SubgraphWrapper
 
 reward_gauge = Gauge(
@@ -34,7 +35,9 @@ mean_gauge = Gauge(
 )
 
 
-async def price_bandit_loop(subgraph: str, pgpool: asyncpg.Pool):
+async def price_bandit_loop(
+    subgraph: str, pgpool: asyncpg.Pool, metrics_endpoints: MetricsEndpoints
+):
     try:
         # Instantiate environment.
         environment = SubgraphWrapper(subgraph)
@@ -85,7 +88,7 @@ async def price_bandit_loop(subgraph: str, pgpool: asyncpg.Pool):
 
             # Update the save state
             # NOTE: `bid_scale` is specific to "scaled_gaussian" agent action type
-            logging.debug("Price bandit %s - Saving state to DB.")
+            logging.debug("Price bandit %s - Saving state to DB.", subgraph)
             await save_state_db.save_state(
                 subgraph=subgraph,
                 mean=bandit.bid_scale(bandit.mean().item()),
@@ -106,7 +109,7 @@ async def price_bandit_loop(subgraph: str, pgpool: asyncpg.Pool):
             # 3. Get the reward.
             # Get queries per second.
             queries_per_second = await environment.queries_per_second(
-                args.qps_observation_duration
+                metrics_endpoints, args.qps_observation_duration
             )
             logging.debug(
                 "Price bandit %s - Queries per second: %s", subgraph, queries_per_second
