@@ -8,6 +8,8 @@ from kubernetes import client, config, watch
 from kubernetes.client.api_client import ApiClient
 from kubernetes.client.rest import ApiException
 
+from autoagora.misc import async_exit_on_exception
+
 
 class K8SServiceEndpointsWatcher:
     def __init__(self, service_name: str) -> None:
@@ -47,6 +49,7 @@ class K8SServiceEndpointsWatcher:
         # Starts the async _loop immediately
         self._future = aio.ensure_future(self._watch_loop())
 
+    @async_exit_on_exception()
     async def _watch_loop(self) -> None:
         """Restarts the k8s watch on expiration."""
         while True:
