@@ -49,9 +49,10 @@ Configuration:
 usage: autoagora [-h] [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--json-logs JSON_LOGS]
                  --postgres-host POSTGRES_HOST [--postgres-port POSTGRES_PORT]
                  [--postgres-database POSTGRES_DATABASE] --postgres-username POSTGRES_USERNAME
-                 --postgres-password POSTGRES_PASSWORD --indexer-agent-mgmt-endpoint
-                 INDEXER_AGENT_MGMT_ENDPOINT --indexer-service-metrics-endpoint
-                 INDEXER_SERVICE_METRICS_ENDPOINT
+                 --postgres-password POSTGRES_PASSWORD
+                 [--postgres-max-connections POSTGRES_MAX_CONNECTIONS]
+                 --indexer-agent-mgmt-endpoint INDEXER_AGENT_MGMT_ENDPOINT
+                 (--indexer-service-metrics-endpoint INDEXER_SERVICE_METRICS_ENDPOINT | --indexer-service-metrics-k8s-service INDEXER_SERVICE_METRICS_K8S_SERVICE)
                  [--qps-observation-duration QPS_OBSERVATION_DURATION] [--relative-query-costs]
                  [--relative-query-costs-exclude-subgraphs RELATIVE_QUERY_COSTS_EXCLUDE_SUBGRAPHS]
                  [--relative-query-costs-refresh-interval RELATIVE_QUERY_COSTS_REFRESH_INTERVAL]
@@ -66,10 +67,6 @@ optional arguments:
   --indexer-agent-mgmt-endpoint INDEXER_AGENT_MGMT_ENDPOINT
                         URL to the indexer-agent management GraphQL endpoint. [env var:
                         INDEXER_AGENT_MGMT_ENDPOINT] (default: None)
-  --indexer-service-metrics-endpoint INDEXER_SERVICE_METRICS_ENDPOINT
-                        HTTP endpoint for the indexer-service metrics. Can be a comma-separated 
-                        for multiple endpoints. [env var: INDEXER_SERVICE_METRICS_ENDPOINT]
-                        (default: None)
   --qps-observation-duration QPS_OBSERVATION_DURATION
                         Duration of the measurement period of the query-per-second after a price
                         multiplier update. [env var: QPS_OBSERVATION_DURATION] (default: 60)
@@ -85,14 +82,28 @@ Database settings:
                         Port of the postgres instance to be used by AutoAgora. [env var:
                         POSTGRES_PORT] (default: 5432)
   --postgres-database POSTGRES_DATABASE
-                        Name of the database to be used by AutoAgora. [env var: POSTGRES_DATABASE]
-                        (default: autoagora)
+                        Name of the database to be used by AutoAgora. [env var:
+                        POSTGRES_DATABASE] (default: autoagora)
   --postgres-username POSTGRES_USERNAME
                         Username for the database to be used by AutoAgora. [env var:
                         POSTGRES_USERNAME] (default: None)
   --postgres-password POSTGRES_PASSWORD
                         Password for the database to be used by AutoAgora. [env var:
                         POSTGRES_PASSWORD] (default: None)
+  --postgres-max-connections POSTGRES_MAX_CONNECTIONS
+                        Maximum postgres connections (internal pool). [env var:
+                        POSTGRES_MAX_CONNECTIONS] (default: 1)
+
+Indexer-service metrics endpoint. Exactly one argument required:
+  --indexer-service-metrics-endpoint INDEXER_SERVICE_METRICS_ENDPOINT
+                        HTTP endpoint for the indexer-service metrics. Can be a comma-separated
+                        for multiple endpoints. [env var: INDEXER_SERVICE_METRICS_ENDPOINT]
+                        (default: None)
+  --indexer-service-metrics-k8s-service INDEXER_SERVICE_METRICS_K8S_SERVICE
+                        Kubernetes service name for the indexer-service and pod port serving its
+                        metrics. Will watch the service's endpoint IPs continuously for changes.
+                        Format: <scheme>://<service_name>:<pod_metrics_port>/<path>. [env var:
+                        INDEXER_SERVICE_METRICS_K8S_SERVICE] (default: None)
 
 Relative query costs generator settings:
   --relative-query-costs
@@ -100,8 +111,8 @@ Relative query costs generator settings:
                         builds a default query pricing model with automated market price
                         discovery. [env var: RELATIVE_QUERY_COSTS] (default: False)
   --relative-query-costs-exclude-subgraphs RELATIVE_QUERY_COSTS_EXCLUDE_SUBGRAPHS
-                        Comma delimited list of subgraphs (ipfs hash) to exclude from the relative
-                        query costs model generator. [env var:
+                        Comma delimited list of subgraphs (ipfs hash) to exclude from the
+                        relative query costs model generator. [env var:
                         RELATIVE_QUERY_COSTS_EXCLUDE_SUBGRAPHS] (default: None)
   --relative-query-costs-refresh-interval RELATIVE_QUERY_COSTS_REFRESH_INTERVAL
                         (Seconds) Interval between rebuilds of the relative query costs models.
