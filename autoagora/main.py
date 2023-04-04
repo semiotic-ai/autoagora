@@ -13,6 +13,10 @@ from autoagora.config import args, init_config
 from autoagora.indexer_utils import get_allocated_subgraphs, set_cost_model
 from autoagora.model_builder import model_update_loop
 from autoagora.price_multiplier import price_bandit_loop
+from autoagora.query_metrics import (
+    K8SServiceWatcherMetricsEndpoints,
+    StaticMetricsEndpoints,
+)
 
 init_config()
 
@@ -36,6 +40,7 @@ async def allocated_subgraph_watcher():
         (args.relative_query_costs_exclude_subgraphs or "").split(",")
     )
 
+    # Initialize connection pool to PG database
     try:
         pgpool = await asyncpg.create_pool(
             host=args.postgres_host,
@@ -52,6 +57,16 @@ async def allocated_subgraph_watcher():
             "Error while creating connection pool to the PostgreSQL database."
         )
         raise
+
+    # Initialize indexer-service metrics endpoints
+    if args.indexer_service_metrics_endpoint:  # static list
+        metrics_endpoints = StaticMetricsEndpoints(
+            args.indexer_service_metrics_endpoint
+        )
+    else:  # auto from k8s
+        metrics_endpoints = K8SServiceWatcherMetricsEndpoints(
+            args.indexer_service_metrics_k8s_service
+        )
 
     while True:
         try:
@@ -85,7 +100,7 @@ async def allocated_subgraph_watcher():
 
                 # Launch the price multiplier update loop for the new subgraph
                 update_loops[new_subgraph].bandit = aio.ensure_future(
-                    price_bandit_loop(new_subgraph, pgpool)
+                    price_bandit_loop(new_subgraph, pgpool, metrics_endpoints)
                 )
                 logging.info(
                     "Added price multiplier update loop for subgraph %s", new_subgraph

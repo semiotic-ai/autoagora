@@ -114,11 +114,28 @@ def init_config(argv: Optional[Sequence[str]] = None):
     #
     # Query volume metrics
     #
-    argparser.add_argument(
+
+    indexer_service_metrics_endpoint_group = argparser.add_argument_group(
+        "Indexer-service metrics endpoint. Exactly one argument required"
+    )
+    indexer_service_metrics_endpoint_exclusive_group = (
+        indexer_service_metrics_endpoint_group.add_mutually_exclusive_group(
+            required=True
+        )
+    )
+    indexer_service_metrics_endpoint_exclusive_group.add_argument(
         "--indexer-service-metrics-endpoint",
         env_var="INDEXER_SERVICE_METRICS_ENDPOINT",
-        required=True,
         help="HTTP endpoint for the indexer-service metrics. Can be a comma-separated for multiple endpoints.",
+    )
+    indexer_service_metrics_endpoint_exclusive_group.add_argument(
+        "--indexer-service-metrics-k8s-service",
+        env_var="INDEXER_SERVICE_METRICS_K8S_SERVICE",
+        help="""
+        Kubernetes service name for the indexer-service and pod port serving its
+        metrics. Will watch the service's endpoint IPs continuously for changes.
+        Format: <scheme>://<service_name>:<pod_metrics_port>/<path>.
+        """,
     )
 
     #

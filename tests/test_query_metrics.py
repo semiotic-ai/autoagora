@@ -3,7 +3,8 @@ import asyncio
 import vcr
 
 import autoagora.query_metrics
-from autoagora.config import init_config
+from autoagora.config import args, init_config
+from autoagora.query_metrics import StaticMetricsEndpoints
 
 
 class TestQueryMetrics:
@@ -22,10 +23,15 @@ class TestQueryMetrics:
                 "http://indexer-service.default.svc.cluster.local:7300/metrics",
             ]
         )
+
+        metrics_endpoints = StaticMetricsEndpoints(
+            args.indexer_service_metrics_endpoint
+        )
+
         with vcr.use_cassette("vcr_cassettes/test_subgraph_query_count.yaml"):
             res = asyncio.run(
                 autoagora.query_metrics.subgraph_query_count(
-                    "Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"
+                    "Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH", metrics_endpoints
                 )
             )
         assert res == 938
@@ -45,12 +51,17 @@ class TestQueryMetrics:
                 "http://indexer-service-0:7300/metrics,http://indexer-service-1:7300/metrics",
             ]
         )
+
+        metrics_endpoints = StaticMetricsEndpoints(
+            args.indexer_service_metrics_endpoint
+        )
+
         with vcr.use_cassette(
             "vcr_cassettes/test_subgraph_query_count_multiple_endpoints.yaml"
         ):
             res = asyncio.run(
                 autoagora.query_metrics.subgraph_query_count(
-                    "Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"
+                    "Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH", metrics_endpoints
                 )
             )
         assert res == 2607
