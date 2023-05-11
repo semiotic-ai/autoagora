@@ -1,0 +1,546 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://semiotic-ai.github.io/autoagora/v1.4.0/">
+      
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.5">
+    
+    
+      
+        <title>AutoAgora</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.7a7fce14.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="purple">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#autoagora" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="AutoAgora" class="md-header__button md-logo" aria-label="AutoAgora" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AutoAgora
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/semiotic-ai/autoagora" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    semiotic-ai/autoagora
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="." class="md-tabs__link md-tabs__link--active">
+      Home
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="AutoAgora" class="md-nav__button md-logo" aria-label="AutoAgora" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    AutoAgora
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/semiotic-ai/autoagora" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    semiotic-ai/autoagora
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        Home
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#indexers-guide" class="md-nav__link">
+    Indexer's guide
+  </a>
+  
+    <nav class="md-nav" aria-label="Indexer's guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build" class="md-nav__link">
+    Build
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#developers-guide" class="md-nav__link">
+    Developer's guide
+  </a>
+  
+    <nav class="md-nav" aria-label="Developer's guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation-directly-from-the-source-code" class="md-nav__link">
+    Installation directly from the source code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-the-autoagora-code" class="md-nav__link">
+    Running the AutoAgora code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-the-test-suite" class="md-nav__link">
+    Running the test suite
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<p><a href="https://coveralls.io/github/semiotic-ai/autoagora"><img alt="Coveralls" src="https://img.shields.io/coveralls/github/semiotic-ai/autoagora" /></a>
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
+<a href="https://pycqa.github.io/isort/"><img alt="Imports: isort" src="https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&amp;labelColor=ef8336" /></a>
+<a href="https://conventionalcommits.org"><img alt="Conventional Commits" src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&amp;logoColor=white" /></a>
+<a href="https://semver.org/spec/v2.0.0.html"><img alt="Semantic Versioning" src="https://img.shields.io/badge/semver-2.0.0-green" /></a>
+<a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
+<a href="https://semoitic-ai.github.io/autoagora/"><img alt="Docs" src="https://img.shields.io/github/actions/workflow/status/semiotic-ai/autoagora/semver.yml?label=docs" /></a></p>
+<h1 id="autoagora">AutoAgora</h1>
+<p><strong>AutoAgora is <em>beta</em> software. Please use responsibly, monitor it (Prometheus metrics)
+, <a href="CONTRIBUTING.md">write issues and contribute</a>!</strong></p>
+<p>An <a href="https://github.com/graphprotocol/agora">Agora</a> cost model automation tool for The Graph indexers:</p>
+<ul>
+<li>Automates the creation of relative prices for commonly seen query skeletons. (Off by default).</li>
+<li>Continuously tunes a per-subgraph absolute price multiplier, using continuous online reinforcement learning.</li>
+</ul>
+<h2 id="indexers-guide">Indexer's guide</h2>
+<h3 id="build">Build</h3>
+<p>Just build the container!</p>
+<div class="highlight"><pre><span></span><code><span class="go">docker build -t autoagora .</span>
+</code></pre></div>
+<h3 id="usage">Usage</h3>
+<p>For AutoAgora's relative query costs generator, you will also need to set up:</p>
+<ul>
+<li><a href="https://github.com/semiotic-ai/autoagora-indexer-service">AutoAgora indexer-service</a></li>
+<li><a href="https://github.com/semiotic-ai/autoagora-processor">AutoAgora Processor</a></li>
+</ul>
+<p>AutoAgora will continuously:</p>
+<ul>
+<li>Watch for the indexer's current allocations by querying the <code>indexer-agent</code>'s management GraphQL endpoint.</li>
+<li>Analyze the query logs stored in a PostgreSQL database (relative query costs generator) -- logs that were previously
+  processed by the <code>AutoAgora indexer-service</code> wrapper and the <code>AutoAgora Processor</code>.</li>
+<li>Gather query metrics from the <code>indexer-service</code>'s prometheus metrics endpoint.</li>
+<li>Update the allocated subgraph's cost models by sending mutations to the <code>indexer-agent</code>'s management GraphQL endpoint.</li>
+</ul>
+<p>Therefore, only a single instance of <code>AutoAgora</code> should be running against an <code>indexer-agent</code>.</p>
+<p>Configuration:</p>
+<div class="highlight"><pre><span></span><code>usage: autoagora [-h] [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--json-logs JSON_LOGS]
+                 --postgres-host POSTGRES_HOST [--postgres-port POSTGRES_PORT]
+                 [--postgres-database POSTGRES_DATABASE] --postgres-username POSTGRES_USERNAME
+                 --postgres-password POSTGRES_PASSWORD
+                 [--postgres-max-connections POSTGRES_MAX_CONNECTIONS]
+                 --indexer-agent-mgmt-endpoint INDEXER_AGENT_MGMT_ENDPOINT
+                 (--indexer-service-metrics-endpoint INDEXER_SERVICE_METRICS_ENDPOINT | --indexer-service-metrics-k8s-service INDEXER_SERVICE_METRICS_K8S_SERVICE)
+                 [--qps-observation-duration QPS_OBSERVATION_DURATION] [--relative-query-costs]
+                 [--relative-query-costs-exclude-subgraphs RELATIVE_QUERY_COSTS_EXCLUDE_SUBGRAPHS]
+                 [--relative-query-costs-refresh-interval RELATIVE_QUERY_COSTS_REFRESH_INTERVAL]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+                        [env var: LOG_LEVEL] (default: WARNING)
+  --json-logs JSON_LOGS
+                        Output logs in JSON format. Compatible with GKE. [env var: JSON_LOGS]
+                        (default: False)
+  --indexer-agent-mgmt-endpoint INDEXER_AGENT_MGMT_ENDPOINT
+                        URL to the indexer-agent management GraphQL endpoint. [env var:
+                        INDEXER_AGENT_MGMT_ENDPOINT] (default: None)
+  --qps-observation-duration QPS_OBSERVATION_DURATION
+                        Duration of the measurement period of the query-per-second after a price
+                        multiplier update. [env var: QPS_OBSERVATION_DURATION] (default: 60)
+
+Database settings:
+  Must be the same database as AutoAgora Processor&#39;s if the relative costs models generator is
+  enabled.
+
+  --postgres-host POSTGRES_HOST
+                        Host of the postgres instance to be used by AutoAgora. [env var:
+                        POSTGRES_HOST] (default: None)
+  --postgres-port POSTGRES_PORT
+                        Port of the postgres instance to be used by AutoAgora. [env var:
+                        POSTGRES_PORT] (default: 5432)
+  --postgres-database POSTGRES_DATABASE
+                        Name of the database to be used by AutoAgora. [env var:
+                        POSTGRES_DATABASE] (default: autoagora)
+  --postgres-username POSTGRES_USERNAME
+                        Username for the database to be used by AutoAgora. [env var:
+                        POSTGRES_USERNAME] (default: None)
+  --postgres-password POSTGRES_PASSWORD
+                        Password for the database to be used by AutoAgora. [env var:
+                        POSTGRES_PASSWORD] (default: None)
+  --postgres-max-connections POSTGRES_MAX_CONNECTIONS
+                        Maximum postgres connections (internal pool). [env var:
+                        POSTGRES_MAX_CONNECTIONS] (default: 1)
+
+Indexer-service metrics endpoint. Exactly one argument required:
+  --indexer-service-metrics-endpoint INDEXER_SERVICE_METRICS_ENDPOINT
+                        HTTP endpoint for the indexer-service metrics. Can be a comma-separated
+                        for multiple endpoints. [env var: INDEXER_SERVICE_METRICS_ENDPOINT]
+                        (default: None)
+  --indexer-service-metrics-k8s-service INDEXER_SERVICE_METRICS_K8S_SERVICE
+                        Kubernetes service name for the indexer-service and pod port serving its
+                        metrics. Will watch the service&#39;s endpoint IPs continuously for changes.
+                        Format: &lt;scheme&gt;://&lt;service_name&gt;:&lt;pod_metrics_port&gt;/&lt;path&gt;. [env var:
+                        INDEXER_SERVICE_METRICS_K8S_SERVICE] (default: None)
+
+Relative query costs generator settings:
+  --relative-query-costs
+                        (EXPERIMENTAL) Enables the relative query cost generator. Otherwise only
+                        builds a default query pricing model with automated market price
+                        discovery. [env var: RELATIVE_QUERY_COSTS] (default: False)
+  --relative-query-costs-exclude-subgraphs RELATIVE_QUERY_COSTS_EXCLUDE_SUBGRAPHS
+                        Comma delimited list of subgraphs (ipfs hash) to exclude from the
+                        relative query costs model generator. [env var:
+                        RELATIVE_QUERY_COSTS_EXCLUDE_SUBGRAPHS] (default: None)
+  --relative-query-costs-refresh-interval RELATIVE_QUERY_COSTS_REFRESH_INTERVAL
+                        (Seconds) Interval between rebuilds of the relative query costs models.
+                        [env var: RELATIVE_QUERY_COSTS_REFRESH_INTERVAL] (default: 3600)
+
+ If an arg is specified in more than one place, then commandline values override environment
+variables which override defaults.
+</code></pre></div>
+<p>AutoAgora also exposes metrics for Prometheus on port <code>8000</code> (Example values):</p>
+<div class="highlight"><pre><span></span><code># HELP bandit_reward Reward of the bandit training: queries_per_second * price_multiplier.
+# TYPE bandit_reward gauge
+bandit_reward{subgraph=&quot;QmRDGLp6BHwiH9HAE2NYEE3f7LrKuRqziHBv76trT4etgU&quot;} 1.577651313168855e-07
+# HELP bandit_price_multiplier Price multiplier sampled from the Gaussian model.
+# TYPE bandit_price_multiplier gauge
+bandit_price_multiplier{subgraph=&quot;QmRDGLp6BHwiH9HAE2NYEE3f7LrKuRqziHBv76trT4etgU&quot;} 2.60150080442184e-07
+# HELP bandit_stddev Standard deviation of the Gaussian price multiplier model.
+# TYPE bandit_stddev gauge
+bandit_stddev{subgraph=&quot;QmRDGLp6BHwiH9HAE2NYEE3f7LrKuRqziHBv76trT4etgU&quot;} 1.843469500541687
+# HELP bandit_mean Mean of the Gaussian price multiplier model.
+# TYPE bandit_mean gauge
+bandit_mean{subgraph=&quot;QmRDGLp6BHwiH9HAE2NYEE3f7LrKuRqziHBv76trT4etgU&quot;} 3.653126148672616e-05
+</code></pre></div>
+<p>Where "bandit" refers to the reinforcement learning method (Continuum-armed bandit) used to track the market price for
+each subgraph.</p>
+<h2 id="developers-guide">Developer's guide</h2>
+<p>If you would like to contribute, please consult <a href="CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a>.</p>
+<h3 id="installation-directly-from-the-source-code">Installation directly from the source code</h3>
+<p>To install AutoAgora directly from the source code please clone the repository and install package in the virtual
+environment using <code>poetry</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="go">git clone https://github.com/semiotic-ai/autoagora.git</span>
+<span class="go">cd autoagora</span>
+<span class="go">poetry install</span>
+</code></pre></div>
+<h3 id="running-the-autoagora-code">Running the AutoAgora code</h3>
+<p>All scripts should be executed in the virtual environment managed by <code>poetry</code>.</p>
+<h3 id="running-the-test-suite">Running the test suite</h3>
+<div class="highlight"><pre><span></span><code><span class="go">poetry run python -m pytest</span>
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "toc.integrate"], "search": "assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.407015b8.min.js"></script>
+      
+    
+  </body>
+</html>
