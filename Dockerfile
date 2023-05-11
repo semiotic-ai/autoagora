@@ -3,13 +3,10 @@ FROM python:3.8 as build
 ENV PYTHONUNBUFFERED=1
 WORKDIR /root
 
-RUN pip install poetry
-ENV PATH=/root/.local/bin:$PATH
+COPY . src/
 
-COPY . .
-
-RUN poetry config virtualenvs.create true && \
-    poetry build -f wheel -n
+RUN pip install --upgrade pip && \
+    pip wheel --no-deps --wheel-dir dist ./src
 
 FROM python:3.8-slim
 
