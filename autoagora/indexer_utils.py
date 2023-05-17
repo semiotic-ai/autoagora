@@ -44,20 +44,6 @@ async def query_indexer_agent(query: str, variables: Optional[Mapping] = None):
     return result
 
 
-async def get_indexed_subgraphs() -> Set[str]:
-    result = await query_indexer_agent(
-        """
-        {
-            indexerDeployments{
-                subgraphDeployment
-            }
-        }
-        """
-    )
-
-    return set(e["indexerDeployments"] for e in result["indexerAllocations"])
-
-
 async def get_allocated_subgraphs() -> Set[str]:
     result = await query_indexer_agent(
         """
@@ -120,23 +106,6 @@ async def set_cost_model(
             "variables": variables_json,
         },
     )
-
-
-async def get_cost_model(subgraph: str) -> str:
-    result = await query_indexer_agent(
-        """
-        query ($deployment: String!){
-            costModel(deployment: $deployment) {
-                model
-            }
-        }
-        """,
-        variables={
-            "deployment": ipfs_hash_to_hex(subgraph),
-        },
-    )
-
-    return result["costModel"]["model"]
 
 
 async def get_cost_variables(subgraph: str) -> Dict[str, Any]:
