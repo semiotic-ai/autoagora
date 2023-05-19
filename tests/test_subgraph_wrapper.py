@@ -13,7 +13,7 @@ from autoagora.subgraph_wrapper import (
 
 class TestSubgraphWrapper:
     async def test_set_cost_multiplier(self):
-        subgraph = "Qmock-subgraph"
+        subgraph = "QmTJBvvpknMow6n4YU8R9Swna6N8mHK8N2WufetysBiyuL"
         cost_multiplier = 1.5
         subgraph_wrapper = SubgraphWrapper(subgraph)
         with mock.patch(
@@ -36,7 +36,7 @@ class TestSubgraphWrapper:
                     assert subgraph_wrapper.last_change_time == 10003.0
 
     async def test_queries_per_second(self):
-        subgraph = "Qmock-subgraph"
+        subgraph = "QmTJBvvpknMow6n4YU8R9Swna6N8mHK8N2WufetysBiyuL"
         cost_multiplier = 1.5
         subgraph_wrapper = SubgraphWrapper(subgraph)
         with mock.patch(
@@ -48,7 +48,7 @@ class TestSubgraphWrapper:
             ) as mock_subgraph_query_count:
                 with mock.patch("autoagora.subgraph_wrapper.time") as mock_time:
 
-                    mock_time.side_effect = [8, 4]
+                    mock_time.side_effect = [4, 8]
                     mock_subgraph_query_count.side_effect = [2, 6]
 
                     qps = await subgraph_wrapper.queries_per_second(
@@ -59,4 +59,4 @@ class TestSubgraphWrapper:
                         subgraph, mock_metric_endpoint_obj
                     )
                     assert mock_subgraph_query_count.call_count == 2
-                    assert qps == -1
+                    assert qps == 1
