@@ -1,6 +1,8 @@
-#import asyncio
-import vcr
+# import asyncio
 from unittest import mock
+
+import vcr
+
 import autoagora.query_metrics
 from autoagora.config import args, init_config
 from autoagora.k8s_service_watcher import K8SServiceEndpointsWatcher, aio
@@ -9,8 +11,12 @@ from autoagora.k8s_service_watcher import K8SServiceEndpointsWatcher, aio
 class TestK8SServiceEndpointsWatcher:
     def test_k8s_service_creation(self):
         with mock.patch("builtins.open") as mock_open:
-            mock_open.return_value.__enter__.return_value.read.return_value = "namespace"
-            with mock.patch("autoagora.k8s_service_watcher.aio.ensure_future") as mock_ensure_future:
+            mock_open.return_value.__enter__.return_value.read.return_value = (
+                "namespace"
+            )
+            with mock.patch(
+                "autoagora.k8s_service_watcher.aio.ensure_future"
+            ) as mock_ensure_future:
                 with mock.patch(
                     "autoagora.k8s_service_watcher.K8SServiceEndpointsWatcher._watch_loop"
                 ) as mock_watch_loop:
