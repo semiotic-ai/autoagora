@@ -18,7 +18,6 @@ from autoagora.query_metrics import (
     StaticMetricsEndpoints,
 )
 
-
 DEFAULT_AGORA_VARIABLES = {"DEFAULT_COST": 50}
 
 
