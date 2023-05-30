@@ -18,8 +18,6 @@ from autoagora.query_metrics import (
     StaticMetricsEndpoints,
 )
 
-init_config()
-
 DEFAULT_AGORA_VARIABLES = {"DEFAULT_COST": 50}
 
 
@@ -123,6 +121,7 @@ async def metrics_server():
 
 
 def main():
+    init_config()
     future = aio.gather(allocated_subgraph_watcher(), metrics_server())
     aio.get_event_loop().run_until_complete(future)
 
