@@ -48,6 +48,7 @@ vcrpy = "^4.2.1"
 pytest-postgresql = "^4.1.1"
 psycopg = {extras = ["binary"], version = "^3.1.8"}
 pytest-asyncio = "^0.20.3"
+easydict = "^1.10"
 
 [tool.poetry.group.docs]
 optional = true

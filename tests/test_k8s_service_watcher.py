@@ -1,11 +1,9 @@
-# import asyncio
 from unittest import mock
 
-import vcr
+from easydict import EasyDict
 
-import autoagora.query_metrics
-from autoagora.config import args, init_config
-from autoagora.k8s_service_watcher import K8SServiceEndpointsWatcher, aio
+from autoagora.k8s_service_watcher import K8SServiceEndpointsWatcher, aio, config
+from tests.utils.constants import K8S_EVENT
 
 
 class TestK8SServiceEndpointsWatcher:
@@ -28,3 +26,47 @@ class TestK8SServiceEndpointsWatcher:
                     assert k8ssew.endpoint_ips == []
                     assert k8ssew._service_name == "mock_service_name"
                     assert k8ssew._namespace == "namespace"
+
+    async def test_watch(self):
+
+        loop = aio.new_event_loop()
+        aio.set_event_loop(loop)
+        event_mock = mock.MagicMock()
+        event_mock.__getitem__.return_value = EasyDict(K8S_EVENT["object"])
+        event_stream_mock = mock.MagicMock()
+        event_stream_mock.__next__.return_value = event_mock
+        w = mock.MagicMock()
+        w.stream.return_value = event_stream_mock
+
+        with mock.patch("builtins.open") as mock_open:
+            with mock.patch(
+                "autoagora.k8s_service_watcher.K8SServiceEndpointsWatcher._watch_loop"
+            ) as mock_watch_loop:
+                with mock.patch(
+                    "autoagora.k8s_service_watcher.config.load_incluster_config"
+                ) as mock_load_incluster_config:
+                    with mock.patch(
+                        "autoagora.k8s_service_watcher.ApiClient"
+                    ) as mock_ApiClient:
+                        with mock.patch(
+                            "autoagora.k8s_service_watcher.client.CoreV1Api"
+                        ) as mock_CoreV1Api:
+                            with mock.patch(
+                                "autoagora.k8s_service_watcher.watch.Watch",
+                                return_value=w,
+                            ) as mock_Watch_stream:
+                                mock_open.return_value.__enter__.return_value.read.return_value = (
+                                    "namespace"
+                                )
+
+                                service_name = "my-service"
+                                watcher = K8SServiceEndpointsWatcher(service_name)
+
+                                task = aio.create_task(watcher._watch())
+                                await aio.sleep(0.001)
+                                task.cancel()
+                                assert watcher.endpoint_ips == [
+                                    "192.168.42.78",
+                                    "192.168.95.50",
+                                ]
+                                aio.set_event_loop(None)
