@@ -46,27 +46,21 @@ class TestK8SServiceEndpointsWatcher:
                     "autoagora.k8s_service_watcher.config.load_incluster_config"
                 ) as mock_load_incluster_config:
                     with mock.patch(
-                        "autoagora.k8s_service_watcher.ApiClient"
-                    ) as mock_ApiClient:
-                        with mock.patch(
-                            "autoagora.k8s_service_watcher.client.CoreV1Api"
-                        ) as mock_CoreV1Api:
-                            with mock.patch(
-                                "autoagora.k8s_service_watcher.watch.Watch",
-                                return_value=w,
-                            ) as mock_Watch_stream:
-                                mock_open.return_value.__enter__.return_value.read.return_value = (
-                                    "namespace"
-                                )
+                        "autoagora.k8s_service_watcher.watch.Watch",
+                        return_value=w,
+                    ) as mock_Watch_stream:
+                        mock_open.return_value.__enter__.return_value.read.return_value = (
+                            "namespace"
+                        )
 
-                                service_name = "my-service"
-                                watcher = K8SServiceEndpointsWatcher(service_name)
+                        service_name = "my-service"
+                        watcher = K8SServiceEndpointsWatcher(service_name)
 
-                                task = aio.create_task(watcher._watch())
-                                await aio.sleep(0.001)
-                                task.cancel()
-                                assert watcher.endpoint_ips == [
-                                    "192.168.42.78",
-                                    "192.168.95.50",
-                                ]
-                                aio.set_event_loop(None)
+                        task = aio.create_task(watcher._watch())
+                        await aio.sleep(0.001)
+                        task.cancel()
+                        assert watcher.endpoint_ips == [
+                            "192.168.42.78",
+                            "192.168.95.50",
+                        ]
+                        aio.set_event_loop(None)
