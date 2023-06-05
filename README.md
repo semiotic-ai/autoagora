@@ -18,11 +18,23 @@ An [Agora](https://github.com/graphprotocol/agora) cost model automation tool fo
 
 ## Indexer's guide
 
+### Installation
+
+We recommend using the AutoAgora container at `ghcr.io/semiotic-ai/autoagora`.
+
 ### Build
 
-Just build the container!
+If you'd like to build the container yourself, we recommend that you download the repo with `git` rather than
+downloading a tarball:
 
 ```console
+git clone https://github.com/semiotic-ai/autoagora.git
+```
+
+So that the build process can read the `git` metadata from the repo:
+
+```console
+cd autoagora
 docker build -t autoagora .
 ```
 
