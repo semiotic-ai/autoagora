@@ -17,8 +17,7 @@ from autoagora.query_metrics import (
     K8SServiceWatcherMetricsEndpoints,
     StaticMetricsEndpoints,
 )
-
-DEFAULT_AGORA_VARIABLES = {"DEFAULT_COST": 50}
+from autoagora.utils.constants import AGORA_DEFAULT_COST_MODEL, DEFAULT_AGORA_VARIABLES
 
 
 @dataclass
@@ -83,7 +82,7 @@ async def allocated_subgraph_watcher():
                 # Set the default model and variables first
                 await set_cost_model(
                     new_subgraph,
-                    model="default => $DEFAULT_COST * $GLOBAL_COST_MULTIPLIER;",
+                    model=AGORA_DEFAULT_COST_MODEL,
                     variables=DEFAULT_AGORA_VARIABLES,
                 )
 

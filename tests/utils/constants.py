@@ -118,3 +118,18 @@ K8S_EVENT = {
         ],
     },
 }
+
+TEST_QUERY_1 = """\
+query { 
+    values { 
+        id 
+    } 
+}"""
+
+TEST_QUERY_2 = """\
+query { 
+    values { 
+        count
+        val 
+    } 
+}"""

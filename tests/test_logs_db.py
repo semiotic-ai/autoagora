@@ -60,8 +60,9 @@ class TestLogsDB:
             "QmPnu3R7Fm4RmBF21aCYUohDmWbKd3VMXo64ACiRtwUQrn", 2
         )
         assert mfq
+        query = "query {\n  values {\n    id\n  }\n}"
         compare = LogsDB.QueryStats(
-            query="query getData{ values { id } }",
+            query=query,
             count=2,
             min_time=100,
             max_time=200,
