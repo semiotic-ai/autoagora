@@ -2,7 +2,7 @@ from unittest import mock
 
 from easydict import EasyDict
 
-from autoagora.k8s_service_watcher import K8SServiceEndpointsWatcher, aio, config
+from autoagora.k8s_service_watcher import K8SServiceEndpointsWatcher, aio
 from tests.utils.constants import K8S_EVENT
 
 
@@ -41,14 +41,14 @@ class TestK8SServiceEndpointsWatcher:
         with mock.patch("builtins.open") as mock_open:
             with mock.patch(
                 "autoagora.k8s_service_watcher.K8SServiceEndpointsWatcher._watch_loop"
-            ) as mock_watch_loop:
+            ) as mock_watch_loop:  # pyright: ignore[reportUnusedVariable]
                 with mock.patch(
                     "autoagora.k8s_service_watcher.config.load_incluster_config"
-                ) as mock_load_incluster_config:
+                ) as mock_load_incluster_config:  # pyright: ignore[reportUnusedVariable]
                     with mock.patch(
                         "autoagora.k8s_service_watcher.watch.Watch",
                         return_value=w,
-                    ) as mock_Watch_stream:
+                    ) as mock_Watch_stream:  # pyright: ignore[reportUnusedVariable]
                         mock_open.return_value.__enter__.return_value.read.return_value = (
                             "namespace"
                         )

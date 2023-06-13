@@ -1,5 +1,3 @@
-from argparse import Namespace
-
 from autoagora.config import args, init_config
 
 

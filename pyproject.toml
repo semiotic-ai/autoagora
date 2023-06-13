@@ -85,4 +85,6 @@ asyncio_mode = "auto"
 generated-members = ["numpy.*" ,"torch.*"]
 
 [tool.pyright]
+reportUnusedImport = true
+reportUnusedVariable = true
 useLibraryCodeForTypes = true
