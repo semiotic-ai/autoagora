@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 
 import asyncpg
+import graphql
 
 
 class LogsDB:
@@ -17,6 +18,14 @@ class LogsDB:
 
     def __init__(self, pgpool: asyncpg.Pool) -> None:
         self.pgpool = pgpool
+
+    def return_query_body(self, query):
+        # Keep only query body -- ie. no var defs
+        query = graphql.parse(query)
+        assert len(query.definitions) == 1  # Should be single root query
+        query = query.definitions[0].selection_set  # type: ignore
+        query = "query " + graphql.print_ast(query)
+        return query
 
     async def get_most_frequent_queries(
         self, subgraph_ipfs_hash: str, min_count: int = 100
@@ -63,7 +72,9 @@ class LogsDB:
 
         return [
             LogsDB.QueryStats(
-                query=row[0],
+                query=self.return_query_body(row[0])
+                if self.return_query_body(row[0])
+                else "null",
                 count=row[1],
                 min_time=row[2],
                 max_time=row[3],
