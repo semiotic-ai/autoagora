@@ -1,18 +1,14 @@
 import asyncio
 from datetime import datetime, timedelta, timezone
 from unittest import mock
-from unittest.mock import patch
 
 import asyncpg
 import pytest
-import torch
 
 import autoagora.price_multiplier as price_multiplier
 from autoagora.config import args, init_config
 from autoagora.price_multiplier import (
-    AgentFactory,
     PriceSaveStateDB,
-    SubgraphWrapper,
     price_bandit_loop,
     restore_from_save_state,
 )
@@ -61,49 +57,46 @@ class TestPriceMultiplier:
         metrics_endpoints = StaticMetricsEndpoints(
             args.indexer_service_metrics_endpoint
         )
-        # Mock AgentFactory object and its methods
-        with mock.patch("autoagora.price_multiplier.AgentFactory") as mock_AgentFactory:
-            # Mock subgraph wrapper methods
+        # Mock subgraph wrapper methods
+        with mock.patch(
+            "autoagora.price_multiplier.SubgraphWrapper.set_cost_multiplier"
+        ) as mock_set_cost_m:
+            mock_set_cost_m.return_value = None
             with mock.patch(
-                "autoagora.price_multiplier.SubgraphWrapper.set_cost_multiplier"
-            ) as mock_set_cost_m:
-                mock_set_cost_m.return_value = None
-                with mock.patch(
-                    "autoagora.price_multiplier.SubgraphWrapper.queries_per_second"
-                ) as mock_qps:
-                    mock_qps.return_value = 10
+                "autoagora.price_multiplier.SubgraphWrapper.queries_per_second"
+            ) as mock_qps:
+                mock_qps.return_value = 10
+                # Create a task and run it for x secs
+                task = asyncio.create_task(
+                    price_bandit_loop(subgraph, pgpool, metrics_endpoints)
+                )
+                # Allowed times a certain function will be called
+                allowed_fn_calls = 50
+                await count_calls(mock_qps, allowed_fn_calls)
+                task.cancel()
+                await pgpool.close()
+                # Assert values for the gauges exist
+                reward_gauge_value = obtain_gauge_value(
+                    list(price_multiplier.reward_gauge.collect()), subgraph
+                )
+                price_multiplier_gauge_value = obtain_gauge_value(
+                    list(price_multiplier.price_multiplier_gauge.collect()),
+                    subgraph,
+                )
+                mean_gauge_value = obtain_gauge_value(
+                    list(price_multiplier.mean_gauge.collect()), subgraph
+                )
+                stddev_gauge_value = obtain_gauge_value(
+                    list(price_multiplier.stddev_gauge.collect()), subgraph
+                )
+                assert reward_gauge_value
+                assert price_multiplier_gauge_value
+                assert stddev_gauge_value
+                assert mean_gauge_value
+                assert mock_qps.call_count == allowed_fn_calls
 
-                    # Create a task and run it for x secs
-                    task = asyncio.create_task(
-                        price_bandit_loop(subgraph, pgpool, metrics_endpoints)
-                    )
-                    # Allowed times a certain function will be called
-                    allowed_fn_calls = 50
-                    await count_calls(mock_qps, allowed_fn_calls)
-                    task.cancel()
-                    await pgpool.close()
-                    # Assert values for the gauges exist
-                    reward_gauge_value = obtain_gauge_value(
-                        list(price_multiplier.reward_gauge.collect()), subgraph
-                    )
-                    price_multiplier_gauge_value = obtain_gauge_value(
-                        list(price_multiplier.price_multiplier_gauge.collect()),
-                        subgraph,
-                    )
-                    mean_gauge_value = obtain_gauge_value(
-                        list(price_multiplier.mean_gauge.collect()), subgraph
-                    )
-                    stddev_gauge_value = obtain_gauge_value(
-                        list(price_multiplier.stddev_gauge.collect()), subgraph
-                    )
-                    assert reward_gauge_value
-                    assert price_multiplier_gauge_value
-                    assert stddev_gauge_value
-                    assert mean_gauge_value
-                    assert mock_qps.call_count == allowed_fn_calls
-
-                    mock_set_cost_m.assert_called()
-                    mock_qps.assert_called()
+                mock_set_cost_m.assert_called()
+                mock_qps.assert_called()
 
     async def test_restore_from_save_state(self, pgpool):
         subgraph = "QmTJBvvpknMow6n4YU8R9Swna6N8mHK8N2WufetysBiyuL"
@@ -111,7 +104,6 @@ class TestPriceMultiplier:
         stddev = 0.3
         time_delta = timedelta(days=3)
         save_state = PriceSaveStateDB(pgpool)
-        now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
         await pgpool.execute(
             """
             INSERT INTO price_save_state (subgraph, last_update, mean, stddev)

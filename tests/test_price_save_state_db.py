@@ -1,6 +1,5 @@
 import random
 import string
-from math import exp, log
 
 import asyncpg
 import pytest

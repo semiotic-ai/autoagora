@@ -1,14 +1,6 @@
 from unittest import mock
-from unittest.mock import patch
 
-from autoagora.subgraph_wrapper import (
-    MetricsEndpoints,
-    SubgraphWrapper,
-    get_cost_variables,
-    set_cost_model,
-    subgraph_query_count,
-    time,
-)
+from autoagora.subgraph_wrapper import SubgraphWrapper
 
 
 class TestSubgraphWrapper:
@@ -37,7 +29,6 @@ class TestSubgraphWrapper:
 
     async def test_queries_per_second(self):
         subgraph = "QmTJBvvpknMow6n4YU8R9Swna6N8mHK8N2WufetysBiyuL"
-        cost_multiplier = 1.5
         subgraph_wrapper = SubgraphWrapper(subgraph)
         with mock.patch(
             "autoagora.subgraph_wrapper.MetricsEndpoints"

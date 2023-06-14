@@ -1,13 +1,8 @@
-import random
 import re
-import string
-from math import exp, log
 from unittest import mock
-from unittest.mock import patch
 
 import asyncpg
 import pytest
-from numpy.testing import assert_approx_equal
 
 from autoagora import model_builder
 from autoagora.logs_db import LogsDB
