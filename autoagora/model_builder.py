@@ -3,6 +3,7 @@
 
 import asyncio as aio
 import logging
+import os
 from importlib.metadata import version
 
 import asyncpg
@@ -11,17 +12,19 @@ from jinja2 import Template
 from autoagora.config import args
 from autoagora.indexer_utils import set_cost_model
 from autoagora.logs_db import LogsDB
-from autoagora.utils.constants import AGORA_ENTRY_TEMPLATE
+from autoagora.utils.constants import AGORA_ENTRY_TEMPLATE, MANUAL_AGORA_MODEL_PATH
 
 
 async def model_builder(subgraph: str, pgpool: asyncpg.Pool) -> str:
     logs_db = LogsDB(pgpool)
     aa_version = version("autoagora")
     most_frequent_queries = await logs_db.get_most_frequent_queries(subgraph)
-
+    manual_agora_entry = obtain_manual_entries()
     template = Template(AGORA_ENTRY_TEMPLATE)
     model = template.render(
-        aa_version=aa_version, most_frequent_queries=most_frequent_queries
+        aa_version=aa_version,
+        most_frequent_queries=most_frequent_queries,
+        manual_entry=manual_agora_entry,
     )
     logging.debug("Generated Agora model: \n%s", model)
     return model
@@ -32,3 +35,11 @@ async def model_update_loop(subgraph: str, pgpool):
         model = await model_builder(subgraph, pgpool)
         await set_cost_model(subgraph, model)
         await aio.sleep(args.relative_query_costs_refresh_interval)
+
+
+def obtain_manual_entries():
+    if os.path.isfile(MANUAL_AGORA_MODEL_PATH):
+        with open(MANUAL_AGORA_MODEL_PATH, "r") as file:
+            manual_agora_model = file.read()
+            return manual_agora_model
+    return None

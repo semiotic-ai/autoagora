@@ -133,3 +133,29 @@ query {
         val 
     } 
 }"""
+
+TEST_MANUAL_AGORA_ENTRY = """
+# count:        13
+# min time:     43
+# max time:     600
+# avg time:     345
+# stddev time:  0.02
+query { 
+    values { 
+        id 
+    } 
+} => 1.9 * $GLOBAL_COST_MULTIPLIER;
+
+
+# count:        1032
+# min time:     1
+# max time:     2
+# avg time:     1.3
+# stddev time:  0.5
+query { 
+   values { 
+        count
+        val 
+   } 
+ => 0.2 * $GLOBAL_COST_MULTIPLIER;
+"""
