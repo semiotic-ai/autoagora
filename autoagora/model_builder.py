@@ -8,11 +8,12 @@ from importlib.metadata import version
 
 import asyncpg
 from jinja2 import Template
+from platformdirs import user_config_dir
 
 from autoagora.config import args
 from autoagora.indexer_utils import set_cost_model
 from autoagora.logs_db import LogsDB
-from autoagora.utils.constants import AGORA_ENTRY_TEMPLATE, MANUAL_AGORA_MODEL_PATH
+from autoagora.utils.constants import AGORA_ENTRY_TEMPLATE
 
 
 async def model_builder(subgraph: str, pgpool: asyncpg.Pool) -> str:
@@ -38,8 +39,19 @@ async def model_update_loop(subgraph: str, pgpool):
 
 
 def obtain_manual_entries():
-    if os.path.isfile(MANUAL_AGORA_MODEL_PATH):
-        with open(MANUAL_AGORA_MODEL_PATH, "r") as file:
-            manual_agora_model = file.read()
-            return manual_agora_model
+    # Obtain path of the python file
+    agora_models_dir = user_config_dir(args.aa_app_manual_entry_path)
+    full_manual_entries = ""
+    if os.path.isdir(agora_models_dir):
+        manual_agora_entries = os.listdir(agora_models_dir)
+        for agora_entry in manual_agora_entries:
+            if agora_entry.endswith(".agora"):
+                agora_entry_full_path = agora_models_dir + "/" + agora_entry
+                with open(agora_entry_full_path, "r") as file:
+                    manual_agora_model = file.read()
+                    full_manual_entries += manual_agora_model
+        if full_manual_entries != "":
+            return full_manual_entries
+        else:
+            return None
     return None

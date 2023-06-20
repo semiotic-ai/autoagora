@@ -14,13 +14,9 @@ AGORA_ENTRY_TEMPLATE = """\
 # stddev time:  {{frequent_query.stddev_time}}
 {{frequent_query.query}} => {{frequent_query.avg_time}} * $GLOBAL_COST_MULTIPLIER;
 {% endfor %}
-{% if manual_entry is defined %}
-
+{% if manual_entry is not none %}
 {{manual_entry}}
-
-default => $DEFAULT_COST * $GLOBAL_COST_MULTIPLIER;
-{% else %}
-default => $DEFAULT_COST * $GLOBAL_COST_MULTIPLIER;
-{% endif %}\
+{% endif %}
+default => $DEFAULT_COST * $GLOBAL_COST_MULTIPLIER;\
 """
 MANUAL_AGORA_MODEL_PATH = "/etc/manual_agora_entry.txt"
