@@ -187,8 +187,8 @@ def init_config(argv: Optional[Sequence[str]] = None):
         env_var="AA_APP_MANUAL_ENTRY_PATH",
         required=False,
         type=str,
-        default="autoagora",
-        help="App name which in this case is autoagora but the posibility to be changed is given",
+        default=None,
+        help="Path to find manual agora entries",
     )
 
     argparser.parse_args(args=argv, namespace=args)
