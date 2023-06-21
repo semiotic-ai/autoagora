@@ -43,13 +43,12 @@ def obtain_manual_entries(subgraph: str):
     if agora_models_dir is None:
         logging.debug("No path for manual agora entries was given")
         return None
-    full_manual_entries = ""
-    agora_entry_full_path = agora_models_dir + "/" + subgraph + ".agora"
+
+    agora_entry_full_path = os.path.join(agora_models_dir, subgraph + ".agora")
     if os.path.isfile(agora_entry_full_path):
         with open(agora_entry_full_path, "r") as file:
             manual_agora_model = file.read()
-            full_manual_entries += manual_agora_model
             # Just a safe measure for empty files
-            if full_manual_entries != "":
-                return full_manual_entries
+            if manual_agora_model != "":
+                return manual_agora_model
     return None

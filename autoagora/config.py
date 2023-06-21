@@ -188,7 +188,7 @@ def init_config(argv: Optional[Sequence[str]] = None):
         required=False,
         type=str,
         default=None,
-        help="Path to find manual agora entries",
+        help="Path to find manual agora entries, this expects Agora model files named {subgraph_hash}.agora",
     )
 
     argparser.parse_args(args=argv, namespace=args)
