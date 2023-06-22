@@ -19,4 +19,3 @@ AGORA_ENTRY_TEMPLATE = """\
 {% endif %}
 default => $DEFAULT_COST * $GLOBAL_COST_MULTIPLIER;\
 """
-MANUAL_AGORA_MODEL_PATH = "/etc/manual_agora_entry.txt"
