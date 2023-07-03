@@ -50,6 +50,6 @@ def obtain_manual_entries(subgraph: str):
             manual_agora_model = file.read()
             # Just a safe measure for empty files
             if manual_agora_model != "":
-                logging.debug("Manual model was loaded")
+                logging.debug("Manual model was loaded for subgraph %s", subgraph)
                 return manual_agora_model
     return None
