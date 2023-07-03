@@ -183,8 +183,8 @@ def init_config(argv: Optional[Sequence[str]] = None):
     # Manual agora entry values
     #
     argparser.add_argument(
-        "--aa-app-manual-entry-path",
-        env_var="AA_APP_MANUAL_ENTRY_PATH",
+        "--manual-entry-path",
+        env_var="MANUAL_ENTRY_PATH",
         required=False,
         type=str,
         default=None,

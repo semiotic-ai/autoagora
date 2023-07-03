@@ -121,7 +121,7 @@ class TestModelBuilder:
                         postgresql.info.dbname,
                         "--indexer-service-metrics-endpoint",
                         "http://indexer-service.default.svc.cluster.local:7300/metrics",
-                        "--aa-app-manual-entry-path",
+                        "--manual-entry-path",
                         temp_dir,
                     ]
                 )
