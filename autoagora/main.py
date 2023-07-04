@@ -11,13 +11,13 @@ from prometheus_async.aio.web import start_http_server
 
 from autoagora.config import args, init_config
 from autoagora.indexer_utils import get_allocated_subgraphs, set_cost_model
-from autoagora.model_builder import model_update_loop
+from autoagora.model_builder import apply_default_model, model_update_loop
 from autoagora.price_multiplier import price_bandit_loop
 from autoagora.query_metrics import (
     K8SServiceWatcherMetricsEndpoints,
     StaticMetricsEndpoints,
 )
-from autoagora.utils.constants import AGORA_DEFAULT_COST_MODEL, DEFAULT_AGORA_VARIABLES
+from autoagora.utils.constants import DEFAULT_AGORA_VARIABLES
 
 
 @dataclass
@@ -82,9 +82,10 @@ async def allocated_subgraph_watcher():
                 # Set the default model and variables first
                 await set_cost_model(
                     new_subgraph,
-                    model=AGORA_DEFAULT_COST_MODEL,
                     variables=DEFAULT_AGORA_VARIABLES,
                 )
+
+                await apply_default_model(new_subgraph)
 
                 if args.relative_query_costs:
                     # Launch the model update loop for the new subgraph

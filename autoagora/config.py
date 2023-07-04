@@ -179,6 +179,17 @@ def init_config(argv: Optional[Sequence[str]] = None):
         default=3600,
         help="(Seconds) Interval between rebuilds of the relative query costs models.",
     )
+    #
+    # Manual agora entry values
+    #
+    argparser.add_argument(
+        "--manual-entry-path",
+        env_var="MANUAL_ENTRY_PATH",
+        required=False,
+        type=str,
+        default=None,
+        help="Path to find manual agora entries, this expects Agora model files named {subgraph_hash}.agora",
+    )
 
     argparser.parse_args(args=argv, namespace=args)
 
