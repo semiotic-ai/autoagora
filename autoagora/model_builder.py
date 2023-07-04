@@ -34,7 +34,7 @@ async def model_update_loop(subgraph: str, pgpool):
         await aio.sleep(args.relative_query_costs_refresh_interval)
 
 
-def build_template(subgraph: str, most_frequent_queries = []):
+def build_template(subgraph: str, most_frequent_queries=[]):
     aa_version = version("autoagora")
     manual_agora_entry = obtain_manual_entries(subgraph)
     template = Template(AGORA_ENTRY_TEMPLATE)
