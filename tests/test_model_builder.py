@@ -135,7 +135,7 @@ class TestModelBuilder:
                 assert TEST_QUERY_2 in model
                 assert TEST_MANUAL_AGORA_ENTRY in model
 
-    async def test_manual_model_builder(self, pgpool, postgresql):
+    async def test_apply_default_model(self, pgpool, postgresql):
         subgraph = "Qmadj8x9km1YEyKmRnJ6EkC2zpJZFCfTyTZpuqC3j6e1QH"
         file_type = ".agora"
         # Creates a temp dir to simulate manual entries
@@ -168,7 +168,7 @@ class TestModelBuilder:
                             temp_dir,
                         ]
                     )
-                    await model_builder.manual_model_builder(subgraph)
+                    await model_builder.apply_default_model(subgraph)
                     # Obtain the args send to the logger.debug fn
                     debug_logs_args = logging_debug_mock.call_args[0]
                     # Remove \n since they cause the assertion to bug and fail

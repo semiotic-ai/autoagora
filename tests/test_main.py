@@ -17,8 +17,8 @@ class TestScript:
         ) as mock_get_allocated_subgraphs:
             with mock.patch("autoagora.main.set_cost_model") as mock_set_cost_model:
                 with mock.patch(
-                    "autoagora.main.manual_model_builder"
-                ) as mock_manual_model_builder:  # pyright: ignore[reportUnusedVariable]
+                    "autoagora.main.apply_default_model"
+                ) as mock_apply_default_model:  # pyright: ignore[reportUnusedVariable]
                     with mock.patch(
                         "autoagora.main.model_update_loop"
                     ) as mock_model_update_loop:

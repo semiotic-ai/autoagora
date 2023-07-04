@@ -22,7 +22,7 @@ async def model_builder(subgraph: str, pgpool: asyncpg.Pool) -> str:
     return model
 
 
-async def manual_model_builder(subgraph: str):
+async def apply_default_model(subgraph: str):
     model = build_template(subgraph)
     await set_cost_model(subgraph, model)
 
@@ -34,7 +34,9 @@ async def model_update_loop(subgraph: str, pgpool):
         await aio.sleep(args.relative_query_costs_refresh_interval)
 
 
-def build_template(subgraph: str, most_frequent_queries=[]):
+def build_template(subgraph: str, most_frequent_queries=None):
+    if most_frequent_queries is None:
+        most_frequent_queries = []
     aa_version = version("autoagora")
     manual_agora_entry = obtain_manual_entries(subgraph)
     template = Template(AGORA_ENTRY_TEMPLATE)
