@@ -55,12 +55,10 @@ class TestScript:
                             mock_get_allocated_subgraphs.assert_called_once()
                             mock_set_cost_model.assert_any_call(
                                 subgraph1,
-                                model="default => $DEFAULT_COST * $GLOBAL_COST_MULTIPLIER;",
                                 variables=DEFAULT_AGORA_VARIABLES,
                             )
                             mock_set_cost_model.assert_any_call(
                                 subgraph2,
-                                model="default => $DEFAULT_COST * $GLOBAL_COST_MULTIPLIER;",
                                 variables=DEFAULT_AGORA_VARIABLES,
                             )
                             # Since there is no args for relative query cost the update_loop wont be called
