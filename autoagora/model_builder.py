@@ -17,17 +17,14 @@ from autoagora.utils.constants import AGORA_ENTRY_TEMPLATE
 
 async def model_builder(subgraph: str, pgpool: asyncpg.Pool) -> str:
     logs_db = LogsDB(pgpool)
-    aa_version = version("autoagora")
     most_frequent_queries = await logs_db.get_most_frequent_queries(subgraph)
-    manual_agora_entry = obtain_manual_entries(subgraph)
-    template = Template(AGORA_ENTRY_TEMPLATE)
-    model = template.render(
-        aa_version=aa_version,
-        most_frequent_queries=most_frequent_queries,
-        manual_entry=manual_agora_entry,
-    )
-    logging.debug("Generated Agora model: \n%s", model)
+    model = build_template(subgraph, most_frequent_queries)
     return model
+
+
+async def manual_model_builder(subgraph: str):
+    model = build_template(subgraph)
+    await set_cost_model(subgraph, model)
 
 
 async def model_update_loop(subgraph: str, pgpool):
@@ -37,16 +34,17 @@ async def model_update_loop(subgraph: str, pgpool):
         await aio.sleep(args.relative_query_costs_refresh_interval)
 
 
-async def manual_model_builder(subgraph: str):
+def build_template(subgraph: str, most_frequent_queries = []):
     aa_version = version("autoagora")
     manual_agora_entry = obtain_manual_entries(subgraph)
     template = Template(AGORA_ENTRY_TEMPLATE)
     model = template.render(
         aa_version=aa_version,
+        most_frequent_queries=most_frequent_queries,
         manual_entry=manual_agora_entry,
     )
     logging.debug("Generated Agora model: \n%s", model)
-    await set_cost_model(subgraph, model)
+    return model
 
 
 def obtain_manual_entries(subgraph: str):
