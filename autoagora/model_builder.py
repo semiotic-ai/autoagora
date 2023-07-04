@@ -53,9 +53,6 @@ def obtain_manual_entries(subgraph: str):
     # Obtain path of the python file
     agora_models_dir = args.manual_entry_path
     if agora_models_dir is None:
-        logging.debug(
-            "No path for manual agora entries was given for subgraph %s", subgraph
-        )
         return None
 
     agora_entry_full_path = os.path.join(agora_models_dir, subgraph + ".agora")
@@ -66,4 +63,7 @@ def obtain_manual_entries(subgraph: str):
             if manual_agora_model != "":
                 logging.debug("Manual model was loaded for subgraph %s", subgraph)
                 return manual_agora_model
+    logging.debug(
+        "No path for manual agora entries was given for subgraph %s", subgraph
+    )
     return None
