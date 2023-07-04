@@ -37,6 +37,18 @@ async def model_update_loop(subgraph: str, pgpool):
         await aio.sleep(args.relative_query_costs_refresh_interval)
 
 
+async def manual_model_builder(subgraph: str):
+    aa_version = version("autoagora")
+    manual_agora_entry = obtain_manual_entries(subgraph)
+    template = Template(AGORA_ENTRY_TEMPLATE)
+    model = template.render(
+        aa_version=aa_version,
+        manual_entry=manual_agora_entry,
+    )
+    logging.debug("Generated Agora model: \n%s", model)
+    await set_cost_model(subgraph, model)
+
+
 def obtain_manual_entries(subgraph: str):
     # Obtain path of the python file
     agora_models_dir = args.manual_entry_path
