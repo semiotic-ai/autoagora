@@ -33,7 +33,7 @@ class LogsDB:
         async with self.pgpool.acquire() as connection:
             await connection.execute(
                 """
-                CREATE TABLE IF NOT EXISTS query_logs (
+                CREATE TABLE IF NOT EXISTS mrq_query_logs (
                     id              uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
                     subgraph        char(46)    NOT NULL,
                     query_hash      bytea       REFERENCES query_skeletons(hash),
