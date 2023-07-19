@@ -189,6 +189,20 @@ def init_config(argv: Optional[Sequence[str]] = None):
         default=3600,
         help="(Seconds) Interval between rebuilds of the relative query costs models.",
     )
+    argparser_relative_query_costs.add_argument(
+        "--graph-node-query-endpoint",
+        env_var="GRAPH_NODE_QUERY_ENDPOINT",
+        required=False,
+        help="Endpoint to connect with the graph node and execute queries towards it",
+    )
+    argparser_relative_query_costs.add_argument(
+        "--multi-root-queries",
+        env_var="MULTI_ROOT_QUERIES",
+        required=False,
+        type=bool,
+        default=False,
+        help="Flag to enable multi root querie process",
+    )
     #
     # Manual agora entry values
     #
