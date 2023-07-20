@@ -193,7 +193,7 @@ def init_config(argv: Optional[Sequence[str]] = None):
         "--graph-node-query-endpoint",
         env_var="GRAPH_NODE_QUERY_ENDPOINT",
         required=False,
-        help="Endpoint to connect with the graph node and execute queries towards it",
+        help="graph-node query endpoint. Used to re-execute queries.",
     )
     argparser_relative_query_costs.add_argument(
         "--multi-root-queries",
@@ -201,7 +201,9 @@ def init_config(argv: Optional[Sequence[str]] = None):
         required=False,
         type=bool,
         default=False,
-        help="Flag to enable multi root querie process",
+        help="Enables the multi-root query evaluator: runs randomly selected query "
+        "roots from logged multi-root queries, to build a statistical model of their "
+        "execution time.",
     )
     #
     # Manual agora entry values

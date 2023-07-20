@@ -54,13 +54,14 @@ async def obtain_query_time(
     subgraph, multi_root_query_info, logs_db, iterations: int = 100
 ):
     # Call db to obtain related variable lists
-    query_variables_list = await logs_db.get_query_variables_from_query_hash(
+    query_log_ids = await logs_db.get_query_logs_id(
         multi_root_query_info.hash
     )
-    no_queries = len(query_variables_list)
+    no_queries = len(query_log_ids)
     for _ in range(iterations):
 
-        query_variables = query_variables_list[random.randint(0, no_queries)]
+        query_id = query_log_ids[random.randint(0, no_queries-1)][0]
+        query_variables = await logs_db.get_query_variables(query_id)
         query_vars = {f"_{i}": var for i, var in enumerate(query_variables)}
 
         async with Client(

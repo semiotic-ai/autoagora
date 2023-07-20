@@ -99,7 +99,23 @@ class LogsDB:
                 for row in rows
             ]
 
-    async def get_query_variables_from_query_hash(self, hash):
+    async def get_query_logs_id(self, hash):
+        async with self.pgpool.acquire() as connection:
+            query_logs_ids = await connection.fetch(
+                """
+                SELECT
+                    id
+                FROM 
+                    query_logs
+	            WHERE
+                    query_hash = $1;
+                """,
+                hash,
+            )
+            return query_logs_ids
+    
+
+    async def get_query_variables(self, id):
         async with self.pgpool.acquire() as connection:
             query_variables = await connection.fetch(
                 """
@@ -108,11 +124,11 @@ class LogsDB:
                 FROM 
                     query_logs
 	            WHERE
-                    query_hash = $1;
+                    id = $1;
                 """,
-                hash,
+                id,
             )
-            return query_variables
+            return query_variables[0]
 
     async def save_generated_aa_query_values(
         self, query: MRQ_Info, subgraph: str, query_variables
@@ -144,6 +160,7 @@ class LogsDB:
         most_frequent_query_table = "query_logs"
         if mrq_table:
             most_frequent_query_table = "mrq_query_logs"
+
         async with self.pgpool.acquire() as connection:
             rows = await connection.fetch(
                 """
