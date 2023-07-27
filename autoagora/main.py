@@ -10,8 +10,8 @@ import psycopg_pool
 from prometheus_async.aio.web import start_http_server
 
 from autoagora.config import args, init_config
-from autoagora.logs_db import LogsDB
 from autoagora.indexer_utils import get_allocated_subgraphs, set_cost_model
+from autoagora.logs_db import LogsDB
 from autoagora.model_builder import (
     apply_default_model,
     model_update_loop,
@@ -29,6 +29,7 @@ from autoagora.utils.constants import DEFAULT_AGORA_VARIABLES
 class SubgraphUpdateLoops:
     bandit: Optional[aio.Future] = None
     model: Optional[aio.Future] = None
+    mrq_model: Optional[aio.Future] = None
 
     def __del__(self):
         for future in [self.bandit, self.model]:
@@ -64,7 +65,7 @@ async def allocated_subgraph_watcher():
         )
         raise
 
-    #Initialize the extra table
+    # Initialize the extra table
     logsDB = LogsDB(pgpool)
     await logsDB.create_mrq_log_table()
 
@@ -110,7 +111,7 @@ async def allocated_subgraph_watcher():
                     )
                 if args.multi_root_queries:
                     # Add the multi root queries (mrq)
-                    update_loops[new_subgraph].model = aio.ensure_future(
+                    update_loops[new_subgraph].mrq_model = aio.ensure_future(
                         mrq_model_update_loop(
                             new_subgraph, pgpool
                         )  # Last parameter as true to enable mrq

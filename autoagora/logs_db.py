@@ -1,5 +1,6 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
+import json
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -22,12 +23,12 @@ class LogsDB:
     class MRQ_Info:
         hash: bytes
         query: str
+        timestamp: datetime
         query_time_ms: int = 0
-        timestamp: datetime = datetime.now()
 
     def __init__(self, pgpool: psycopg_pool.AsyncConnectionPool) -> None:
         self.pgpool = pgpool
-
+        self.datetime = datetime.now()
 
     async def create_mrq_log_table(self) -> None:
         async with self.pgpool.acquire() as connection:
@@ -95,6 +96,7 @@ class LogsDB:
                     query=self.return_query_body(row[1])
                     if self.return_query_body(row[1])
                     else "null",
+                    datetime=self.datetime,
                 )
                 for row in rows
             ]
@@ -113,9 +115,8 @@ class LogsDB:
                 hash,
             )
             return query_logs_ids
-    
 
-    async def get_query_variables(self, id):
+    async def get_query_variables(self, id: bytes):
         async with self.pgpool.acquire() as connection:
             query_variables = await connection.fetch(
                 """
@@ -128,10 +129,10 @@ class LogsDB:
                 """,
                 id,
             )
-            return query_variables[0]
+            return json.loads(query_variables[0][0])
 
     async def save_generated_aa_query_values(
-        self, query: MRQ_Info, subgraph: str, query_variables
+        self, query: MRQ_Info, subgraph: str, query_variables: list
     ):
         async with self.pgpool.acquire() as connection:
             query_variables = await connection.execute(
@@ -143,27 +144,25 @@ class LogsDB:
                             query_time_ms,
                             query_variables
                         )
-                        VALUES (%s, %s, %s, %s, %s)
-                    """,
-                (
-                    subgraph,
-                    query.hash,
-                    query.timestamp,
-                    query.query_time_ms,
-                    query_variables,
-                ),
+                        VALUES ($1, $2, $3, $4, $5)
+                """,
+                subgraph,
+                query.hash,
+                query.timestamp,
+                query.query_time_ms,
+                json.dumps(query_variables),
             )
 
     async def get_most_frequent_queries(
         self, subgraph_ipfs_hash: str, min_count: int = 100, mrq_table: bool = False
     ):
-        most_frequent_query_table = "query_logs"
+        query_logs_table = "query_logs"
         if mrq_table:
-            most_frequent_query_table = "mrq_query_logs"
+            query_logs_table = "mrq_query_logs"
 
         async with self.pgpool.acquire() as connection:
             rows = await connection.fetch(
-                """
+                f"""
                 SELECT
                     query,
                     count_id,
@@ -183,21 +182,20 @@ class LogsDB:
                         Avg(query_time_ms) as avg_time,
                         Stddev(query_time_ms) as stddev_time 
                     FROM
-                        $1
+                        {query_logs_table}
                     WHERE
-                        subgraph = $2
+                        subgraph = $1
                         AND query_time_ms IS NOT NULL
                     GROUP BY
                         qhash
                     HAVING
-                        Count(id) >= $3
+                        Count(id) >= $2
                 ) as query_logs
                 ON
                     qhash = hash
                 ORDER BY
                     count_id DESC
                 """,
-                most_frequent_query_table,
                 subgraph_ipfs_hash,
                 min_count,
             )

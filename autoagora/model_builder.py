@@ -10,11 +10,10 @@ from datetime import datetime
 from importlib.metadata import version
 
 import psycopg_pool
-from gql import Client, gql
-from gql.transport.aiohttp import AIOHTTPTransport
 from jinja2 import Template
 
 from autoagora.config import args
+from autoagora.graph_node_utils import query_graph_node
 from autoagora.indexer_utils import set_cost_model
 from autoagora.logs_db import LogsDB
 from autoagora.utils.constants import AGORA_ENTRY_TEMPLATE
@@ -40,7 +39,7 @@ async def mrq_model_builder(subgraph: str, pgpool: psycopg_pool.AsyncConnectionP
         await logs_db.get_most_frequent_queries_null_time(subgraph)
     )
     for mrq_info in most_frequent_multi_root_queries:
-        await obtain_query_time(subgraph, mrq_info, logs_db)
+        await measure_query_time(subgraph, mrq_info, logs_db)
     # Call tables with info created
     most_frequent_queries = await logs_db.get_most_frequent_queries(
         subgraph, mrq_table=True
@@ -50,33 +49,26 @@ async def mrq_model_builder(subgraph: str, pgpool: psycopg_pool.AsyncConnectionP
 
 
 # Obtains the execution time for n amount of random queries
-async def obtain_query_time(
-    subgraph, multi_root_query_info, logs_db, iterations: int = 100
+async def measure_query_time(
+    subgraph: str,
+    multi_root_query_info: LogsDB.MRQ_Info,
+    logs_db: LogsDB,
+    iterations: int = 100,
 ):
     # Call db to obtain related variable lists
-    query_log_ids = await logs_db.get_query_logs_id(
-        multi_root_query_info.hash
-    )
-    no_queries = len(query_log_ids)
+    query_log_ids = await logs_db.get_query_logs_id(multi_root_query_info.hash)
     for _ in range(iterations):
 
-        query_id = query_log_ids[random.randint(0, no_queries-1)][0]
+        query_id = random.choice(query_log_ids)[0]
         query_variables = await logs_db.get_query_variables(query_id)
-        query_vars = {f"_{i}": var for i, var in enumerate(query_variables)}
-
-        async with Client(
-            transport=AIOHTTPTransport(args.graph_node_query_endpoint),
-            fetch_schema_from_transport=False,
-        ) as session:
-
-            start_q_execution = time.time()
-            await session.execute(gql(multi_root_query_info.query), variable_values=query_vars)  # type: ignore
-            multi_root_query_info.query_time_ms = int(
-                (time.time() - start_q_execution) * 1000
-            )
-
+        query_variables_dict = {f"_{i}": var for i, var in enumerate(query_variables)}
+        start_q_execution = time.monotonic()
+        await query_graph_node(multi_root_query_info.query, query_variables_dict)
+        multi_root_query_info.query_time_ms = int(
+            (time.monotonic() - start_q_execution) * 1000
+        )
         multi_root_query_info.timestamp = datetime.now()
-        logs_db.save_generated_aa_query_values(
+        await logs_db.save_generated_aa_query_values(
             multi_root_query_info, subgraph, query_variables
         )
 
@@ -93,7 +85,8 @@ async def model_update_loop(subgraph: str, pgpool):
     while True:
         model = await model_builder(subgraph, pgpool)
         await set_cost_model(subgraph, model)
-        await aio.sleep(args.relative_query_costs_refresh_interval)
+        # TODO: apply here lognormvariate , need to find a value that works
+        await aio.sleep(500)
 
 
 def build_template(subgraph: str, most_frequent_queries=None):
