@@ -28,7 +28,7 @@ class LogsDB:
 
     def __init__(self, pgpool: psycopg_pool.AsyncConnectionPool) -> None:
         self.pgpool = pgpool
-        self.datetime = datetime.now()
+        self.timestamp = datetime.now()
 
     async def create_mrq_log_table(self) -> None:
         async with self.pgpool.acquire() as connection:
@@ -96,7 +96,7 @@ class LogsDB:
                     query=self.return_query_body(row[1])
                     if self.return_query_body(row[1])
                     else "null",
-                    datetime=self.datetime,
+                    timestamp=self.timestamp,
                 )
                 for row in rows
             ]
