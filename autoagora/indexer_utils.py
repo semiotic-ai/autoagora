@@ -47,12 +47,15 @@ async def query_indexer_agent(query: str, variables: Optional[Mapping] = None):
 async def get_allocated_subgraphs() -> Set[str]:
     result = await query_indexer_agent(
         """
-        {
-            indexerAllocations{
+        query ($protocolNetwork: String!) {
+            indexerAllocations (protocolNetwork: $protocolNetwork) {
                 subgraphDeployment
             }
         }
-        """
+        """,
+        variables={
+            "protocolNetwork": args.indexer_agent_protocol_network,
+        },
     )
 
     return set(e["subgraphDeployment"] for e in result["indexerAllocations"])

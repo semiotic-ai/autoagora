@@ -110,6 +110,16 @@ def init_config(argv: Optional[Sequence[str]] = None):
         required=True,
         help="URL to the indexer-agent management GraphQL endpoint.",
     )
+    argparser.add_argument(
+        "--indexer-agent-protocol-network",
+        env_var="INDEXER_AGENT_PROTOCOL_NETWORK",
+        default="eip155:1",
+        required=False,
+        help="""
+        Network identifier of the Graph network to operate on. Uses the network
+        identifier format expected by the indexer-agent.
+        """,
+    )
 
     #
     # Query volume metrics
