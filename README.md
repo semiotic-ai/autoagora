@@ -18,6 +18,15 @@ An [Agora](https://github.com/graphprotocol/agora) cost model automation tool fo
 
 ## Indexer's guide
 
+### ⚠️ WARNING
+
+Note that, as of as of [indexer v0.20.20](https://github.com/graphprotocol/indexer/releases/tag/v0.20.20), AutoAgora
+works only with The Graph's protocol on *Ethereum mainnet*. This is due to the indexer stack not yet supporting cost
+models on Arbitrum (as of [v0.20.20](https://github.com/graphprotocol/indexer/releases/tag/v0.20.20)).
+
+As such, `--indexer-service-metrics-endpoint` should only point to the `indexer-service` instances operating on the
+*Ethereum mainnet* protocol, as it would otherwise make decisions based on wrong observations.
+
 ### Installation
 
 We recommend using the AutoAgora container at `ghcr.io/semiotic-ai/autoagora`.
@@ -64,10 +73,12 @@ usage: autoagora [-h] [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--json-
                  --postgres-password POSTGRES_PASSWORD
                  [--postgres-max-connections POSTGRES_MAX_CONNECTIONS]
                  --indexer-agent-mgmt-endpoint INDEXER_AGENT_MGMT_ENDPOINT
+                 [--indexer-agent-protocol-network INDEXER_AGENT_PROTOCOL_NETWORK]
                  (--indexer-service-metrics-endpoint INDEXER_SERVICE_METRICS_ENDPOINT | --indexer-service-metrics-k8s-service INDEXER_SERVICE_METRICS_K8S_SERVICE)
                  [--qps-observation-duration QPS_OBSERVATION_DURATION] [--relative-query-costs]
                  [--relative-query-costs-exclude-subgraphs RELATIVE_QUERY_COSTS_EXCLUDE_SUBGRAPHS]
                  [--relative-query-costs-refresh-interval RELATIVE_QUERY_COSTS_REFRESH_INTERVAL]
+                 [--manual-entry-path MANUAL_ENTRY_PATH]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -79,9 +90,16 @@ optional arguments:
   --indexer-agent-mgmt-endpoint INDEXER_AGENT_MGMT_ENDPOINT
                         URL to the indexer-agent management GraphQL endpoint. [env var:
                         INDEXER_AGENT_MGMT_ENDPOINT] (default: None)
+  --indexer-agent-protocol-network INDEXER_AGENT_PROTOCOL_NETWORK
+                        Network identifier of the Graph network to operate on. Uses the network
+                        identifier format expected by the indexer-agent. [env var:
+                        INDEXER_AGENT_PROTOCOL_NETWORK] (default: eip155:1)
   --qps-observation-duration QPS_OBSERVATION_DURATION
                         Duration of the measurement period of the query-per-second after a price
                         multiplier update. [env var: QPS_OBSERVATION_DURATION] (default: 60)
+  --manual-entry-path MANUAL_ENTRY_PATH
+                        Path to find manual agora entries, this expects Agora model files named
+                        {subgraph_hash}.agora [env var: MANUAL_ENTRY_PATH] (default: None)
 
 Database settings:
   Must be the same database as AutoAgora Processor's if the relative costs models generator is
