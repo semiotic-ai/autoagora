@@ -16,7 +16,7 @@ from autoagora.config import args
 from autoagora.graph_node_utils import query_graph_node
 from autoagora.indexer_utils import set_cost_model
 from autoagora.logs_db import LogsDB
-from autoagora.utils.constants import AGORA_ENTRY_TEMPLATE
+from autoagora.utils.constants import AGORA_ENTRY_TEMPLATE, MU, SIGMA
 
 
 async def model_builder(subgraph: str, pgpool: psycopg_pool.AsyncConnectionPool) -> str:
@@ -86,7 +86,7 @@ async def model_update_loop(subgraph: str, pgpool):
         model = await model_builder(subgraph, pgpool)
         await set_cost_model(subgraph, model)
         # TODO: apply here lognormvariate , need to find a value that works
-        await aio.sleep(500)
+        await aio.sleep(random.lognormvariate(MU, SIGMA))
 
 
 def build_template(subgraph: str, most_frequent_queries=None):
