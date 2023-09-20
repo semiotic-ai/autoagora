@@ -77,7 +77,6 @@ async def mrq_model_update_loop(subgraph: str, pgpool):
     while True:
         model = await mrq_model_builder(subgraph, pgpool)
         await set_cost_model(subgraph, model)
-        # Should this also be this amount of time?
         await aio.sleep(args.relative_query_costs_refresh_interval)
 
 
