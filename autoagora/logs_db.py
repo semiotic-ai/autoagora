@@ -139,14 +139,14 @@ class LogsDB:
         async with self.pgpool.acquire() as connection:
             query_variables = await connection.execute(
                 """
-                    INSERT INTO mrq_query_logs (
-                            subgraph,
-                            query_hash,
-                            timestamp,
-                            query_time_ms,
-                            query_variables
-                        )
-                        VALUES ($1, $2, $3, $4, $5)
+                INSERT INTO mrq_query_logs (
+                    subgraph,
+                    query_hash,
+                    timestamp,
+                    query_time_ms,
+                    query_variables
+                )
+                VALUES ($1, $2, $3, $4, $5)
                 """,
                 subgraph,
                 query.hash,
