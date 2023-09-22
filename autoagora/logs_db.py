@@ -26,9 +26,10 @@ class LogsDB:
         query = query.definitions[0].selection_set  # type: ignore
         query = "query " + graphql.print_ast(query)
         return query
-    
 
-    async def delete_unnecesary_logs(self, subgraph_ipfs_hash: str, months_to_delete: int = 6):
+    async def delete_unnecesary_logs(
+        self, subgraph_ipfs_hash: str, months_to_delete: int = 6
+    ):
         async with self.pgpool.acquire() as connection:
             await connection.execute(
                 """
@@ -37,8 +38,7 @@ class LogsDB:
                 AND subgraph = $2;
                 """,
                 months_to_delete,
-                subgraph_ipfs_hash
-
+                subgraph_ipfs_hash,
             )
 
     async def get_most_frequent_queries(
