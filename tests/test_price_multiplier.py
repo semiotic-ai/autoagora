@@ -2,7 +2,7 @@ import asyncio
 from datetime import datetime, timedelta, timezone
 from unittest import mock
 
-import asyncpg
+import psycopg_pool
 import pytest
 
 import autoagora.price_multiplier as price_multiplier
@@ -18,25 +18,32 @@ from autoagora.query_metrics import StaticMetricsEndpoints
 class TestPriceMultiplier:
     @pytest.fixture
     async def pgpool(self, postgresql):
-        pool = await asyncpg.create_pool(
-            host=postgresql.info.host,
-            database=postgresql.info.dbname,
-            user=postgresql.info.user,
-            password=postgresql.info.password,
-            port=postgresql.info.port,
+        conn_string = (
+            f"host={postgresql.info.host} "
+            f"dbname={postgresql.info.dbname} "
+            f"user={postgresql.info.user} "
+            f'password="{postgresql.info.password}" '
+            f"port={postgresql.info.port}"
         )
-        assert pool
-        await pool.execute(
-            """
-            CREATE TABLE IF NOT EXISTS price_save_state (
-                subgraph        char(46)            PRIMARY KEY,
-                last_update     timestamptz         NOT NULL,
-                mean            double precision    NOT NULL,
-                stddev          double precision    NOT NULL
+
+        pool = psycopg_pool.AsyncConnectionPool(
+            conn_string, min_size=2, max_size=10, open=False
+        )
+        await pool.open()
+        await pool.wait()
+        async with pool.connection() as conn:
+            await conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS price_save_state (
+                    subgraph        char(46)            PRIMARY KEY,
+                    last_update     timestamptz         NOT NULL,
+                    mean            double precision    NOT NULL,
+                    stddev          double precision    NOT NULL
+                )
+                """
             )
-            """
-        )
         yield pool
+        await pool.close()
 
     async def test_price_bandit_loop(self, pgpool):
         subgraph = "QmTJBvvpknMow6n4YU8R9Swna6N8mHK8N2WufetysBiyuL"
@@ -104,12 +111,13 @@ class TestPriceMultiplier:
         stddev = 0.3
         time_delta = timedelta(days=3)
         save_state = PriceSaveStateDB(pgpool)
-        await pgpool.execute(
-            """
-            INSERT INTO price_save_state (subgraph, last_update, mean, stddev)
-            VALUES ('QmTJBvvpknMow6n4YU8R9Swna6N8mHK8N2WufetysBiyuL', '2023-05-18T21:47:41+00:00', 0.3, 0.2)
-            """
-        )
+        async with pgpool.connection() as conn:
+            await conn.execute(
+                """
+                INSERT INTO price_save_state (subgraph, last_update, mean, stddev)
+                VALUES ('QmTJBvvpknMow6n4YU8R9Swna6N8mHK8N2WufetysBiyuL', '2023-05-18T21:47:41+00:00', 0.3, 0.2)
+                """
+            )
         time_to_compare = datetime.strptime(
             "2023-05-19T21:47:41+GMT", "%Y-%m-%dT%H:%M:%S+%Z"
         ).replace(tzinfo=timezone.utc)

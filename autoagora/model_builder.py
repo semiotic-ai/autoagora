@@ -6,7 +6,7 @@ import logging
 import os
 from importlib.metadata import version
 
-import asyncpg
+import psycopg_pool
 from jinja2 import Template
 
 from autoagora.config import args
@@ -15,7 +15,7 @@ from autoagora.logs_db import LogsDB
 from autoagora.utils.constants import AGORA_ENTRY_TEMPLATE
 
 
-async def model_builder(subgraph: str, pgpool: asyncpg.Pool) -> str:
+async def model_builder(subgraph: str, pgpool: psycopg_pool.AsyncConnectionPool) -> str:
     logs_db = LogsDB(pgpool)
     most_frequent_queries = await logs_db.get_most_frequent_queries(subgraph)
     model = build_template(subgraph, most_frequent_queries)

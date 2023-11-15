@@ -5,7 +5,8 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Optional
 
-import asyncpg
+import psycopg_pool
+from psycopg import sql
 
 
 @dataclass
@@ -16,13 +17,13 @@ class SaveState:
 
 
 class PriceSaveStateDB:
-    def __init__(self, pgpool: asyncpg.Pool) -> None:
+    def __init__(self, pgpool: psycopg_pool.AsyncConnectionPool) -> None:
         self.pgpool = pgpool
         self._table_created = False
 
     async def _create_table_if_not_exists(self) -> None:
         if not self._table_created:
-            async with self.pgpool.acquire() as connection:
+            async with self.pgpool.connection() as connection:
                 await connection.execute(  # type: ignore
                     """
                     CREATE TABLE IF NOT EXISTS price_save_state (
@@ -38,30 +39,34 @@ class PriceSaveStateDB:
     async def save_state(self, subgraph: str, mean: float, stddev: float):
         await self._create_table_if_not_exists()
 
-        async with self.pgpool.acquire() as connection:
+        async with self.pgpool.connection() as connection:
             await connection.execute(
-                """
+                sql.SQL(
+                    """
                 INSERT INTO price_save_state (subgraph, last_update, mean, stddev)
-                    VALUES($1, $2, $3, $4)
+                    VALUES({subgraph_hash}, {datetime}, {mean}, {stddev})
                 ON CONFLICT (subgraph)
                     DO
                     UPDATE SET
-                        last_update = $2,
-                        mean        = $3,
-                        stddev      = $4
-                """,
-                subgraph,
-                datetime.now(timezone.utc),
-                mean,
-                stddev,
+                        last_update = {datetime},
+                        mean        = {mean},
+                        stddev      = {stddev}
+                """
+                ).format(
+                    subgraph_hash=subgraph,
+                    datetime=str(datetime.now(timezone.utc)),
+                    mean=mean,
+                    stddev=stddev,
+                )
             )
 
     async def load_state(self, subgraph: str) -> Optional[SaveState]:
         await self._create_table_if_not_exists()
 
-        async with self.pgpool.acquire() as connection:
-            row = await connection.fetchrow(
-                """
+        async with self.pgpool.connection() as connection:
+            row = await connection.execute(
+                sql.SQL(
+                    """
                 SELECT
                     last_update,
                     mean,
@@ -69,14 +74,14 @@ class PriceSaveStateDB:
                 FROM
                     price_save_state
                 WHERE
-                    subgraph = $1
-                """,
-                subgraph,
+                    subgraph = {subgraph_hash}
+                """
+                ).format(subgraph_hash=subgraph)
             )
-
+        row = await row.fetchone()
         if row:
             return SaveState(
-                last_update=row["last_update"],  # type: ignore
-                mean=row["mean"],  # type: ignore
-                stddev=row["stddev"],  # type: ignore
+                last_update=row[0],  # type: ignore
+                mean=row[1],  # type: ignore
+                stddev=row[2],  # type: ignore
             )

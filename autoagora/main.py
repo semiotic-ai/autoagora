@@ -6,7 +6,7 @@ import logging
 from dataclasses import dataclass
 from typing import Dict, Optional
 
-import asyncpg
+import psycopg_pool
 from prometheus_async.aio.web import start_http_server
 
 from autoagora.config import args, init_config
@@ -39,15 +39,19 @@ async def allocated_subgraph_watcher():
 
     # Initialize connection pool to PG database
     try:
-        pgpool = await asyncpg.create_pool(
-            host=args.postgres_host,
-            database=args.postgres_database,
-            user=args.postgres_username,
-            password=args.postgres_password,
-            port=args.postgres_port,
-            min_size=1,
-            max_size=args.postgres_max_connections,
+        conn_string = (
+            f"host={args.postgres_host} "
+            f"dbname={args.postgres_database} "
+            f"user={args.postgres_username} "
+            f'password="{args.postgres_password}" '
+            f"port={args.postgres_port}"
         )
+
+        pgpool = psycopg_pool.AsyncConnectionPool(
+            conn_string, min_size=1, max_size=args.postgres_max_connections, open=False
+        )
+        await pgpool.open()
+        await pgpool.wait()
         assert pgpool
     except:
         logging.exception(
