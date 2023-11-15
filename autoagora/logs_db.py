@@ -2,8 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 from dataclasses import dataclass
 
-import asyncpg
 import graphql
+import psycopg_pool
+from psycopg import sql
 
 
 class LogsDB:
@@ -16,7 +17,7 @@ class LogsDB:
         avg_time: float
         stddev_time: float
 
-    def __init__(self, pgpool: asyncpg.Pool) -> None:
+    def __init__(self, pgpool: psycopg_pool.AsyncConnectionPool) -> None:
         self.pgpool = pgpool
 
     def return_query_body(self, query):
@@ -30,9 +31,11 @@ class LogsDB:
     async def get_most_frequent_queries(
         self, subgraph_ipfs_hash: str, min_count: int = 100
     ):
-        async with self.pgpool.acquire() as connection:
-            rows = await connection.fetch(
-                """
+
+        async with self.pgpool.connection() as connection:
+            rows = await connection.execute(
+                sql.SQL(
+                    """
                 SELECT
                     query,
                     count_id,
@@ -54,22 +57,21 @@ class LogsDB:
                     FROM
                         query_logs
                     WHERE
-                        subgraph = $1
+                        subgraph = {hash}
                         AND query_time_ms IS NOT NULL
                     GROUP BY
                         qhash
                     HAVING
-                        Count(id) >= $2
+                        Count(id) >= {min_count}
                 ) as query_logs
                 ON
                     qhash = hash
                 ORDER BY
                     count_id DESC
-                """,
-                subgraph_ipfs_hash,
-                min_count,
+                """
+                ).format(hash=subgraph_ipfs_hash, min_count=str(min_count)),
             )
-
+        rows = await rows.fetchall()
         return [
             LogsDB.QueryStats(
                 query=self.return_query_body(row[0])

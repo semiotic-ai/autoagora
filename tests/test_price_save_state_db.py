@@ -1,7 +1,7 @@
 import random
 import string
 
-import asyncpg
+import psycopg_pool
 import pytest
 from autoagora_agents.agent_factory import AgentFactory
 from numpy.testing import assert_approx_equal
@@ -11,18 +11,27 @@ from autoagora import price_save_state_db
 
 class TestPriceSaveStateDB:
     @pytest.fixture
-    async def pssdb(self, postgresql):
-        pgpool = await asyncpg.create_pool(
-            host=postgresql.info.host,
-            database=postgresql.info.dbname,
-            user=postgresql.info.user,
-            password=postgresql.info.password,
-            port=postgresql.info.port,
+    async def pgpool(self, postgresql):
+        conn_string = (
+            f"host={postgresql.info.host} "
+            f"dbname={postgresql.info.dbname} "
+            f"user={postgresql.info.user} "
+            f'password="{postgresql.info.password}" '
+            f"port={postgresql.info.port}"
         )
-        assert pgpool
 
+        pool = psycopg_pool.AsyncConnectionPool(
+            conn_string, min_size=2, max_size=10, open=False
+        )
+        await pool.open()
+        await pool.wait()
+        yield pool
+        await pool.close()
+
+    @pytest.fixture
+    async def pssdb(self, pgpool):
         pssdb_ = price_save_state_db.PriceSaveStateDB(pgpool)
-        return pssdb_
+        yield pssdb_
 
     async def test_create_write_read(self, pssdb):
         random.seed(42)

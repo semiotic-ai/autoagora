@@ -1,4 +1,4 @@
-import asyncpg
+import psycopg_pool
 import pytest
 
 from autoagora.logs_db import LogsDB
@@ -7,50 +7,55 @@ from autoagora.logs_db import LogsDB
 class TestLogsDB:
     @pytest.fixture
     async def pgpool(self, postgresql):
-        pool = await asyncpg.create_pool(
-            host=postgresql.info.host,
-            database=postgresql.info.dbname,
-            user=postgresql.info.user,
-            password=postgresql.info.password,
-            port=postgresql.info.port,
+        conn_string = (
+            f"host={postgresql.info.host} "
+            f"dbname={postgresql.info.dbname} "
+            f"user={postgresql.info.user} "
+            f'password="{postgresql.info.password}" '
+            f"port={postgresql.info.port}"
         )
-        assert pool
-        await pool.execute(
-            """
-            CREATE TABLE query_skeletons (
-                hash BYTEA PRIMARY KEY,
-                query TEXT NOT NULL
-            )
-        """
-        )
-        await pool.execute(
-            """
-            CREATE TABLE query_logs (
-                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                query_hash BYTEA REFERENCES query_skeletons(hash),
-                subgraph CHAR(46) NOT NULL,
-                timestamp TIMESTAMPTZ NOT NULL,
-                query_time_ms INTEGER,
-                query_variables TEXT
 
+        pool = psycopg_pool.AsyncConnectionPool(
+            conn_string, min_size=2, max_size=10, open=False
+        )
+        await pool.open()
+        await pool.wait()
+        async with pool.connection() as conn:
+            await conn.execute(
+                """
+                CREATE TABLE query_skeletons (
+                    hash BYTEA PRIMARY KEY,
+                    query TEXT NOT NULL
+                )
+            """
             )
-        """
-        )
-        await pool.execute(
+            await conn.execute(
+                """
+                CREATE TABLE query_logs (
+                    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                    query_hash BYTEA REFERENCES query_skeletons(hash),
+                    subgraph CHAR(46) NOT NULL,
+                    timestamp TIMESTAMPTZ NOT NULL,
+                    query_time_ms INTEGER,
+                    query_variables TEXT
+                )
             """
-            INSERT INTO query_skeletons (hash, query)
-            VALUES ('hash1', 'query getData{ values { id } }'), ('hash2', 'query getInfo{ info { id text} }')
-        """
-        )
-        await pool.execute(
+            )
+            await conn.execute(
+                """
+                INSERT INTO query_skeletons (hash, query)
+                VALUES ('hash1', 'query getData{ values { id } }'), ('hash2', 'query getInfo{ info { id text} }')
             """
-            INSERT INTO query_logs (query_hash, subgraph, timestamp, query_time_ms)
-            VALUES ('hash1', 'QmPnu3R7Fm4RmBF21aCYUohDmWbKd3VMXo64ACiRtwUQrn', '2023-05-18T21:47:41+00:00', 100),
-            ('hash1', 'QmPnu3R7Fm4RmBF21aCYUohDmWbKd3VMXo64ACiRtwUQrn', '2023-05-18T21:47:41+00:00', 200),
-            ('hash2', 'QmTJBvvpknMow6n4YU8R9Swna6N8mHK8N2WufetysBiyuL', '2023-05-18T21:47:41+00:00', 50),
-            ('hash1', 'QmTJBvvpknMow6n4YU8R9Swna6N8mHK8N2WufetysBiyuL', '2023-05-18T21:47:41+00:00', 10)
-        """
-        )
+            )
+            await conn.execute(
+                """
+                INSERT INTO query_logs (query_hash, subgraph, timestamp, query_time_ms)
+                VALUES ('hash1', 'QmPnu3R7Fm4RmBF21aCYUohDmWbKd3VMXo64ACiRtwUQrn', '2023-05-18T21:47:41+00:00', 100),
+                ('hash1', 'QmPnu3R7Fm4RmBF21aCYUohDmWbKd3VMXo64ACiRtwUQrn', '2023-05-18T21:47:41+00:00', 200),
+                ('hash2', 'QmTJBvvpknMow6n4YU8R9Swna6N8mHK8N2WufetysBiyuL', '2023-05-18T21:47:41+00:00', 50),
+                ('hash1', 'QmTJBvvpknMow6n4YU8R9Swna6N8mHK8N2WufetysBiyuL', '2023-05-18T21:47:41+00:00', 10)
+            """
+            )
         yield pool
         await pool.close()
 

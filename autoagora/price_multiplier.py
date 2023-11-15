@@ -6,7 +6,7 @@ import logging
 from datetime import datetime, timedelta, timezone
 from typing import Tuple
 
-import asyncpg
+import psycopg_pool
 from autoagora_agents.agent_factory import AgentFactory
 from prometheus_client import Gauge
 
@@ -36,7 +36,9 @@ mean_gauge = Gauge(
 
 
 async def price_bandit_loop(
-    subgraph: str, pgpool: asyncpg.Pool, metrics_endpoints: MetricsEndpoints
+    subgraph: str,
+    pgpool: psycopg_pool.AsyncConnectionPool,
+    metrics_endpoints: MetricsEndpoints,
 ):
     try:
         # Instantiate environment.
