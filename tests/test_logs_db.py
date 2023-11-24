@@ -62,7 +62,7 @@ class TestLogsDB:
     async def test_get_most_frequent_queries_success(self, pgpool):
         ldb = LogsDB(pgpool)
         mfq = await ldb.get_most_frequent_queries(
-            "QmPnu3R7Fm4RmBF21aCYUohDmWbKd3VMXo64ACiRtwUQrn", 2
+            "QmPnu3R7Fm4RmBF21aCYUohDmWbKd3VMXo64ACiRtwUQrn", "query_logs", 2
         )
         assert mfq
         query = "query {\n  values {\n    id\n  }\n}"
@@ -84,7 +84,7 @@ class TestLogsDB:
     async def test_get_most_frequent_queries_failed(self, pgpool):
         ldb = LogsDB(pgpool)
         mfq = await ldb.get_most_frequent_queries(
-            "QmTJBvvpknMow6n4YU8R9Swna6N8mHK8N2WufetysBiyuL"
+            "QmTJBvvpknMow6n4YU8R9Swna6N8mHK8N2WufetysBiyuL", "query_logs"
         )
         # empty array will be returned since min is default to 100
         assert mfq == []

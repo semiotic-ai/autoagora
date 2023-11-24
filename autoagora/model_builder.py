@@ -21,7 +21,9 @@ from autoagora.utils.constants import AGORA_ENTRY_TEMPLATE, MU, SIGMA
 
 async def model_builder(subgraph: str, pgpool: psycopg_pool.AsyncConnectionPool) -> str:
     logs_db = LogsDB(pgpool)
-    most_frequent_queries = await logs_db.get_most_frequent_queries(subgraph)
+    most_frequent_queries = await logs_db.get_most_frequent_queries(
+        subgraph, table="query_logs"
+    )
     model = build_template(subgraph, most_frequent_queries)
     return model
 
@@ -32,7 +34,9 @@ async def apply_default_model(subgraph: str):
 
 
 # (mrq) stands for multi root query
-async def mrq_model_builder(subgraph: str, pgpool: psycopg_pool.AsyncConnectionPool) -> str:
+async def mrq_model_builder(
+    subgraph: str, pgpool: psycopg_pool.AsyncConnectionPool
+) -> str:
     logs_db = LogsDB(pgpool)
     # Obtain most queried mrq
     most_frequent_multi_root_queries = (
@@ -42,7 +46,7 @@ async def mrq_model_builder(subgraph: str, pgpool: psycopg_pool.AsyncConnectionP
         await measure_query_time(subgraph, mrq_info, logs_db)
     # Call tables with info created
     most_frequent_queries = await logs_db.get_most_frequent_queries(
-        subgraph, mrq_table=True
+        subgraph, table="mrq_query_logs"
     )
     model = build_template(subgraph, most_frequent_queries)
     return model
