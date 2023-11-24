@@ -11,7 +11,12 @@ from prometheus_async.aio.web import start_http_server
 
 from autoagora.config import args, init_config
 from autoagora.indexer_utils import get_allocated_subgraphs, set_cost_model
-from autoagora.model_builder import apply_default_model, model_update_loop
+from autoagora.logs_db import LogsDB
+from autoagora.model_builder import (
+    apply_default_model,
+    model_update_loop,
+    mrq_model_update_loop,
+)
 from autoagora.price_multiplier import price_bandit_loop
 from autoagora.query_metrics import (
     K8SServiceWatcherMetricsEndpoints,
@@ -24,6 +29,7 @@ from autoagora.utils.constants import DEFAULT_AGORA_VARIABLES
 class SubgraphUpdateLoops:
     bandit: Optional[aio.Future] = None
     model: Optional[aio.Future] = None
+    mrq_model: Optional[aio.Future] = None
 
     def __del__(self):
         for future in [self.bandit, self.model]:
@@ -58,6 +64,10 @@ async def allocated_subgraph_watcher():
             "Error while creating connection pool to the PostgreSQL database."
         )
         raise
+
+    # Initialize the extra table
+    logsDB = LogsDB(pgpool)
+    await logsDB.create_mrq_log_table()
 
     # Initialize indexer-service metrics endpoints
     if args.indexer_service_metrics_endpoint:  # static list
@@ -95,6 +105,16 @@ async def allocated_subgraph_watcher():
                     # Launch the model update loop for the new subgraph
                     update_loops[new_subgraph].model = aio.ensure_future(
                         model_update_loop(new_subgraph, pgpool)
+                    )
+                    logging.info(
+                        "Added model update loop for subgraph %s", new_subgraph
+                    )
+                if args.multi_root_queries:
+                    # Add the multi root queries (mrq)
+                    update_loops[new_subgraph].mrq_model = aio.ensure_future(
+                        mrq_model_update_loop(
+                            new_subgraph, pgpool
+                        )  # Last parameter as true to enable mrq
                     )
                     logging.info(
                         "Added model update loop for subgraph %s", new_subgraph

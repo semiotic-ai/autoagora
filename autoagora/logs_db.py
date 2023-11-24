@@ -1,6 +1,8 @@
 # Copyright 2022-, Semiotic AI, Inc.
 # SPDX-License-Identifier: Apache-2.0
+import json
 from dataclasses import dataclass
+from datetime import datetime
 
 import graphql
 import psycopg_pool
@@ -17,8 +19,16 @@ class LogsDB:
         avg_time: float
         stddev_time: float
 
+    @dataclass
+    class MRQ_Info:
+        hash: bytes
+        query: str
+        timestamp: datetime
+        query_time_ms: int = 0
+
     def __init__(self, pgpool: psycopg_pool.AsyncConnectionPool) -> None:
         self.pgpool = pgpool
+        self.timestamp = datetime.now()
 
     def return_query_body(self, query):
         # Keep only query body -- ie. no var defs
@@ -28,7 +38,22 @@ class LogsDB:
         query = "query " + graphql.print_ast(query)
         return query
 
-    async def get_most_frequent_queries(
+    async def create_mrq_log_table(self) -> None:
+        async with self.pgpool.connection() as connection:
+            await connection.execute(
+                """
+                CREATE TABLE IF NOT EXISTS mrq_query_logs (
+                    id              uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
+                    subgraph        char(46)    NOT NULL,
+                    query_hash      bytea       REFERENCES query_skeletons(hash),
+                    timestamp       timestamptz NOT NULL,
+                    query_time_ms   integer,
+                    query_variables text
+                )
+                """
+            )
+
+    async def get_most_frequent_queries_null_time(
         self, subgraph_ipfs_hash: str, min_count: int = 100
     ):
 
@@ -36,40 +61,150 @@ class LogsDB:
             rows = await connection.execute(
                 sql.SQL(
                     """
-                SELECT
-                    query,
-                    count_id,
-                    min_time,
-                    max_time,
-                    avg_time,
-                    stddev_time
-                FROM
-                    query_skeletons
-                INNER JOIN
-                (
-                    SELECT
-                        query_hash as qhash,
-                        count(id) as count_id,
-                        Min(query_time_ms) as min_time,
-                        Max(query_time_ms) as max_time,
-                        Avg(query_time_ms) as avg_time,
-                        Stddev(query_time_ms) as stddev_time 
-                    FROM
-                        query_logs
-                    WHERE
-                        subgraph = {hash}
-                        AND query_time_ms IS NOT NULL
-                    GROUP BY
-                        qhash
-                    HAVING
-                        Count(id) >= {min_count}
-                ) as query_logs
-                ON
-                    qhash = hash
-                ORDER BY
-                    count_id DESC
+                        SELECT
+                            hash,
+                            query
+                            
+                        FROM
+                            query_skeletons
+                        INNER JOIN
+                        (
+                            SELECT
+                                query_hash as qhash,
+                                count(id) as count_id
+                            FROM
+                                query_logs
+                            WHERE
+                                subgraph = {subgraph}
+                                AND query_time_ms IS NULL
+                            GROUP BY
+                                qhash
+                            HAVING
+                                Count(id) >= {min_count}
+                        ) as query_logs
+                        ON
+                            qhash = hash
+                        ORDER BY
+                            count_id DESC
+                    """
+                ).format(subgraph=subgraph_ipfs_hash, min_count=min_count)
+            )
+            rows = await rows.fetchall()
+            return [
+                LogsDB.MRQ_Info(
+                    hash=row[0],
+                    query=self.return_query_body(row[1])
+                    if self.return_query_body(row[1])
+                    else "null",
+                    timestamp=self.timestamp,
+                )
+                for row in rows
+            ]
+
+    async def get_query_logs_id(self, hash):
+        async with self.pgpool.connection() as connection:
+            query_logs_ids = await connection.execute(
+                sql.SQL(
+                    """
+                        SELECT
+                            id
+                        FROM 
+                            query_logs
+                        WHERE
+                            query_hash = {query_hash};
+                    """
+                ).format(query_hash=hash)
+            )
+            query_logs_ids = await query_logs_ids.fetchall()
+            return query_logs_ids
+
+    async def get_query_variables(self, id: bytes):
+        async with self.pgpool.connection() as connection:
+            query_variables = await connection.execute(
+                sql.SQL(
+                    """
+                        SELECT
+                            query_variables
+                        FROM 
+                            query_logs
+                        WHERE
+                            id = {id};
+                    """
+                ).format(id=id)
+            )
+            query_variables = await query_variables.fetchall()
+            return json.loads(query_variables[0][0])
+
+    async def save_generated_aa_query_values(
+        self, query: MRQ_Info, subgraph: str, query_variables: list
+    ):
+        async with self.pgpool.connection() as connection:
+            await connection.execute(
+                sql.SQL(
+                    """
+                        INSERT INTO mrq_query_logs (
+                            subgraph,
+                            query_hash,
+                            timestamp,
+                            query_time_ms,
+                            query_variables
+                        )
+                        VALUES ({subgraph}, {query_hash}, {timestamp}, {query_time}, {query_vars})
+                    """
+                ).format(
+                    subgraph=subgraph,
+                    query_hash=query.hash,
+                    timestamp=query.timestamp,
+                    query_time=query.query_time_ms,
+                    query_vars=json.dumps(query_variables),
+                )
+            )
+
+    async def get_most_frequent_queries(
+        self, subgraph_ipfs_hash: str, table: str, min_count: int = 100
+    ):
+        async with self.pgpool.connection() as connection:
+            rows = await connection.execute(
+                sql.SQL(
+                    """
+                        SELECT
+                            query,
+                            count_id,
+                            min_time,
+                            max_time,
+                            avg_time,
+                            stddev_time
+                        FROM
+                            query_skeletons
+                        INNER JOIN
+                        (
+                            SELECT
+                                query_hash as qhash,
+                                count(id) as count_id,
+                                Min(query_time_ms) as min_time,
+                                Max(query_time_ms) as max_time,
+                                Avg(query_time_ms) as avg_time,
+                                Stddev(query_time_ms) as stddev_time 
+                            FROM
+                                {table}
+                            WHERE
+                                subgraph = {hash}
+                                AND query_time_ms IS NOT NULL
+                            GROUP BY
+                                qhash
+                            HAVING
+                                Count(id) >= {min_count}
+                        ) as query_logs
+                        ON
+                            qhash = hash
+                        ORDER BY
+                            count_id DESC
                 """
-                ).format(hash=subgraph_ipfs_hash, min_count=str(min_count)),
+                ).format(
+                    table=sql.Identifier(table),
+                    hash=subgraph_ipfs_hash,
+                    min_count=str(min_count),
+                )
             )
         rows = await rows.fetchall()
         return [
